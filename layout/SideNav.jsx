@@ -8,7 +8,7 @@ const SideNav = ({ stretch, shrink, navWidth }) => {
   return (
     <Box py="10">
       <Box
-        pl={navWidth === navWidthStates?.stretched ? "30px" : "20px"}
+        pl={navWidth === navWidthStates?.stretched ? "30px" : "28px"}
         mb="14"
       >
         {navWidth === navWidthStates?.stretched ? (
@@ -19,12 +19,12 @@ const SideNav = ({ stretch, shrink, navWidth }) => {
       </Box>
       <Box color="white">
         {navWidth === navWidthStates?.stretched ? (
-          <Box cursor={"pointer"} pl="20px" onClick={shrink} py="20px">
+          <Box cursor={"pointer"} pl="28px" onClick={shrink} py="20px">
             <Box rounded="full" w="18px" h="3px" bg="white"></Box>
             <Box my="1" rounded="full" w="9px" h="3px" bg="white"></Box>
           </Box>
         ) : (
-          <Box cursor={"pointer"} pl="20px" onClick={stretch} py="20px">
+          <Box cursor={"pointer"} pl="28px" onClick={stretch} py="20px">
             <Box rounded="full" w="18px" h="3px" bg="white"></Box>
             <Box my="1" rounded="full" w="18px" h="3px" bg="white"></Box>
           </Box>
@@ -34,7 +34,7 @@ const SideNav = ({ stretch, shrink, navWidth }) => {
             <Flex
               gap="14px"
               py="4"
-              pl="20px"
+              pl="28px"
               alignItems="center"
               my="3"
               key={i}
