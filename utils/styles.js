@@ -21,5 +21,11 @@ export const customScrollBar2 = {
     rounded: "full",
   },
 };
+export const customScrollBar3 = {
+  ...customScrollBar2,
+  "&::-webkit-scrollbar": {
+    width: "4px",
+  },
+};
 
 export default customScrollBar;
