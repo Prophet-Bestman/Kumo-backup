@@ -19,7 +19,9 @@ const DashboardTransactions = () => {
         <CustomTabList tabList={tabs} size="sm" px="70px" />
         <TabPanels>
           <TabPanel>
-            <TransactionsTable />
+            <Box>
+              <TransactionsTable />
+            </Box>
           </TabPanel>
         </TabPanels>
       </Tabs>

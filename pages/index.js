@@ -25,7 +25,6 @@ export default function Home() {
             <WalletBalance />
             <QuickActions />
             <RecentTransactions />
-            {/* <GetLoans /> */}
           </GridItem>
           <GridItem colSpan={1}>
             <DashboardTransactions />
