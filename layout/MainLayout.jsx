@@ -1,6 +1,5 @@
 import { Box } from "@chakra-ui/react";
 import React, { useState } from "react";
-import { TbCurrencyNaira } from "react-icons/tb";
 import customScrollBar, { customScrollBar2 } from "utils/styles";
 import SideNav from "./SideNav";
 import Topbar from "./Topbar";
@@ -44,7 +43,7 @@ const MainLayout = ({ children }) => {
         h="100vh"
         transition="400ms all ease-in-out"
       >
-        <Box h="200vh" bg="#FAFAFA">
+        <Box bg="#FAFAFA">
           <Topbar />
 
           {children}

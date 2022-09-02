@@ -1,6 +1,7 @@
 import { extendTheme } from "@chakra-ui/react";
 import { foundations } from "./foundations";
 import styles from "./styles";
+import components from "./components";
 
 const config = {
   initialColorMode: "light",
@@ -12,7 +13,7 @@ const overrides = {
   config,
   styles,
   ...foundations,
-  //   components,
+  components,
 };
 
 const theme = extendTheme(overrides);
