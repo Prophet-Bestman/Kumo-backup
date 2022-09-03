@@ -1,8 +1,13 @@
-import { Box, Flex, Grid, GridItem, Text } from "@chakra-ui/react";
-import { CompleteTransaction, DebitCards, Wallet } from "components/FundWallet";
-import BankTransfer from "components/FundWallet/BankTransfer";
-import CryptoOption from "components/FundWallet/CryptoOption";
-import PaypalOption from "components/FundWallet/Paypal";
+import { Box, Grid, GridItem, Text } from "@chakra-ui/react";
+import { ActionOptions } from "components";
+import {
+  BankTransfer,
+  CompleteTransaction,
+  CryptoOption,
+  DebitCards,
+  PaypalOption,
+  Wallet,
+} from "components/FundWallet";
 
 import React, { useState } from "react";
 
@@ -44,33 +49,12 @@ const FundWallet = () => {
         </GridItem>
 
         <GridItem>
-          <Box bg="white" px="6" py="9" rounded="md">
-            <Text mb="3" fontWeight={700} fontSize="20px">
-              Payment method
-            </Text>
-            <Text fontSize="11px" mb="9" w="85%">
-              Your wallet wil be credited upon the method you chose to fund your
-              {/* wallet on */}
-            </Text>
-            <Box>
-              {Object.keys(paymentMethods)?.length > 0 &&
-                Object.values(paymentMethods)?.map((method) => (
-                  <Box
-                    cursor="pointer"
-                    mb="2"
-                    px="18px"
-                    py="4"
-                    fontWeight="700"
-                    color="app.primary.900"
-                    bg="app.primaryTrans"
-                    rounded="md"
-                    onClick={() => setSelectedMethod(method)}
-                  >
-                    {method}
-                  </Box>
-                ))}
-            </Box>
-          </Box>
+          <ActionOptions
+            title="Payment method"
+            subtitle="Your wallet wil be credited upon the method you chose to fund your wallet on"
+            options={paymentMethods}
+            setOption={setSelectedMethod}
+          />
         </GridItem>
 
         <GridItem colSpan={1}>

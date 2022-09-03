@@ -9,7 +9,7 @@ const TextButton = (props) => {
       cursor="pointer"
       textAlign="center"
       fontWeight="bold"
-      color="app.primary.900"
+      color="app.primary.300"
       onClick={onClick}
       {...props}
     >

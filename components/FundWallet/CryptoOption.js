@@ -59,7 +59,7 @@ const CryptoOption = () => {
                 alignItems="center"
                 gap={3}
               >
-                <Text fontSize="24px" fontWeight={700} w="60%">
+                <Text fontSize="18px" fontWeight={700}>
                   3EmTYjUdn5aP6GPMcG6djmXJJ7qPZB6NmF
                 </Text>
                 <Flex color="app.primary.300" gap="2">
@@ -72,42 +72,46 @@ const CryptoOption = () => {
           <TabPanel>
             <Box mb="18">
               <Text fontSize="13px" textAlign="center" mb="4">
-                Total Balance
+                * 1BTC = NGN 4783076
               </Text>
 
               <Flex
                 color="app.primary.900"
-                justify="center"
+                justify="space-between"
                 fontWeight={700}
                 alignItems="center"
                 gap={3}
               >
-                <Text fontSize="16px">
-                  <FaEthereum fontSize={"32px"} />
+                <Text fontSize="18px" fontWeight={700}>
+                  3EmTYjUdn5aP6GPMcG6djmXJJ7qPZB6NmF
                 </Text>
-                <Text fontSize="56px">12</Text>
-                <Text fontSize="16px">.08</Text>
+                <Flex color="app.primary.300" gap="2">
+                  <AiOutlineCopy size={"20px"} />
+                  <Text fontSize="14px">Copy</Text>
+                </Flex>
               </Flex>
             </Box>
           </TabPanel>
           <TabPanel>
             <Box mb="18">
               <Text fontSize="13px" textAlign="center" mb="4">
-                Total Balance
+                * 1BTC = NGN 4783076
               </Text>
 
               <Flex
                 color="app.primary.900"
-                justify="center"
+                justify="space-between"
                 fontWeight={700}
                 alignItems="center"
                 gap={3}
               >
-                <Text fontSize="16px">
-                  <SiDash fontSize="32px" />
+                <Text fontSize="18px" fontWeight={700}>
+                  3EmTYjUdn5aP6GPMcG6djmXJJ7qPZB6NmF
                 </Text>
-                <Text fontSize="56px">70</Text>
-                <Text fontSize="16px">.42</Text>
+                <Flex color="app.primary.300" gap="2">
+                  <AiOutlineCopy size={"20px"} />
+                  <Text fontSize="14px">Copy</Text>
+                </Flex>
               </Flex>
             </Box>
           </TabPanel>
