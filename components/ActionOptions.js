@@ -28,8 +28,9 @@ const ActionOptions = ({
       </Text>
       <Box>
         {Object.keys(options)?.length > 0 &&
-          Object.values(options)?.map((option) => (
+          Object.values(options)?.map((option, i) => (
             <Box
+              key={i}
               cursor="pointer"
               mb="2"
               px="18px"

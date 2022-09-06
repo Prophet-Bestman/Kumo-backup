@@ -38,8 +38,9 @@ const PayWithKumo = () => {
         <ReferAndWin />
         <Grid templateColumns={["repeat(4, 1fr)"]} gap="3">
           {actions?.length > 0 &&
-            actions?.map((action) => (
+            actions?.map((action, i) => (
               <Flex
+                key={i}
                 flexDir="column"
                 justify="center"
                 alignItems="center"
