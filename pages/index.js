@@ -1,3 +1,13 @@
+import { Box, Grid, GridItem, Text } from "@chakra-ui/react";
+import {
+  DashboardTransactions,
+  GetLoans,
+  PayWithKumo,
+  QuickActions,
+  RecentTransactions,
+  WalletBalance,
+} from "components/Dashboard";
+
 import Head from "next/head";
 
 export default function Home() {
@@ -9,7 +19,19 @@ export default function Home() {
         <link rel="icon" href="/favicon.ico" />
       </Head>
 
-      <p>Kumo Africa Admin v2</p>
+      <Box minH="80vh" px="24px">
+        <Grid templateColumns={["repeat(2, 1fr)"]} gap="6">
+          <GridItem colSpan={1}>
+            <WalletBalance />
+            <QuickActions />
+            <RecentTransactions />
+          </GridItem>
+          <GridItem colSpan={1}>
+            <DashboardTransactions />
+            <PayWithKumo />
+          </GridItem>
+        </Grid>
+      </Box>
     </div>
   );
 }

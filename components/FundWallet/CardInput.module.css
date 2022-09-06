@@ -1,0 +1,12 @@
+.card_number {
+  height: 46px;
+  background-color: #f2f2f2;
+  border-radius: 12px;
+  padding: 0 12px;
+}
+
+.card_number:focus {
+  outline: none;
+  border-color: #006577;
+  border-width: 2px;
+}
