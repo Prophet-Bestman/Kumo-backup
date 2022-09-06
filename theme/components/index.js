@@ -6,6 +6,7 @@ import { pinInputStyle } from "./PinInputStyle";
 const components = {
   Button: buttonStyle,
   Input: inputStyle,
+  Select: inputStyle,
   PinInput: pinInputStyle,
 };
 

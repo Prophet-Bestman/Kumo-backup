@@ -2,6 +2,7 @@ import { Box, Flex, Grid, GridItem, Text } from "@chakra-ui/react";
 import { ActionOptions } from "components";
 import { SelectCoin } from "components/BuyAndSell";
 import RecentTransaction from "components/Dashboard/RecentTransaction";
+import { ConfirmPayment } from "components/PayBills";
 import React, { useState } from "react";
 import { BiHistory } from "react-icons/bi";
 
@@ -39,12 +40,29 @@ const BuyAndSell = () => {
         <GridItem>
           <ActionOptions
             options={options}
+            option={option}
             setOption={setOption}
             title={"Make purchase"}
             subtitle="Select purchase  you want to make"
+            onChange={() => setShowConfirm(false)}
           />
         </GridItem>
-        <GridItem>{option === options.buy && <SelectCoin />}</GridItem>
+        {option === options.buy && (
+          <>
+            <GridItem>
+              <SelectCoin setShowConfirm={setShowConfirm} />
+            </GridItem>
+            <GridItem>{showConfirm && <ConfirmPayment />}</GridItem>
+          </>
+        )}
+        {option === options.sell && (
+          <>
+            <GridItem>
+              <SelectCoin setShowConfirm={setShowConfirm} />
+            </GridItem>
+            <GridItem>{showConfirm && <ConfirmPayment />}</GridItem>
+          </>
+        )}
       </Grid>
     </Box>
   );

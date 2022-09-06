@@ -1,12 +1,24 @@
-import React from "react";
-import { Box, Flex, TabPanel, TabPanels, Tabs, Text } from "@chakra-ui/react";
-import { TbCurrencyNaira } from "react-icons/tb";
+import React, { useState } from "react";
+import {
+  Box,
+  Button,
+  Flex,
+  Input,
+  TabPanel,
+  TabPanels,
+  Tabs,
+  Text,
+} from "@chakra-ui/react";
 import { FaBtc, FaEthereum } from "react-icons/fa";
 import { SiDash } from "react-icons/si";
 
 import CustomTabList from "components/CustomTabList";
 
-const SelectCoin = () => {
+const SelectCoin = ({ setShowConfirm }) => {
+  const [cryptoStep, setCryptoStep] = useState(1);
+  const [address, setAddress] = useState("");
+  const [edit, setEdit] = useState(true);
+
   const tabs = [
     {
       title: "BTC",
@@ -21,8 +33,19 @@ const SelectCoin = () => {
       icon: <SiDash fontSize="18px" />,
     },
   ];
+
+  const pasteAddress = async () => {
+    let text = await navigator.clipboard.readText();
+    setAddress(text);
+  };
+
+  const proceed = () => {
+    setEdit(false);
+    setShowConfirm(true);
+  };
+
   return (
-    <Box>
+    <Box bg="white" px="6" py="9" rounded="md">
       <Text mb="3" fontWeight={700} fontSize="20px">
         Select Coin
       </Text>
@@ -36,90 +59,85 @@ const SelectCoin = () => {
           defaultIndex={0}
         >
           <Box shadow="0px 13.8773px 48.5705px rgba(0, 0, 0, 0.05)">
-            <CustomTabList size="sm" tabList={tabs} justify="center" />
+            <CustomTabList
+              size="sm"
+              tabList={tabs}
+              tabWidth="full"
+              justify="space-between"
+            />
           </Box>
-          <TabPanels h="150px">
+          <TabPanels>
             <TabPanel>
-              <Box mb="18">
-                <Text fontSize="13px" textAlign="center" mb="4">
-                  Total Balance
-                </Text>
+              {cryptoStep === 1 && (
+                <Box mb="4">
+                  <Flex
+                    mt="16"
+                    justify="center"
+                    fontWeight={700}
+                    alignItems="center"
+                    gap="1"
+                  >
+                    <Text fontSize="16px">NGN</Text>
+                    <Text fontSize="16px">78,000.00</Text>
+                  </Flex>
 
-                <Flex
-                  color="app.primary.900"
-                  justify="center"
-                  fontWeight={700}
-                  alignItems="center"
-                  gap={3}
-                >
-                  <Text fontSize="16px">NGN</Text>
-                  <Text fontSize="56px">78,000</Text>
-                  <Text fontSize="16px">.00</Text>
-                </Flex>
-              </Box>
-            </TabPanel>
-            <TabPanel>
-              <Box mb="18">
-                <Text fontSize="13px" textAlign="center" mb="4">
-                  Total Balance
-                </Text>
-
-                <Flex
-                  color="app.primary.900"
-                  justify="center"
-                  fontWeight={700}
-                  alignItems="center"
-                  gap={3}
-                >
-                  <Text fontSize="16px">
-                    <FaBtc fontSize="32px" />
+                  <Text
+                    mt="12"
+                    textAlign="center"
+                    fontSize="12px"
+                    color="app.primary.900"
+                  >
+                    Your Bal: 0984873 BTC
                   </Text>
-                  <Text fontSize="56px">9</Text>
-                  <Text fontSize="16px">.18</Text>
-                </Flex>
-              </Box>
-            </TabPanel>
-            <TabPanel>
-              <Box mb="18">
-                <Text fontSize="13px" textAlign="center" mb="4">
-                  Total Balance
-                </Text>
 
-                <Flex
-                  color="app.primary.900"
-                  justify="center"
-                  fontWeight={700}
-                  alignItems="center"
-                  gap={3}
-                >
-                  <Text fontSize="16px">
-                    <FaEthereum fontSize={"32px"} />
-                  </Text>
-                  <Text fontSize="56px">12</Text>
-                  <Text fontSize="16px">.08</Text>
-                </Flex>
-              </Box>
-            </TabPanel>
-            <TabPanel>
-              <Box mb="18">
-                <Text fontSize="13px" textAlign="center" mb="4">
-                  Total Balance
-                </Text>
+                  <Button mt="4" bg="#F2F2F2" color="black">
+                    0.000875 BTC
+                  </Button>
 
-                <Flex
-                  color="app.primary.900"
-                  justify="center"
-                  fontWeight={700}
-                  alignItems="center"
-                  gap={3}
-                >
-                  <Text fontSize="16px">
-                    <SiDash fontSize="32px" />
+                  <Text my="4" fontSize="12px">
+                    * 1BTC = NGN 4783076
                   </Text>
-                  <Text fontSize="56px">70</Text>
-                  <Text fontSize="16px">.42</Text>
-                </Flex>
-              </Box>
+
+                  <Button
+                    mt="6"
+                    variant="link"
+                    onClick={() => setCryptoStep(2)}
+                  >
+                    Confirm
+                  </Button>
+                </Box>
+              )}
+
+              {cryptoStep === 2 && (
+                <Box my="4">
+                  {!edit ? (
+                    <Text textAlign="center">{address}</Text>
+                  ) : (
+                    <Input
+                      value={address}
+                      onChange={(e) => setAddress(e.target.value)}
+                    />
+                  )}
+
+                  {!edit ? (
+                    <Button
+                      mt="12"
+                      variant="link"
+                      onClick={() => setEdit(true)}
+                    >
+                      Edit
+                    </Button>
+                  ) : address?.length < 20 ? (
+                    <Button mt="12" variant="link" onClick={pasteAddress}>
+                      Paste
+                    </Button>
+                  ) : (
+                    <Button mt="12" variant="link" onClick={proceed}>
+                      Proceed
+                    </Button>
+                  )}
+                </Box>
+              )}
             </TabPanel>
           </TabPanels>
         </Tabs>

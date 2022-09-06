@@ -43,7 +43,7 @@ const MainLayout = ({ children }) => {
         h="100vh"
         transition="400ms all ease-in-out"
       >
-        <Box bg="#FAFAFA" h="100vh">
+        <Box bg="#FAFAFA">
           <Topbar />
 
           {children}

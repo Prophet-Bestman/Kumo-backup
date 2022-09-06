@@ -1,7 +1,23 @@
 import { Box, Text } from "@chakra-ui/react";
-import React from "react";
+import React, { useEffect, useState } from "react";
 
-const ActionOptions = ({ setOption, options, title, subtitle }) => {
+const ActionOptions = ({
+  setOption,
+  options,
+  title,
+  subtitle,
+  onChange,
+  option,
+}) => {
+  const [prevOption, setPrevOption] = useState(null);
+  useEffect(() => {
+    if (!!option && option !== prevOption) {
+      setPrevOption(option);
+      if (!!onChange && typeof onChange === "function") {
+        onChange();
+      }
+    }
+  }, [option]);
   return (
     <Box bg="white" px="6" py="9" rounded="md">
       <Text mb="3" fontWeight={700} fontSize="20px">
