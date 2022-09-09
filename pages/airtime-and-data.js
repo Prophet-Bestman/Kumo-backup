@@ -5,9 +5,15 @@ import {
   SelectDataPlan,
 } from "components/AitrimeAndData.js";
 import { ConfirmPayment } from "components/PayBills";
-import React, { useState } from "react";
+import { navStates, useNavContext } from "context/NavProvider";
+import React, { useEffect, useState } from "react";
 
 const AirtimeAndData = () => {
+  const { setActiveNav } = useNavContext();
+  useEffect(() => {
+    setActiveNav(navStates?.airtime_and_data);
+  }, []);
+
   const [option, setOption] = useState(null);
   const [showConfirm, setShowConfirm] = useState(false);
 

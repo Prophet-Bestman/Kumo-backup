@@ -1,11 +1,13 @@
 import { Box, Flex, Image, Text } from "@chakra-ui/react";
+import { useNavContext } from "context/NavProvider";
 import Link from "next/link";
 import React from "react";
 import { navs } from "utils/links";
 import { navWidthStates } from "./MainLayout";
 
 const SideNav = ({ stretch, shrink, navWidth }) => {
-  const active = "Dashboard";
+  const { activeNav: active } = useNavContext();
+
   return (
     <Box py="10">
       <Box

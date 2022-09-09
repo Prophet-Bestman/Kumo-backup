@@ -7,10 +7,16 @@ import {
   RecentTransactions,
   WalletBalance,
 } from "components/Dashboard";
+import { navStates, useNavContext } from "context/NavProvider";
 
 import Head from "next/head";
+import { useEffect } from "react";
 
 export default function Home() {
+  const { setActiveNav } = useNavContext();
+  useEffect(() => {
+    setActiveNav(navStates?.dashboard);
+  }, []);
   return (
     <div>
       <Head>

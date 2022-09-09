@@ -1,9 +1,15 @@
 import { Box, Grid, GridItem, Text } from "@chakra-ui/react";
 import { ActionOptions } from "components";
-import { BillsOptions, BuyWaecCard, ConfirmPayment } from "components/PayBills";
-import React, { useState } from "react";
+import { BuyWaecCard, ConfirmPayment } from "components/PayBills";
+import { navStates, useNavContext } from "context/NavProvider";
+import React, { useEffect, useState } from "react";
 
 const PayBills = () => {
+  const { setActiveNav } = useNavContext();
+  useEffect(() => {
+    setActiveNav(navStates?.pay_bills);
+  }, []);
+
   const [option, setOption] = useState(null);
   const [showConfirm, setShowConfirm] = useState(false);
 

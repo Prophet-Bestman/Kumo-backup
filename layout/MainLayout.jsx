@@ -42,8 +42,9 @@ const MainLayout = ({ children }) => {
         overflow="auto"
         h="100vh"
         transition="400ms all ease-in-out"
+        bg="#FAFAFA"
       >
-        <Box bg="#FAFAFA">
+        <Box>
           <Topbar />
 
           {children}

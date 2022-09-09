@@ -3,10 +3,16 @@ import { ActionOptions } from "components";
 import { SelectCoin } from "components/BuyAndSell";
 import RecentTransaction from "components/Dashboard/RecentTransaction";
 import { ConfirmPayment } from "components/PayBills";
-import React, { useState } from "react";
+import { navStates, useNavContext } from "context/NavProvider";
+import React, { useEffect, useState } from "react";
 import { BiHistory } from "react-icons/bi";
 
 const BuyAndSell = () => {
+  const { setActiveNav } = useNavContext();
+  useEffect(() => {
+    setActiveNav(navStates?.buy_and_sell);
+  }, []);
+
   const [option, setOption] = useState(null);
   const [showConfirm, setShowConfirm] = useState(false);
 
