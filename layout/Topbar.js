@@ -1,13 +1,33 @@
-import { Box, Circle, Flex, Img, Text } from "@chakra-ui/react";
+import {
+  Box,
+  Button,
+  Circle,
+  Flex,
+  Img,
+  Menu,
+  MenuButton,
+  MenuItem,
+  MenuList,
+  Text,
+} from "@chakra-ui/react";
 import { useNavContext } from "context/NavProvider";
+import Link from "next/link";
 import { useRouter } from "next/router";
 import React from "react";
 import { AiOutlineArrowLeft } from "react-icons/ai";
+import { BiDownArrow } from "react-icons/bi";
 import { MdNotifications } from "react-icons/md";
 
 const Topbar = () => {
   const { activeNav } = useNavContext();
   const router = useRouter();
+
+  const menuList = [
+    { name: "Profile Settings", link: "/profile" },
+    { name: "Find Helps", link: "#" },
+    { name: "About Us", link: "#" },
+    { name: "Log Out", link: "#" },
+  ];
 
   return (
     <Box>
@@ -36,12 +56,42 @@ const Topbar = () => {
           Adewale Adedamola
         </Text>
 
-        <Img
-          src="img/Profile_Picture.jpeg"
-          width="48px"
-          rounded="md"
-          h="48px"
-        />
+        <Menu>
+          <MenuButton
+            p="0"
+            as={Button}
+            rightIcon={<BiDownArrow />}
+            width="80px"
+            bg="transparent"
+            color="app.primary.900"
+            _hover={{
+              bg: "transparent",
+            }}
+          >
+            <Img
+              src="img/Profile_Picture.jpeg"
+              width="48px"
+              rounded="md"
+              h="48px"
+            />
+          </MenuButton>
+          <MenuList px="5" py="4">
+            {menuList?.map((item, i) => (
+              <MenuItem
+                py="3"
+                key={i}
+                borderBottom="2px"
+                borderColor="#C4C4C4"
+                fontWeight={600}
+                w="full"
+              >
+                <Link href={item.link}>
+                  <Text textAlign="end">{item.name}</Text>
+                </Link>
+              </MenuItem>
+            ))}
+          </MenuList>
+        </Menu>
       </Flex>
       {activeNav !== "Dashboard" && (
         <Flex my="6" px="12" alignItems="center" gap="4">

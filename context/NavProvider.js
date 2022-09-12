@@ -15,6 +15,7 @@ export const navStates = {
   referrals: "My Referrals",
   loans: "Take Loans",
   investment: "Investment",
+  account: "Account Settings",
 };
 
 const NavProvider = ({ children }) => {
