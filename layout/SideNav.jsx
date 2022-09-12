@@ -34,7 +34,7 @@ const SideNav = ({ stretch, shrink, navWidth }) => {
         )}
         {navs?.length > 0 &&
           navs?.map((nav, i) => (
-            <Link href={nav.link}>
+            <Link href={nav.link} key={nav.link}>
               <Flex
                 gap="14px"
                 py="4"
