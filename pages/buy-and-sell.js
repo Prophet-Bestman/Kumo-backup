@@ -75,3 +75,5 @@ const BuyAndSell = () => {
 };
 
 export default BuyAndSell;
+
+BuyAndSell.requireAuth = true;

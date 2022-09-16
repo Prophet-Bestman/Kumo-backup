@@ -12,7 +12,7 @@ import { navStates, useNavContext } from "context/NavProvider";
 import Head from "next/head";
 import { useEffect } from "react";
 
-export default function Home() {
+const Home = () => {
   const { setActiveNav } = useNavContext();
   useEffect(() => {
     setActiveNav(navStates?.dashboard);
@@ -40,4 +40,8 @@ export default function Home() {
       </Box>
     </div>
   );
-}
+};
+
+export default Home;
+
+Home.requireAuth = true;

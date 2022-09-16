@@ -41,3 +41,5 @@ const TransactionsPage = () => {
 };
 
 export default TransactionsPage;
+
+TransactionsPage.requireAuth = true;

@@ -56,3 +56,5 @@ const AirtimeAndData = () => {
 };
 
 export default AirtimeAndData;
+
+AirtimeAndData.requireAuth = true;

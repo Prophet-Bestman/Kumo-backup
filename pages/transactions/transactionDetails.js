@@ -68,3 +68,5 @@ const TransactionDetails = () => {
 };
 
 export default TransactionDetails;
+
+TransactionDetails.requireAuth = true;

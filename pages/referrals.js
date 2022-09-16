@@ -36,3 +36,5 @@ const ReferralsPage = () => {
 };
 
 export default ReferralsPage;
+
+ReferralsPage.requireAuth = true;

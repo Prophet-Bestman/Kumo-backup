@@ -45,3 +45,5 @@ const PayBills = () => {
 };
 
 export default PayBills;
+
+PayBills.requireAuth = true;

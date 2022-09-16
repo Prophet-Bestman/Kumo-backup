@@ -4,6 +4,7 @@ import CustomRadioInput from "./CustomRadioInput";
 import CustomTabList from "./CustomTabList";
 import SuccessModal from "./SuccessModal";
 import TextButton from "./TextButton";
+import InputError from "./InputError";
 
 export {
   CustomTabList,
@@ -12,4 +13,5 @@ export {
   TextButton,
   ConfirmModal,
   ActionOptions,
+  InputError,
 };

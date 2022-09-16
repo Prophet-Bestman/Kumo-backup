@@ -91,3 +91,5 @@ const FundWallet = () => {
 };
 
 export default FundWallet;
+
+FundWallet.requireAuth = true;

@@ -26,7 +26,7 @@ export const navs = [
   },
   {
     name: "Send/Receive Money",
-    link: "/send-and-receive",
+    link: "/auth/login",
     icon: <RiSendPlaneFill />,
   },
   {
