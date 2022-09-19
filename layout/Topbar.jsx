@@ -10,6 +10,7 @@ import {
   MenuList,
   Text,
 } from "@chakra-ui/react";
+import { useAuthContext, userActions } from "context/AuthProvider";
 import { useNavContext } from "context/NavProvider";
 import Link from "next/link";
 import { useRouter } from "next/router";
@@ -21,13 +22,18 @@ import { MdNotifications } from "react-icons/md";
 const Topbar = () => {
   const { activeNav } = useNavContext();
   const router = useRouter();
+  const { dispatch: logout } = useAuthContext();
 
   const menuList = [
     { name: "Profile Settings", link: "/profile" },
     { name: "Find Helps", link: "#" },
     { name: "About Us", link: "#" },
-    { name: "Log Out", link: "#" },
   ];
+
+  const handleLogout = () => {
+    logout({ type: userActions.LOGOUT });
+    router.push("/auth/login");
+  };
 
   return (
     <Box>
@@ -90,6 +96,16 @@ const Topbar = () => {
                 </Link>
               </MenuItem>
             ))}
+            <MenuItem
+              py="3"
+              borderBottom="2px"
+              borderColor="#C4C4C4"
+              fontWeight={600}
+              w="full"
+              onClick={handleLogout}
+            >
+              <Text textAlign="end">Logout</Text>
+            </MenuItem>
           </MenuList>
         </Menu>
       </Flex>
