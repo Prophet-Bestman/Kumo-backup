@@ -16,6 +16,7 @@ export const navStates = {
   loans: "Take Loans",
   investment: "Investment",
   account: "Account Settings",
+  users: "Users",
 };
 
 const NavProvider = ({ children }) => {

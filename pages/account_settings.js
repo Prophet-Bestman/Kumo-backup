@@ -3,7 +3,7 @@ import { MoreInfo, ProfileCard, ProfileInfo } from "components/profile";
 import { navStates, useNavContext } from "context/NavProvider";
 import React, { useEffect } from "react";
 
-const ProfilePage = () => {
+const AccountSettings = () => {
   const { setActiveNav } = useNavContext();
 
   useEffect(() => {
@@ -21,6 +21,6 @@ const ProfilePage = () => {
   );
 };
 
-export default ProfilePage;
+export default AccountSettings;
 
-ProfilePage.requireAuth = true;
+AccountSettings.requireAuth = true;

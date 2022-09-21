@@ -1,4 +1,5 @@
 import {
+  Avatar,
   Box,
   Button,
   Circle,
@@ -22,7 +23,7 @@ import { MdNotifications } from "react-icons/md";
 const Topbar = () => {
   const { activeNav } = useNavContext();
   const router = useRouter();
-  const { dispatch: logout } = useAuthContext();
+  const { user, dispatch: logout } = useAuthContext();
 
   const menuList = [
     { name: "Profile Settings", link: "/profile" },
@@ -59,7 +60,7 @@ const Topbar = () => {
         </Box>
 
         <Text fontSize="12px" fontWeight={700}>
-          Adewale Adedamola
+          {user?.first_name} {user?.last_name}
         </Text>
 
         <Menu>
@@ -74,11 +75,10 @@ const Topbar = () => {
               bg: "transparent",
             }}
           >
-            <Img
-              src="img/Profile_Picture.jpeg"
-              width="48px"
-              rounded="md"
-              h="48px"
+            <Avatar
+              name={`${user?.first_name} ${user?.last_name}`}
+              rounded="lg"
+              src={user?.image_url}
             />
           </MenuButton>
           <MenuList px="5" py="4">

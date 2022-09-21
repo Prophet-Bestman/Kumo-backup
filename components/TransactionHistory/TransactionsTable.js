@@ -1,7 +1,7 @@
 import { Table, TableContainer, Tbody, Th, Thead, Tr } from "@chakra-ui/react";
 import transactions from "data/transactions";
 import React from "react";
-import { customScrollBar2, customScrollBar3 } from "utils/styles";
+import { customScrollBar3 } from "utils/styles";
 import TransactionRow from "./TransactionRow";
 
 const TransactionsTable = () => {

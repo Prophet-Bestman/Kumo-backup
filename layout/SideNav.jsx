@@ -15,9 +15,9 @@ const SideNav = ({ stretch, shrink, navWidth }) => {
         mb="14"
       >
         {navWidth === navWidthStates?.stretched ? (
-          <Image src="img/logo_full.png" />
+          <Image src="/img/logo_full.png" />
         ) : (
-          <Image src="img/logo_small.png" />
+          <Image src="/img/logo_small.png" />
         )}
       </Box>
       <Box color="white">
