@@ -12,13 +12,16 @@ export const inputStyle = {
         borderRadius: "12px",
         borderWidth: 0,
         px: "12px",
-        color: "text.black",
+        color: "#444444",
         fontWeight: "600",
         fontSize: "14px",
         _focus: {
           borderColor: "#006577",
           bg: "#f2f2f2",
           borderWidth: "2px",
+        },
+        _placeholder: {
+          fontWeight: 400,
         },
       },
     },

@@ -1,12 +1,13 @@
 import { GiSwapBag } from "react-icons/gi";
 import { FaCoins, FaMoneyBillWaveAlt } from "react-icons/fa";
-import { IoPeople } from "react-icons/io5";
+import { IoPeople, IoPeopleSharp } from "react-icons/io5";
 import {
   RiDashboardFill,
   RiSendPlaneFill,
   RiSmartphoneFill,
 } from "react-icons/ri";
 import { BiTransfer, BiTrendingUp } from "react-icons/bi";
+import { MdManageAccounts } from "react-icons/md";
 
 export const navs = [
   {
@@ -20,13 +21,18 @@ export const navs = [
     icon: <FaMoneyBillWaveAlt />,
   },
   {
+    name: "Users",
+    link: "/users",
+    icon: <IoPeopleSharp />,
+  },
+  {
     name: "Buy & Sell Cyrpto",
     link: "/buy-and-sell",
     icon: <FaCoins />,
   },
   {
     name: "Send/Receive Money",
-    link: "/send-and-receive",
+    link: "/auth/login",
     icon: <RiSendPlaneFill />,
   },
   {
@@ -59,5 +65,10 @@ export const navs = [
     name: "Investment",
     link: "/investment",
     icon: <BiTrendingUp />,
+  },
+  {
+    name: "Account Settings",
+    link: "/account_settings",
+    icon: <MdManageAccounts />,
   },
 ];

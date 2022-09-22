@@ -8,10 +8,16 @@ import {
   PaypalOption,
   Wallet,
 } from "components/FundWallet";
+import { navStates, useNavContext } from "context/NavProvider";
 
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 
 const FundWallet = () => {
+  const { setActiveNav } = useNavContext();
+  useEffect(() => {
+    setActiveNav(navStates?.fund_wallet);
+  }, []);
+
   const paymentMethods = {
     crypto: "Via Crypto",
     bank: "Via Bank Transfer",
@@ -85,3 +91,5 @@ const FundWallet = () => {
 };
 
 export default FundWallet;
+
+FundWallet.requireAuth = true;

@@ -1,11 +1,13 @@
 import { Box, Flex, Image, Text } from "@chakra-ui/react";
+import { useNavContext } from "context/NavProvider";
 import Link from "next/link";
 import React from "react";
 import { navs } from "utils/links";
 import { navWidthStates } from "./MainLayout";
 
 const SideNav = ({ stretch, shrink, navWidth }) => {
-  const active = "Dashboard";
+  const { activeNav: active } = useNavContext();
+
   return (
     <Box py="10">
       <Box
@@ -13,9 +15,9 @@ const SideNav = ({ stretch, shrink, navWidth }) => {
         mb="14"
       >
         {navWidth === navWidthStates?.stretched ? (
-          <Image src="img/logo_full.png" />
+          <Image src="/img/logo_full.png" />
         ) : (
-          <Image src="img/logo_small.png" />
+          <Image src="/img/logo_small.png" />
         )}
       </Box>
       <Box color="white">
@@ -32,7 +34,7 @@ const SideNav = ({ stretch, shrink, navWidth }) => {
         )}
         {navs?.length > 0 &&
           navs?.map((nav, i) => (
-            <Link href={nav.link}>
+            <Link href={nav.link} key={nav.link}>
               <Flex
                 gap="14px"
                 py="4"

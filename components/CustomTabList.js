@@ -6,6 +6,7 @@ const CustomTabList = (props) => {
   return (
     <TabList
       display="flex"
+      shadow="rgba(0, 0, 0, 0.1) 0px 1px 2px 0px;"
       justifyContent={justify || "start"}
       bg="white"
       py={size === "sm" ? "1" : "2"}
