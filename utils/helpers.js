@@ -1,4 +1,5 @@
 import { createStandaloneToast } from "@chakra-ui/react";
+import { statusColors, statuses } from "./constants";
 
 const { toast } = createStandaloneToast();
 
@@ -24,7 +25,23 @@ export const handleRequestError = (error) => {
     } else if (error?.response?.status === 500) {
       errorToast("Server Error", "We are sorry. Internal Server Error");
     } else if (error?.response?.status === 400) {
-      errorToast("Authentication Error", error?.response?.data?.msg);
+      errorToast("Bad Request ", error?.response?.data?.msg);
+    } else if (error?.response?.status === 401) {
+      errorToast("Autorization Error", error?.response?.data?.msg);
     }
   }
+};
+
+export function numberWithCommas(number = 0) {
+  let approx = number.toFixed(2);
+  return approx.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+}
+
+export const getStatusColor = (status) => {
+  if (status?.toLocaleLowerCase() === statuses?.pending)
+    return statusColors?.pending;
+  if (status?.toLocaleLowerCase() === statuses?.failed)
+    return statusColors?.failed;
+  if (status?.toLocaleLowerCase() === statuses?.fulfilled)
+    return statusColors?.fulfilled;
 };

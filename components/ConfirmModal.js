@@ -16,6 +16,7 @@ const ConfirmModal = ({
   primaryFunc,
   secondaryFunc,
   message,
+  isLoading,
 }) => {
   return (
     <Modal isOpen={isOpen} onClose={onClose} size="3xl" isCentered>
@@ -37,7 +38,11 @@ const ConfirmModal = ({
               </Text>
             </Flex>
             <Flex justify="center" gap="2">
-              <Button onClick={primaryFunc?.func} w="124px">
+              <Button
+                onClick={primaryFunc?.func}
+                w="124px"
+                isLoading={isLoading}
+              >
                 {primaryFunc?.name}
               </Button>
               <Button variant="link" w="124px" onClick={onClose}>
@@ -45,14 +50,17 @@ const ConfirmModal = ({
               </Button>
             </Flex>
 
-            <Button
-              mt="32"
-              variant="link"
-              color="app.primary.500"
-              textAlign="center"
-            >
-              Use other payment method
-            </Button>
+            {!!secondaryFunc && (
+              <Button
+                mt="32"
+                variant="link"
+                color="app.primary.500"
+                textAlign="center"
+                onClick={secondaryFunc?.func}
+              >
+                {secondaryFunc?.name}
+              </Button>
+            )}
           </Box>
         </ModalBody>
       </ModalContent>

@@ -12,7 +12,6 @@ import {
   Thead,
   Tr,
 } from "@chakra-ui/react";
-import transactions from "data/transactions";
 import Link from "next/link";
 import React from "react";
 import { customScrollBar3 } from "utils/styles";

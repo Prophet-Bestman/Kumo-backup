@@ -29,18 +29,6 @@ const LoginForm = () => {
   // ====== TOASTS ======
   const toast = useToast();
 
-  const errorToast = (title, msg) => {
-    toast({
-      title: title,
-      description: msg,
-      status: "error",
-      duration: 6000,
-      isClosable: true,
-      variant: "subtle",
-      position: "top",
-    });
-  };
-
   const successToast = () => {
     toast({
       title: "Login Successful",
