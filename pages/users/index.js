@@ -58,7 +58,9 @@ const Users = () => {
     <Box p="6">
       <Flex justify="space-between" alignItems="center" mb="8">
         <InputGroup maxW="350px">
-          <InputLeftElement children={<BsSearch />} />
+          <InputLeftElement>
+            <BsSearch />
+          </InputLeftElement>
           <Input placeholder="Search by order, name, number, email..." />
         </InputGroup>
 
