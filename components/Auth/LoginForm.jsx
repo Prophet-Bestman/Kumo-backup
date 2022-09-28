@@ -113,8 +113,9 @@ const LoginForm = () => {
                 cursor="pointer"
                 color="app.primary.500"
                 fontSize="20px"
-                children={show ? <AiFillEyeInvisible /> : <AiFillEye />}
-              />
+              >
+                {show ? <AiFillEyeInvisible /> : <AiFillEye />}
+              </InputRightElement>
             </InputGroup>
             <InputError msg={errors?.password?.message} />
           </Stack>
