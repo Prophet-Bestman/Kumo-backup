@@ -21,7 +21,7 @@ const UserWallets = ({ user }) => {
   const { wallet_addreses, wallet_balance } = user;
 
   return (
-    <Grid rowGap="8" p="6" py="12" rounded="md" bg="white">
+    <Grid rowGap="8" p="6" py="12" rounded="md" bg="white" pos="relative">
       <Text textAlign="center" fontSize="20px" fontWeight={600}>
         Wallets
       </Text>

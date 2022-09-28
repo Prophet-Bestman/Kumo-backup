@@ -1,10 +1,10 @@
 import { Table, TableContainer, Tbody, Th, Thead, Tr } from "@chakra-ui/react";
-import transactions from "data/transactions";
+// import transactions from "data/transactions";
 import React from "react";
 import { customScrollBar3 } from "utils/styles";
 import TransactionRow from "./TransactionRow";
 
-const TransactionsTable = () => {
+const TransactionsTable = ({ transactions }) => {
   return (
     <TableContainer
       w="full"
@@ -16,21 +16,22 @@ const TransactionsTable = () => {
       sx={customScrollBar3}
       p="4"
     >
-      <Table w="full" variant="unstyled">
+      <Table w="full" variant="unstyled" size="sm">
         <Thead fontSize="12px">
           <Tr>
-            <Th w="45%">From</Th>
-            <Th>Trans ID</Th>
+            <Th>Type</Th>
+            <Th>Method</Th>
             <Th>Amount</Th>
+            <Th>Currency</Th>
+            <Th>Status</Th>
+            <Th>Date</Th>
           </Tr>
         </Thead>
         <Tbody>
           {transactions?.length > 0 &&
-            transactions
-              ?.slice(0, 6)
-              ?.map((transaction, i) => (
-                <TransactionRow key={i} transaction={transaction} />
-              ))}
+            transactions?.map((transaction, i) => (
+              <TransactionRow key={i} transaction={transaction} />
+            ))}
         </Tbody>
       </Table>
     </TableContainer>

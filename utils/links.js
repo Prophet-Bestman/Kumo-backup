@@ -1,5 +1,5 @@
 import { GiSwapBag } from "react-icons/gi";
-import { FaCoins, FaMoneyBillWaveAlt } from "react-icons/fa";
+import { FaCoins, FaMoneyBillWaveAlt, FaUserTie } from "react-icons/fa";
 import { IoPeople, IoPeopleSharp } from "react-icons/io5";
 import {
   RiDashboardFill,
@@ -24,6 +24,11 @@ export const navs = [
     name: "Users",
     link: "/users",
     icon: <IoPeopleSharp />,
+  },
+  {
+    name: "Agents",
+    link: "/agents",
+    icon: <FaUserTie />,
   },
   {
     name: "Buy & Sell Cyrpto",

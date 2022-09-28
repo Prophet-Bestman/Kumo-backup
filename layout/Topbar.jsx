@@ -37,10 +37,25 @@ const Topbar = () => {
   };
 
   return (
-    <Box>
+    <Flex py="32px" justify="space-between" alignItems="center">
+      {activeNav !== "Dashboard" && (
+        <Flex my="6" px="12" alignItems="center" gap="4">
+          <Box color="app.primary.900">
+            <AiOutlineArrowLeft
+              onClick={() => router?.back()}
+              cursor="pointer"
+              size="24px"
+            />
+          </Box>
+
+          <Text fontSize="18px" fontWeight="500" color="app.primary.500">
+            {activeNav}
+          </Text>
+        </Flex>
+      )}
       <Flex
         px="42px"
-        py="32px"
+        ml="auto"
         justify="end"
         alignItems="center"
         color="app.primary.900"
@@ -109,20 +124,7 @@ const Topbar = () => {
           </MenuList>
         </Menu>
       </Flex>
-      {activeNav !== "Dashboard" && (
-        <Flex my="6" px="12" alignItems="center" gap="4">
-          <Box color="app.primary.900">
-            <AiOutlineArrowLeft
-              onClick={() => router?.back()}
-              cursor="pointer"
-              size="24px"
-            />
-          </Box>
-
-          {activeNav}
-        </Flex>
-      )}
-    </Box>
+    </Flex>
   );
 };
 

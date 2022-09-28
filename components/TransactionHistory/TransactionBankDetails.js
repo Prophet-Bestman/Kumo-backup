@@ -10,8 +10,7 @@ import {
   Text,
   useToast,
 } from "@chakra-ui/react";
-import TransactionDetails from "pages/transactions/transactionDetails";
-import React, { useRef, useState } from "react";
+import React, { useRef } from "react";
 import { AiFillPrinter, AiFillWarning, AiOutlineCopy } from "react-icons/ai";
 import { RiSendPlaneFill } from "react-icons/ri";
 

@@ -5,6 +5,10 @@ import CustomTabList from "./CustomTabList";
 import SuccessModal from "./SuccessModal";
 import TextButton from "./TextButton";
 import InputError from "./InputError";
+import FloatingAddBtn from "./FloatingAddBtn";
+import ModalCard from "./ModalCard";
+import LargeHeading from "./LargeHeading";
+import FilterMenu from "./FilterMenu";
 
 export {
   CustomTabList,
@@ -14,4 +18,8 @@ export {
   ConfirmModal,
   ActionOptions,
   InputError,
+  FloatingAddBtn,
+  ModalCard,
+  LargeHeading,
+  FilterMenu,
 };

@@ -29,18 +29,6 @@ const LoginForm = () => {
   // ====== TOASTS ======
   const toast = useToast();
 
-  const errorToast = (title, msg) => {
-    toast({
-      title: title,
-      description: msg,
-      status: "error",
-      duration: 6000,
-      isClosable: true,
-      variant: "subtle",
-      position: "top",
-    });
-  };
-
   const successToast = () => {
     toast({
       title: "Login Successful",
@@ -125,8 +113,9 @@ const LoginForm = () => {
                 cursor="pointer"
                 color="app.primary.500"
                 fontSize="20px"
-                children={show ? <AiFillEyeInvisible /> : <AiFillEye />}
-              />
+              >
+                {show ? <AiFillEyeInvisible /> : <AiFillEye />}
+              </InputRightElement>
             </InputGroup>
             <InputError msg={errors?.password?.message} />
           </Stack>

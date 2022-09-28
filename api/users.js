@@ -14,11 +14,14 @@ export const useGetUsers = () => {
   );
 };
 
-export const useSingleGetUser = (id) => {
+export const useSingleGetUser = (id, options) => {
   const headers = configOptions();
-  return useQuery(["single-user", id], () =>
-    request
-      .get(`/get-user/${id || ""}`, { headers: headers })
-      .then((res) => res.data)
+  return useQuery(
+    ["single-user", id, options],
+    () =>
+      request
+        .get(`/get-user/${id || ""}`, { headers: headers })
+        .then((res) => res.data),
+    { ...options }
   );
 };

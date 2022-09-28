@@ -1,14 +1,27 @@
 import { Circle, Flex, Td, Text, Tr } from "@chakra-ui/react";
+import { format } from "date-fns";
 import Link from "next/link";
 import React from "react";
+import { numberWithCommas } from "utils/helpers";
 
 const TransactionRow = ({ transaction }) => {
-  const { name, type, amount, date, method, transID } = transaction;
+  const {
+    type,
+    amount_paid_in_naira,
+    from,
+    to,
+    currency,
+    date,
+    method,
+    status,
+    created_at,
+  } = transaction;
   return (
-    <Link href="/transactions/transactionDetails">
+    <Link href={`/transactions/${transaction?._id}`}>
       <Tr
         cursor="pointer"
         rounded="md"
+        fontSize="12px"
         _hover={{
           shadow: "rgba(0, 0, 0, 0.1) 0px 1px 2px 0px;",
           borderWidth: "1px",
@@ -16,42 +29,42 @@ const TransactionRow = ({ transaction }) => {
         }}
       >
         <Td>
-          <Flex gap="4">
-            <Circle
-              rounded="md"
-              color="white"
-              bg="app.primary.900"
-              size="36px"
-              fontSize="13px"
-              lineHeight="0"
-              fontWeight={700}
-            >
-              OT
-            </Circle>
-
-            <Flex flexDir="column" justifyContent="space-between">
-              <Text fontSize="14px" fontWeight={700} color="app.primary.900">
-                {name}
-              </Text>
-              <Text fontSize="12px">{method}</Text>
-            </Flex>
-          </Flex>
+          <Text fontSize="14px" fontWeight={700} color="app.primary.900">
+            {type}
+          </Text>
         </Td>
 
         <Td>
-          <Text fontSize={"13px"} color="app.primary.900">
-            {transID}
-          </Text>
-          <Text fontSize={"11px"} color="app.greyText">
-            {date}
-          </Text>
+          <Flex>
+            <Text>From:</Text>
+            <Text fontSize={"13px"} color="app.primary.900">
+              {from}
+            </Text>
+          </Flex>
+          <Flex>
+            <Text>To:</Text>
+            <Text fontSize={"13px"} color="app.primary.900">
+              {to}
+            </Text>
+          </Flex>
         </Td>
 
         <Td
           fontWeight="700"
-          color={type === "credit" ? "app.success" : "app.red"}
+          fontSize={"13px"}
+          // color={type === "credit" ? "app.success" : "app.red"}
         >
-          {amount}
+          N{numberWithCommas(amount_paid_in_naira || 0)}
+        </Td>
+
+        <Td fontWeight={700} fontSize={"13px"} textTransform="capitalize">
+          {currency}
+        </Td>
+        <Td fontWeight={700} fontSize={"13px"} textTransform="capitalize">
+          {status}
+        </Td>
+        <Td fontSize={"13px"} textTransform="capitalize">
+          {format(new Date(created_at), "dd-MM-yyyy")}
         </Td>
       </Tr>
     </Link>
