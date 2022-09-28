@@ -44,7 +44,7 @@ const UsersTable = ({ users, isLoading }) => {
           </Thead>
           <Tbody>
             {users?.length > 0 &&
-              users.map((user, i) => {
+              users.map((user) => {
                 const {
                   last_name,
                   first_name,
