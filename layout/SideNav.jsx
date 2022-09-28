@@ -33,7 +33,7 @@ const SideNav = ({ stretch, shrink, navWidth }) => {
           </Box>
         )}
         {navs?.length > 0 &&
-          navs?.map((nav, i) => (
+          navs?.map((nav) => (
             <Link href={nav.link} key={nav.link}>
               <Flex
                 gap="14px"
@@ -41,7 +41,6 @@ const SideNav = ({ stretch, shrink, navWidth }) => {
                 pl="28px"
                 alignItems="center"
                 my="3"
-                key={i}
                 bg={active === nav.name && "app.primary.500"}
                 _hover={{
                   bg: "app.primary.500",

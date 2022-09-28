@@ -29,8 +29,11 @@ const TransactionsTable = ({ transactions }) => {
         </Thead>
         <Tbody>
           {transactions?.length > 0 &&
-            transactions?.map((transaction, i) => (
-              <TransactionRow key={i} transaction={transaction} />
+            transactions?.map((transaction) => (
+              <TransactionRow
+                key={transaction?._id}
+                transaction={transaction}
+              />
             ))}
         </Tbody>
       </Table>

@@ -71,8 +71,8 @@ const Users = () => {
       </Flex>
       <Flex mb="6">
         {filterObjs?.length > 0 &&
-          filterObjs?.map((filter) => (
-            <Tag display="flex" gap="1">
+          filterObjs?.map((filter, i) => (
+            <Tag display="flex" gap="1" key={i}>
               <Text fontWeight="600" textTransform="capitalize">
                 {filter?.name}
               </Text>

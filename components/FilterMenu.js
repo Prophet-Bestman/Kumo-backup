@@ -62,6 +62,7 @@ const FilterMenu = ({ filterObjs, setFilterObjs, filters, setFilters }) => {
         {/* <MenuItem onClick={onOpen}>Email</MenuItem> */}
         {filters?.map((filter) => (
           <MenuItem
+            key={filter?.name}
             onClick={() => handleSelectFilter(filter)}
             textTransform="capitalize"
           >
