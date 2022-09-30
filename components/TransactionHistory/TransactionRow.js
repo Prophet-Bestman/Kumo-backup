@@ -4,7 +4,7 @@ import Link from "next/link";
 import React from "react";
 import { numberWithCommas } from "utils/helpers";
 
-const TransactionRow = ({ transaction }) => {
+const TransactionRow = ({ transaction, number }) => {
   const {
     type,
     amount_paid_in_naira,
@@ -28,6 +28,9 @@ const TransactionRow = ({ transaction }) => {
           borderColor: "#eeeeee",
         }}
       >
+        <Td fontWeight={700} w="50px">
+          {number}
+        </Td>
         <Td>
           <Text fontSize="14px" fontWeight={700} color="app.primary.900">
             {type}

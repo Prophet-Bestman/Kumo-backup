@@ -28,13 +28,21 @@ export const handleRequestError = (error) => {
       errorToast("Bad Request ", error?.response?.data?.msg);
     } else if (error?.response?.status === 401) {
       errorToast("Autorization Error", error?.response?.data?.msg);
-    }
+    } else
+      errorToast(
+        "Error Occured",
+        error?.response?.data?.msg || error?.response?.statusText
+      );
   }
 };
 
 export function numberWithCommas(number = 0) {
   let approx = number.toFixed(2);
   return approx.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+}
+
+export function underscoreToSpace(str = "") {
+  return str.replace(/_/g, " ");
 }
 
 export const getStatusColor = (status) => {
