@@ -62,3 +62,15 @@ export const updateTransactionSchema = yup
     admin_description: yup.string().required("Admin description is required"),
   })
   .required();
+
+export const updateUsdToNairaSchema = yup
+  .object({
+    value: yup.string().required("Value is required"),
+  })
+  .required();
+
+export const updateSendCryptoFeeSchema = yup
+  .object({
+    cost: yup.string().required("Value is required"),
+  })
+  .required();

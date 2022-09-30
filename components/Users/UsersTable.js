@@ -35,6 +35,7 @@ const UsersTable = ({ users, isLoading }) => {
         <Table w="full" variant="unstyled">
           <Thead fontSize="12px">
             <Tr>
+              <Th>S/N</Th>
               <Th>Name</Th>
               <Th>Email</Th>
               <Th>Phone Number</Th>
@@ -44,7 +45,7 @@ const UsersTable = ({ users, isLoading }) => {
           </Thead>
           <Tbody>
             {users?.length > 0 &&
-              users.map((user) => {
+              users.map((user, i) => {
                 const {
                   last_name,
                   first_name,
@@ -56,6 +57,9 @@ const UsersTable = ({ users, isLoading }) => {
                 return (
                   //   <TransactionRow  transaction={transaction} />
                   <Tr key={user?._id}>
+                    <Td fontWeight={700} w="50px">
+                      {i + 1}
+                    </Td>
                     <Td>
                       {first_name} {last_name}
                     </Td>

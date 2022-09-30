@@ -15,11 +15,11 @@ export const navs = [
     link: "/",
     icon: <RiDashboardFill />,
   },
-  {
-    name: "Fund Wallet",
-    link: "/fund-wallet",
-    icon: <FaMoneyBillWaveAlt />,
-  },
+  // {
+  //   name: "Fund Wallet",
+  //   link: "/fund-wallet",
+  //   icon: <FaMoneyBillWaveAlt />,
+  // },
   {
     name: "Users",
     link: "/users",
@@ -30,50 +30,55 @@ export const navs = [
     link: "/agents",
     icon: <FaUserTie />,
   },
-  {
-    name: "Buy & Sell Cyrpto",
-    link: "/buy-and-sell",
-    icon: <FaCoins />,
-  },
-  {
-    name: "Send/Receive Money",
-    link: "/auth/login",
-    icon: <RiSendPlaneFill />,
-  },
-  {
-    name: "Pay Bills",
-    link: "/pay-bills",
-    icon: <FaMoneyBillWaveAlt />,
-  },
+  // {
+  //   name: "Buy & Sell Cyrpto",
+  //   link: "/buy-and-sell",
+  //   icon: <FaCoins />,
+  // },
+  // {
+  //   name: "Send/Receive Money",
+  //   link: "/auth/login",
+  //   icon: <RiSendPlaneFill />,
+  // },
+  // {
+  //   name: "Pay Bills",
+  //   link: "/pay-bills",
+  //   icon: <FaMoneyBillWaveAlt />,
+  // },
 
-  {
-    name: "Airtime and Data",
-    link: "/airtime-and-data",
-    icon: <RiSmartphoneFill />,
-  },
+  // {
+  //   name: "Airtime and Data",
+  //   link: "/airtime-and-data",
+  //   icon: <RiSmartphoneFill />,
+  // },
   {
     name: "Transactions",
     link: "/transactions",
     icon: <BiTransfer />,
   },
+  // {
+  //   name: "My Referrals",
+  //   link: "/referrals",
+  //   icon: <IoPeople />,
+  // },
+  // {
+  //   name: "Take Loans",
+  //   link: "/loans",
+  //   icon: <GiSwapBag />,
+  // },
+  // {
+  //   name: "Investment",
+  //   link: "/investment",
+  //   icon: <BiTrendingUp />,
+  // },
   {
-    name: "My Referrals",
-    link: "/referrals",
-    icon: <IoPeople />,
-  },
-  {
-    name: "Take Loans",
-    link: "/loans",
-    icon: <GiSwapBag />,
-  },
-  {
-    name: "Investment",
-    link: "/investment",
-    icon: <BiTrendingUp />,
-  },
-  {
-    name: "Account Settings",
-    link: "/account_settings",
+    name: "Settings",
+    link: "/settings",
     icon: <MdManageAccounts />,
   },
+  // {
+  //   name: "Account Settings",
+  //   link: "/account_settings",
+  //   icon: <MdManageAccounts />,
+  // },
 ];
