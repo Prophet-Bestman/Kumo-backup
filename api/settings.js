@@ -117,3 +117,21 @@ export const useUpdateGeneralFee = () => {
     }
   );
 };
+
+export const useUpdateFundWalletFee = () => {
+  const queryClient = useQueryClient();
+  const headers = configOptions();
+  return useMutation(
+    (values) =>
+      request2
+        .put(`/update-fund-wallet-fee`, values, {
+          headers: headers,
+        })
+        .then((res) => res.data),
+    {
+      onSuccess: () => {
+        queryClient.invalidateQueries("fee-costs");
+      },
+    }
+  );
+};

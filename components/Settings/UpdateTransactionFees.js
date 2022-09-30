@@ -22,7 +22,7 @@ import { handleRequestError, underscoreToSpace } from "utils/helpers";
 import { updateSendCryptoFeeSchema } from "utils/schema";
 import { customScrollBar3 } from "utils/styles";
 
-const UpdateCryptoFees = ({ options }) => {
+const UpdateTransactionFees = ({ options }) => {
   const [selectedOption, setSelectedOption] = useState(null);
   const [feeError, setFeeError] = useState(null);
 
@@ -90,7 +90,7 @@ const UpdateCryptoFees = ({ options }) => {
   return (
     <Box rounded="md" bg="white" py="12" px="6" shadow="md">
       <LargeHeading color="app.primary.700" fontSize="20px">
-        Update Crypto Fees
+        Update Transaction Fees
       </LargeHeading>
 
       <form onSubmit={handleSubmit(handleUpdate)}>
@@ -158,4 +158,4 @@ const UpdateCryptoFees = ({ options }) => {
   );
 };
 
-export default UpdateCryptoFees;
+export default UpdateTransactionFees;

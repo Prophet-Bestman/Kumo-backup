@@ -9,14 +9,20 @@ import {
   useDisclosure,
 } from "@chakra-ui/react";
 import { useGetAllFees, useUpdateCryptoAddress } from "api/settings";
-import { AddFee, UpdateCryptoFees, UsdToNaira } from "components/Settings";
+import {
+  AddFundWalletFee,
+  AddTransactionFee,
+  UpdateFundWalletFee,
+  UpdateTransactionFees,
+  UsdToNaira,
+} from "components/Settings";
 import { navStates, useNavContext } from "context/NavProvider";
 import React, { useEffect, useState } from "react";
 import { Skeleton } from "@chakra-ui/react";
 import { FloatingAddBtn } from "components";
 import { customScrollBar3 } from "utils/styles";
 
-const initialFeeOptions = [
+const initialTransactionFeeOptions = [
   "BUY_CRYPTO_FEE",
   "SELL_CRYPTO_FEE",
   "SEND_CRYPTO_FEE",
@@ -26,12 +32,27 @@ const initialFeeOptions = [
   "BUY_AIRTIME_FEE",
 ];
 
+const initialFundWalletFeeOptions = [
+  "FUND_WALLET_DEBIT_CARD_FEE",
+  "FUND_WALLET_CRYPTO_FEE",
+  "FUND_WALLET_BANK_TRANSFER_FEE",
+  "FUND_WALLET_PAYPAL_FEE",
+  "FUND_WALLET_KUMO_AGENT_FEE",
+];
+
 const Settings = () => {
   const [usdToNaira, setUsdToNaira] = useState([]);
-  const [addFeeOptions, setAddFeeOptions] = useState([]);
-  const [allFees, setAllFees] = useState([]);
+  const [addTransactionFeeOptions, setAddTransactionFeeOptions] = useState([]);
+  const [addFundWalletFeeOptions, setAddFundWalletFeeOptions] = useState([]);
+  const [transactionFees, setTransactionFees] = useState([]);
+  const [fundWalletFees, setFundWalletFees] = useState([]);
 
   const { isOpen, onOpen, onClose } = useDisclosure();
+  const {
+    isOpen: isWalletFeeOpen,
+    onOpen: onWalletFeeOpen,
+    onClose: onWalletFeeClose,
+  } = useDisclosure();
 
   const { setActiveNav } = useNavContext();
   useEffect(() => {
@@ -51,27 +72,50 @@ const Settings = () => {
       setUsdToNaira(
         feesResp?.data?.filter((item) => item?.name === "usdToNgn")[0]
       );
-      setAllFees(
-        feesResp?.data?.filter((item) => item?.name?.includes("CRYPTO_FEE"))
+
+      let allFees = feesResp?.data?.filter(
+        (item) =>
+          item?.name?.includes("FEE") || item?.name?.includes("TRANSFER")
+      );
+      setTransactionFees(
+        allFees?.filter((item) => !item?.name?.includes("FUND_WALLET"))
+      );
+      setFundWalletFees(
+        allFees?.filter((item) => item?.name?.includes("FUND_WALLET"))
       );
     }
   }, [feesResp]);
 
   useEffect(() => {
-    if (!!allFees && allFees?.length > 0) {
+    // ===== FILTER LOGIC FOR ADD TRANSACTION FEE MODAL =====
+    if (!!transactionFees && transactionFees?.length > 0) {
       let filteredFees = [];
-      initialFeeOptions.forEach((feeOption) => {
-        for (let i = 0; i < allFees?.length; i++) {
-          if (allFees[i]?.name === feeOption) {
+      initialTransactionFeeOptions.forEach((feeOption) => {
+        for (let i = 0; i < transactionFees?.length; i++) {
+          if (transactionFees[i]?.name === feeOption) {
             return;
           }
         }
         filteredFees?.push(feeOption);
       });
-      setAddFeeOptions(filteredFees);
-      // );
-    }
-  }, [allFees]);
+      setAddTransactionFeeOptions(filteredFees);
+    } else setAddTransactionFeeOptions(initialTransactionFeeOptions);
+
+    //
+    // ===== FILTER LOGIC FOR ADD FUND WALLET FEE MODAL =====
+    if (!!fundWalletFees && fundWalletFees?.length > 0) {
+      let filteredFees = [];
+      initialFundWalletFeeOptions.forEach((feeOption) => {
+        for (let i = 0; i < fundWalletFees?.length; i++) {
+          if (fundWalletFees[i]?.name === feeOption) {
+            return;
+          }
+        }
+        filteredFees?.push(feeOption);
+      });
+      setAddFundWalletFeeOptions(filteredFees);
+    } else setAddFundWalletFeeOptions(initialFundWalletFeeOptions);
+  }, [transactionFees, fundWalletFees]);
 
   const handleUpdateCryptoAddress = () => {
     const payload = {
@@ -101,8 +145,22 @@ const Settings = () => {
             <Skeleton h="30px" mt="4" />
           </Box>
         ) : (
-          !!allFees &&
-          allFees?.length > 0 && <UpdateCryptoFees options={allFees} />
+          !!transactionFees &&
+          transactionFees?.length > 0 && (
+            <UpdateTransactionFees options={transactionFees} />
+          )
+        )}
+        {loadingFees ? (
+          <Box padding="6" boxShadow="lg" bg="white">
+            <Skeleton h="15px" mt="4" w="50%" />
+            <Skeleton h="30px" mt="4" w="80%" />
+            <Skeleton h="30px" mt="4" />
+          </Box>
+        ) : (
+          !!fundWalletFees &&
+          fundWalletFees?.length > 0 && (
+            <UpdateFundWalletFee options={fundWalletFees} />
+          )
         )}
       </Grid>
       <Box pos="fixed" bottom={8} right={8}>
@@ -119,14 +177,32 @@ const Settings = () => {
             sx={customScrollBar3}
           >
             <MenuItem fontWeight={500} fontSize="14px" onClick={onOpen}>
-              Add Fee
+              Add Transaction Fee
+            </MenuItem>
+            <MenuItem
+              fontWeight={500}
+              fontSize="14px"
+              onClick={onWalletFeeOpen}
+            >
+              Add Fund Wallet Fee
             </MenuItem>
           </MenuList>
         </Menu>
       </Box>
 
-      {addFeeOptions?.length > 0 && isOpen && (
-        <AddFee isOpen={isOpen} onClose={onClose} options={addFeeOptions} />
+      {addTransactionFeeOptions?.length > 0 && isOpen && (
+        <AddTransactionFee
+          isOpen={isOpen}
+          onClose={onClose}
+          options={addTransactionFeeOptions}
+        />
+      )}
+      {addFundWalletFeeOptions?.length > 0 && isWalletFeeOpen && (
+        <AddFundWalletFee
+          isOpen={isWalletFeeOpen}
+          onClose={onWalletFeeClose}
+          options={addFundWalletFeeOptions}
+        />
       )}
     </Box>
   );

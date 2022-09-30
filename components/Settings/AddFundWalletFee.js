@@ -13,7 +13,7 @@ import {
   useToast,
 } from "@chakra-ui/react";
 import { yupResolver } from "@hookform/resolvers/yup";
-import { useUpdateGeneralFee } from "api/settings";
+import { useUpdateFundWalletFee, useUpdateGeneralFee } from "api/settings";
 import InputError from "components/InputError";
 import LargeHeading from "components/LargeHeading";
 import ModalCard from "components/ModalCard";
@@ -23,7 +23,7 @@ import { handleRequestError, underscoreToSpace } from "utils/helpers";
 import { updateSendCryptoFeeSchema } from "utils/schema";
 import { customScrollBar3 } from "utils/styles";
 
-const AddFee = ({ options, isOpen, onClose }) => {
+const AddFundWalletFee = ({ options, isOpen, onClose }) => {
   const [selectedOption, setSelectedOption] = useState("");
   const [feeError, setFeeError] = useState(null);
 
@@ -62,7 +62,7 @@ const AddFee = ({ options, isOpen, onClose }) => {
     isLoading,
     error: updateError,
     reset,
-  } = useUpdateGeneralFee();
+  } = useUpdateFundWalletFee();
 
   const handleUpdate = (data) => {
     if (!selectedOption) {
@@ -86,7 +86,7 @@ const AddFee = ({ options, isOpen, onClose }) => {
     <ModalCard isOpen={isOpen} onClose={onClose}>
       <Box bg="white" py="12" px="6">
         <LargeHeading color="app.primary.700" fontSize="20px">
-          Add A Fee
+          Add A Fund Wallet Fee
         </LargeHeading>
 
         <form onSubmit={handleSubmit(handleUpdate)}>
@@ -159,4 +159,4 @@ const AddFee = ({ options, isOpen, onClose }) => {
   );
 };
 
-export default AddFee;
+export default AddFundWalletFee;
