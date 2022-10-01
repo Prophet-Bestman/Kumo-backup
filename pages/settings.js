@@ -10,6 +10,7 @@ import {
 } from "@chakra-ui/react";
 import { useGetAllFees, useUpdateCryptoAddress } from "api/settings";
 import {
+  AddCryptoAddress,
   AddFundWalletFee,
   AddTransactionFee,
   UpdateFundWalletFee,
@@ -48,10 +49,17 @@ const Settings = () => {
   const [fundWalletFees, setFundWalletFees] = useState([]);
 
   const { isOpen, onOpen, onClose } = useDisclosure();
+
   const {
     isOpen: isWalletFeeOpen,
     onOpen: onWalletFeeOpen,
     onClose: onWalletFeeClose,
+  } = useDisclosure();
+
+  const {
+    isOpen: isAddCryptoOpen,
+    onOpen: onAddCryptoOpen,
+    onClose: onAddCryptoClose,
   } = useDisclosure();
 
   const { setActiveNav } = useNavContext();
@@ -60,6 +68,8 @@ const Settings = () => {
   }, []);
 
   const { data: feesResp, isLoading: loadingFees } = useGetAllFees();
+
+  console.log(feesResp);
 
   const {
     data: updateResp,
@@ -175,16 +185,13 @@ const Settings = () => {
             maxH="200px"
             overflowY="auto"
             sx={customScrollBar3}
+            fontWeight={500}
+            fontSize="14px"
           >
-            <MenuItem fontWeight={500} fontSize="14px" onClick={onOpen}>
-              Add Transaction Fee
-            </MenuItem>
-            <MenuItem
-              fontWeight={500}
-              fontSize="14px"
-              onClick={onWalletFeeOpen}
-            >
-              Add Fund Wallet Fee
+            <MenuItem onClick={onOpen}>Add Transaction Fee</MenuItem>
+            <MenuItem onClick={onWalletFeeOpen}>Add Fund Wallet Fee</MenuItem>
+            <MenuItem onClick={onAddCryptoOpen}>
+              Add Crypto Wallet Address
             </MenuItem>
           </MenuList>
         </Menu>
@@ -203,6 +210,10 @@ const Settings = () => {
           onClose={onWalletFeeClose}
           options={addFundWalletFeeOptions}
         />
+      )}
+
+      {isAddCryptoOpen && (
+        <AddCryptoAddress isOpen={isAddCryptoOpen} onClose={onAddCryptoClose} />
       )}
     </Box>
   );

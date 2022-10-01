@@ -64,6 +64,24 @@ export const useUpdateUsdToDollar = () => {
   );
 };
 
+export const useUpdatePaypal = () => {
+  const queryClient = useQueryClient();
+  const headers = configOptions();
+  return useMutation(
+    (values) =>
+      request2
+        .put(`/update-paypal`, values, {
+          headers: headers,
+        })
+        .then((res) => res.data),
+    {
+      onSuccess: () => {
+        queryClient.invalidateQueries("fee-costs");
+      },
+    }
+  );
+};
+
 export const useUpdateSendCryptoFee = () => {
   const queryClient = useQueryClient();
   const headers = configOptions();

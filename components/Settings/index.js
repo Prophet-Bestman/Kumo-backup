@@ -1,3 +1,4 @@
+import AddCryptoAddress from "./AddCryptoAddress";
 import AddFundWalletFee from "./AddFundWalletFee";
 import AddTransactionFee from "./AddTransactionFee";
 
@@ -16,4 +17,5 @@ export {
   AddFundWalletFee,
   UpdateTransactionFees,
   UpdateFundWalletFee,
+  AddCryptoAddress,
 };
