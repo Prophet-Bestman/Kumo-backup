@@ -22,6 +22,7 @@ import React, { useEffect, useState } from "react";
 import { Skeleton } from "@chakra-ui/react";
 import { FloatingAddBtn } from "components";
 import { customScrollBar3 } from "utils/styles";
+import UpdateCryptoWallet from "components/Settings/UpdateCryptoWallet";
 
 const initialTransactionFeeOptions = [
   "BUY_CRYPTO_FEE",
@@ -47,6 +48,7 @@ const Settings = () => {
   const [addFundWalletFeeOptions, setAddFundWalletFeeOptions] = useState([]);
   const [transactionFees, setTransactionFees] = useState([]);
   const [fundWalletFees, setFundWalletFees] = useState([]);
+  const [cryptoWallets, setCryptoWallets] = useState([]);
 
   const { isOpen, onOpen, onClose } = useDisclosure();
 
@@ -69,8 +71,6 @@ const Settings = () => {
 
   const { data: feesResp, isLoading: loadingFees } = useGetAllFees();
 
-  console.log(feesResp);
-
   const {
     data: updateResp,
     mutate: updateCrypto,
@@ -81,6 +81,11 @@ const Settings = () => {
     if (!!feesResp && feesResp?.status === "success") {
       setUsdToNaira(
         feesResp?.data?.filter((item) => item?.name === "usdToNgn")[0]
+      );
+
+      setCryptoWallets(
+        feesResp?.data?.filter((item) => item?.name === "crypto_address")[0]
+          ?.addresses
       );
 
       let allFees = feesResp?.data?.filter(
@@ -170,6 +175,19 @@ const Settings = () => {
           !!fundWalletFees &&
           fundWalletFees?.length > 0 && (
             <UpdateFundWalletFee options={fundWalletFees} />
+          )
+        )}
+
+        {loadingFees ? (
+          <Box padding="6" boxShadow="lg" bg="white">
+            <Skeleton h="15px" mt="4" w="50%" />
+            <Skeleton h="30px" mt="4" w="80%" />
+            <Skeleton h="30px" mt="4" />
+          </Box>
+        ) : (
+          !!cryptoWallets &&
+          cryptoWallets?.length > 0 && (
+            <UpdateCryptoWallet options={cryptoWallets} />
           )
         )}
       </Grid>

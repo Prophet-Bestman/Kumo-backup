@@ -1,15 +1,6 @@
-import {
-  Box,
-  Button,
-  Input,
-  InputGroup,
-  InputLeftElement,
-  Stack,
-  Text,
-  useToast,
-} from "@chakra-ui/react";
+import { Box, Button, Input, Stack, Text, useToast } from "@chakra-ui/react";
 import { yupResolver } from "@hookform/resolvers/yup";
-import { useUpdateCryptoAddress, useUpdateSendCryptoFee } from "api/settings";
+import { useUpdateCryptoAddress } from "api/settings";
 import InputError from "components/InputError";
 import LargeHeading from "components/LargeHeading";
 import ModalCard from "components/ModalCard";
@@ -33,7 +24,7 @@ const AddCryptoAddress = ({ isOpen, onClose }) => {
   const successToast = () => {
     toast({
       title: "Action Successful",
-      description: "Updated Send Crypto Fee",
+      description: "Added Wallet Address",
       status: "success",
       duration: 3000,
       isClosable: true,
@@ -71,7 +62,7 @@ const AddCryptoAddress = ({ isOpen, onClose }) => {
     <ModalCard onClose={onClose} isOpen={isOpen}>
       <Box bg="white" py="12" px="6">
         <LargeHeading color="app.primary.700" fontSize="20px">
-          Send Crypto Fee
+          Add Cypto Wallet Address
         </LargeHeading>
 
         <form onSubmit={handleSubmit(handleUpdate)}>
@@ -88,7 +79,7 @@ const AddCryptoAddress = ({ isOpen, onClose }) => {
           </Stack>
 
           <Button mt="4" h="48px" type="submit" isLoading={isLoading}>
-            Update
+            Add Wallet Address
           </Button>
         </form>
       </Box>

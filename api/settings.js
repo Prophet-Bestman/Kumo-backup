@@ -153,3 +153,21 @@ export const useUpdateFundWalletFee = () => {
     }
   );
 };
+
+export const useDeleteCryptoAddress = () => {
+  const queryClient = useQueryClient();
+  const headers = configOptions();
+  return useMutation(
+    (values) =>
+      request2
+        .delete(`/delete-crypto-address?=${values}`, {
+          headers: headers,
+        })
+        .then((res) => res.data),
+    {
+      onSuccess: () => {
+        queryClient.invalidateQueries("fee-costs");
+      },
+    }
+  );
+};
