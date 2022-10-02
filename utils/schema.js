@@ -87,3 +87,12 @@ export const updateCryptoAddressSchema = yup
     address: yup.string().required("Wallet address is required"),
   })
   .required();
+
+export const updatePaypalSchema = yup
+  .object({
+    email: yup
+      .string()
+      .required("email address is required")
+      .email("Enter a valid email"),
+  })
+  .required();

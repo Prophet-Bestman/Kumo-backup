@@ -14,6 +14,7 @@ import {
   AddFundWalletFee,
   AddTransactionFee,
   UpdateFundWalletFee,
+  UpdatePaypal,
   UpdateTransactionFees,
   UsdToNaira,
 } from "components/Settings";
@@ -49,6 +50,7 @@ const Settings = () => {
   const [transactionFees, setTransactionFees] = useState([]);
   const [fundWalletFees, setFundWalletFees] = useState([]);
   const [cryptoWallets, setCryptoWallets] = useState([]);
+  const [paypal, setPaypal] = useState(null);
 
   const { isOpen, onOpen, onClose } = useDisclosure();
 
@@ -87,14 +89,17 @@ const Settings = () => {
         feesResp?.data?.filter((item) => item?.name === "crypto_address")[0]
           ?.addresses
       );
+      setPaypal(feesResp?.data?.filter((item) => item?.name === "paypal")[0]);
 
       let allFees = feesResp?.data?.filter(
         (item) =>
           item?.name?.includes("FEE") || item?.name?.includes("TRANSFER")
       );
+
       setTransactionFees(
         allFees?.filter((item) => !item?.name?.includes("FUND_WALLET"))
       );
+
       setFundWalletFees(
         allFees?.filter((item) => item?.name?.includes("FUND_WALLET"))
       );
@@ -151,6 +156,16 @@ const Settings = () => {
           </Box>
         ) : (
           !!usdToNaira?.value && <UsdToNaira data={usdToNaira} />
+        )}
+
+        {loadingFees ? (
+          <Box padding="6" boxShadow="lg" bg="white">
+            <Skeleton h="15px" mt="4" w="50%" />
+            <Skeleton h="30px" mt="4" w="80%" />
+            <Skeleton h="30px" mt="4" />
+          </Box>
+        ) : (
+          !!paypal?.email && <UpdatePaypal data={paypal} />
         )}
 
         {loadingFees ? (

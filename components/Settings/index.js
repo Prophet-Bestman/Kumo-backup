@@ -5,6 +5,7 @@ import AddTransactionFee from "./AddTransactionFee";
 import SellCryptoFee from "./SellCryptoFee";
 import SendCryptoFee from "./SendCryptoFee";
 import UpdateFundWalletFee from "./UpdateFundWalletFees";
+import UpdatePaypal from "./UpdatePaypal";
 import UpdateTransactionFees from "./UpdateTransactionFees";
 
 import UsdToNaira from "./UsdToNaira";
@@ -18,4 +19,5 @@ export {
   UpdateTransactionFees,
   UpdateFundWalletFee,
   AddCryptoAddress,
+  UpdatePaypal,
 };
