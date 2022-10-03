@@ -8,7 +8,11 @@ import {
   MenuList,
   useDisclosure,
 } from "@chakra-ui/react";
-import { useGetAllFees, useUpdateCryptoAddress } from "api/settings";
+import {
+  useGetAllFees,
+  useGetCryptoAddresses,
+  useUpdateCryptoAddress,
+} from "api/settings";
 import {
   AddCryptoAddress,
   AddFundWalletFee,
@@ -72,6 +76,8 @@ const Settings = () => {
   }, []);
 
   const { data: feesResp, isLoading: loadingFees } = useGetAllFees();
+  const { data: cryptoResp, isLoading: loadingCrypto } =
+    useGetCryptoAddresses();
 
   const {
     data: updateResp,
@@ -85,10 +91,10 @@ const Settings = () => {
         feesResp?.data?.filter((item) => item?.name === "usdToNgn")[0]
       );
 
-      setCryptoWallets(
-        feesResp?.data?.filter((item) => item?.name === "crypto_address")[0]
-          ?.addresses
-      );
+      // setCryptoWallets(
+      //   feesResp?.data?.filter((item) => item?.name === "crypto_address")[0]
+      //     ?.addresses
+      // );
       setPaypal(feesResp?.data?.filter((item) => item?.name === "paypal")[0]);
 
       let allFees = feesResp?.data?.filter(
@@ -105,6 +111,12 @@ const Settings = () => {
       );
     }
   }, [feesResp]);
+
+  useEffect(() => {
+    if (!!cryptoResp && cryptoResp?.status === "success") {
+      setCryptoWallets(cryptoResp?.data?.addresses);
+    }
+  }, [cryptoResp]);
 
   useEffect(() => {
     // ===== FILTER LOGIC FOR ADD TRANSACTION FEE MODAL =====
@@ -193,7 +205,7 @@ const Settings = () => {
           )
         )}
 
-        {loadingFees ? (
+        {loadingCrypto ? (
           <Box padding="6" boxShadow="lg" bg="white">
             <Skeleton h="15px" mt="4" w="50%" />
             <Skeleton h="30px" mt="4" w="80%" />

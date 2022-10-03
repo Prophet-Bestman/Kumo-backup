@@ -28,6 +28,15 @@ export const useGetSingleTransaction = (id) => {
   );
 };
 
+export const useGetCryptoAddresses = () => {
+  const headers = configOptions();
+  return useQuery("crypto-addresses", () =>
+    request
+      .get(`/get-crypto-addresses`, { headers: headers })
+      .then((res) => res.data)
+  );
+};
+
 export const useUpdateCryptoAddress = () => {
   const queryClient = useQueryClient();
   const headers = configOptions();
@@ -40,7 +49,7 @@ export const useUpdateCryptoAddress = () => {
         .then((res) => res.data),
     {
       onSuccess: () => {
-        queryClient.invalidateQueries("fee-costs");
+        queryClient.invalidateQueries("crypto-addresses");
       },
     }
   );
@@ -160,13 +169,13 @@ export const useDeleteCryptoAddress = () => {
   return useMutation(
     (values) =>
       request2
-        .delete(`/delete-crypto-address?=${values}`, {
+        .delete(`/delete-crypto-address?coin_name=${values?.coin_name}`, {
           headers: headers,
         })
         .then((res) => res.data),
     {
       onSuccess: () => {
-        queryClient.invalidateQueries("fee-costs");
+        queryClient.invalidateQueries("crypto-addresses");
       },
     }
   );

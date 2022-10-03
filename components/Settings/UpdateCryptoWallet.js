@@ -60,7 +60,7 @@ const UpdateCryptoWallet = ({ options }) => {
   useEffect(() => {
     if (!!selectedOption && !!selectedOption?.address) {
       setValue("address", selectedOption?.address);
-    }
+    } else setValue("address", "");
   }, [selectedOption]);
 
   const {
@@ -108,6 +108,8 @@ const UpdateCryptoWallet = ({ options }) => {
     if (!!deleteResp && deleteResp?.status === "success") {
       successToast("Deleted Wallet Address");
       resetDelete();
+      setSelectedOption(null);
+
       onClose();
     }
   }, [deleteResp]);
@@ -184,13 +186,7 @@ const UpdateCryptoWallet = ({ options }) => {
           Update
         </Button>
         {!!selectedOption?.coin_name && (
-          <Button
-            mt="4"
-            h="48px"
-            variant="outline"
-            isLoading={isLoading}
-            onClick={onOpen}
-          >
+          <Button mt="4" h="48px" variant="outline" onClick={onOpen}>
             Delete
           </Button>
         )}
