@@ -1,6 +1,6 @@
 import { Box, Grid, TabPanel, TabPanels, Tabs } from "@chakra-ui/react";
-import { useGetTransactions } from "api/transactions";
-import { CustomTabList } from "components";
+import { useGetTransactions, useGetTransactionsSize } from "api/transactions";
+import { CustomTabList, Pagination } from "components";
 import {
   DebitAndCredit,
   TransactionsTable,
@@ -11,6 +11,8 @@ import React, { useEffect, useState } from "react";
 const TransactionsPage = () => {
   const { setActiveNav } = useNavContext();
   const [transactions, setTransactions] = useState([]);
+  const [page, setPage] = useState(1);
+  const [pages, setPages] = useState(1);
 
   useEffect(() => {
     setActiveNav(navStates?.transactions);
@@ -18,7 +20,24 @@ const TransactionsPage = () => {
 
   const tabs = [{ title: "All" }, { title: "Debits" }, { title: "Credits" }];
 
-  const { data: transactionsResp } = useGetTransactions();
+  const {
+    data: transactionsResp,
+    isLoading,
+    refetch,
+  } = useGetTransactions(page);
+
+  //  ============= PAGINATION LOGIC ===============
+  const { data: countResp } = useGetTransactionsSize();
+
+  useEffect(() => {
+    if (!!countResp && countResp?.status === "success") {
+      setPages(Math.ceil(countResp?.data?.total / 20));
+    }
+  }, [countResp]);
+
+  useEffect(() => {
+    refetch();
+  }, [page]);
 
   useEffect(() => {
     if (!!transactionsResp && transactionsResp?.status === "success") {
@@ -36,18 +55,24 @@ const TransactionsPage = () => {
       <Tabs variant="unstyled" mt="50px">
         <Grid templateColumns="repeat(2, 1fr)">
           <DebitAndCredit />
-          <CustomTabList
+          {/* <CustomTabList
             tabList={tabs}
             size="lg"
             px="70px"
             justify="space-between"
             tabWidth="full"
-          />
+          /> */}
         </Grid>
         <TabPanels>
           <TabPanel>
             <Box mt="4">
-              <TransactionsTable transactions={transactions} />
+              <TransactionsTable
+                page={page}
+                pages={pages}
+                transactions={transactions}
+                isLoading={isLoading}
+              />
+              <Pagination page={page} pages={pages} setPage={setPage} />
             </Box>
           </TabPanel>
         </TabPanels>

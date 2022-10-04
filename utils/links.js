@@ -30,6 +30,11 @@ export const navs = [
     link: "/agents",
     icon: <FaUserTie />,
   },
+  {
+    name: "Logs",
+    link: "/logs",
+    icon: <FaUserTie />,
+  },
   // {
   //   name: "Buy & Sell Cyrpto",
   //   link: "/buy-and-sell",

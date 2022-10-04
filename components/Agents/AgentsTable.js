@@ -26,7 +26,7 @@ const AgentsTable = ({ agents, isLoading }) => {
       shadow="rgba(0, 0, 0, 0.1) 0px 1px 2px 0px;"
       overflowY="auto"
       sx={customScrollBar3}
-      h="410px"
+      maxH="410px"
       p="4"
     >
       {isLoading ? (
