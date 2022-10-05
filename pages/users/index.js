@@ -8,8 +8,8 @@ import {
   Tag,
   Text,
 } from "@chakra-ui/react";
-import { useGetUsers } from "api/users";
-import { FilterMenu } from "components";
+import { useGetUsers, useGetUsersSize } from "api/users";
+import { FilterMenu, Pagination } from "components";
 import { UsersTable } from "components/Users";
 import { navStates, useNavContext } from "context/NavProvider";
 import React, { useEffect, useState } from "react";
@@ -29,10 +29,25 @@ const filterList = [
 const Users = () => {
   const { setActiveNav } = useNavContext();
   const [users, setUsers] = useState();
+  const [page, setPage] = useState(1);
+  const [pages, setPages] = useState(1);
   const [filters, setFilters] = useState(filterList);
   const [filterObjs, setFilterObjs] = useState([]);
 
-  const { data: usersResp, isLoading } = useGetUsers();
+  const { data: usersResp, isLoading } = useGetUsers(page);
+
+  //  ============= PAGINATION LOGIC ===============
+  const { data: countResp, refetch } = useGetUsersSize();
+
+  useEffect(() => {
+    if (!!countResp && countResp?.status === "success") {
+      setPages(Math.ceil(countResp?.data?.total / 20));
+    }
+  }, [countResp]);
+
+  useEffect(() => {
+    refetch();
+  }, [page]);
 
   useEffect(() => {
     setActiveNav(navStates?.users);
@@ -90,6 +105,7 @@ const Users = () => {
           ))}
       </Flex>
       <UsersTable users={users} isLoading={isLoading} />
+      <Pagination page={page} pages={pages} setPage={setPage} />
     </Box>
   );
 };

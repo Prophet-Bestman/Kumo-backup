@@ -3,7 +3,7 @@ import Link from "next/link";
 import React from "react";
 import UpdateAgent from "./UpdateAgent";
 
-const AgentRow = ({ agent }) => {
+const AgentRow = ({ agent, number }) => {
   const {
     agent_name,
     account_name,
@@ -17,6 +17,7 @@ const AgentRow = ({ agent }) => {
   return (
     //   <TransactionRow  transaction={transaction} />
     <Tr key={agent?._id}>
+      <Td>{number}</Td>
       <Td>{agent_name}</Td>
       <Td>{agent_email}</Td>
       <Td>{agent_phone}</Td>

@@ -1,6 +1,7 @@
 export const customScrollBar = {
   "&::-webkit-scrollbar": {
     width: "4px",
+    height: "4px",
     borderRadius: "24px",
     backgroundColor: `rgba(250, 250, 250, 249.005)`,
   },
@@ -13,6 +14,7 @@ export const customScrollBar = {
 export const customScrollBar2 = {
   "&::-webkit-scrollbar": {
     width: "6px",
+    height: "4px",
     borderRadius: "200px",
     backgroundColor: `rgba(0, 0, 0, 0.005)`,
   },
@@ -25,6 +27,7 @@ export const customScrollBar3 = {
   ...customScrollBar2,
   "&::-webkit-scrollbar": {
     width: "4px",
+    height: "4px",
   },
 };
 

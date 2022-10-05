@@ -26,7 +26,7 @@ const AgentsTable = ({ agents, isLoading }) => {
       shadow="rgba(0, 0, 0, 0.1) 0px 1px 2px 0px;"
       overflowY="auto"
       sx={customScrollBar3}
-      h="410px"
+      maxH="410px"
       p="4"
     >
       {isLoading ? (
@@ -36,6 +36,7 @@ const AgentsTable = ({ agents, isLoading }) => {
         <Table w="full" variant="unstyled" size="sm">
           <Thead fontSize="12px">
             <Tr>
+              <Th w="50px">S/N</Th>
               <Th>Name</Th>
               <Th>Email</Th>
               <Th>Phone Number</Th>
@@ -45,8 +46,8 @@ const AgentsTable = ({ agents, isLoading }) => {
           </Thead>
           <Tbody>
             {agents?.length > 0 &&
-              agents.map((agent) => (
-                <AgentRow agent={agent} key={agent?._id} />
+              agents.map((agent, i) => (
+                <AgentRow agent={agent} key={agent?._id} number={i + 1} />
               ))}
           </Tbody>
         </Table>

@@ -10,11 +10,22 @@ const request1 = axios.create({
   baseURL: baseUrl + "/admin/agents",
 });
 
-export const useGetAgents = () => {
+export const useGetAgents = (page) => {
   const headers = configOptions();
-  return useQuery("agents", () =>
+  return useQuery(["agents", page], () =>
     request
-      .get(`/get-kumo-agents`, { headers: headers })
+      .get(`/get-kumo-agents?item_per_page=20&page=${page}`, {
+        headers: headers,
+      })
+      .then((res) => res.data)
+  );
+};
+
+export const useGetAgentsSize = () => {
+  const headers = configOptions();
+  return useQuery("agents-size", () =>
+    request
+      .get(`/get-kumo-agents?component=count`, { headers: headers })
       .then((res) => res.data)
   );
 };

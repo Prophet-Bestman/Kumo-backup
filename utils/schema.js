@@ -74,3 +74,25 @@ export const updateSendCryptoFeeSchema = yup
     cost: yup.string().required("Value is required"),
   })
   .required();
+
+export const addCryptoAddressSchema = yup
+  .object({
+    coin_name: yup.string().required("Value is required"),
+    address: yup.string().required("Wallet address is required"),
+  })
+  .required();
+
+export const updateCryptoAddressSchema = yup
+  .object({
+    address: yup.string().required("Wallet address is required"),
+  })
+  .required();
+
+export const updatePaypalSchema = yup
+  .object({
+    email: yup
+      .string()
+      .required("email address is required")
+      .email("Enter a valid email"),
+  })
+  .required();

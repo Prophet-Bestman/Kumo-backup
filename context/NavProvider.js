@@ -19,6 +19,7 @@ export const navStates = {
   users: "Users",
   agents: "Agents",
   settings: "Settings",
+  logs: "Logs",
 };
 
 const NavProvider = ({ children }) => {

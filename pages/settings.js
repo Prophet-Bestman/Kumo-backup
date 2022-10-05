@@ -8,11 +8,17 @@ import {
   MenuList,
   useDisclosure,
 } from "@chakra-ui/react";
-import { useGetAllFees, useUpdateCryptoAddress } from "api/settings";
 import {
+  useGetAllFees,
+  useGetCryptoAddresses,
+  useUpdateCryptoAddress,
+} from "api/settings";
+import {
+  AddCryptoAddress,
   AddFundWalletFee,
   AddTransactionFee,
   UpdateFundWalletFee,
+  UpdatePaypal,
   UpdateTransactionFees,
   UsdToNaira,
 } from "components/Settings";
@@ -21,6 +27,7 @@ import React, { useEffect, useState } from "react";
 import { Skeleton } from "@chakra-ui/react";
 import { FloatingAddBtn } from "components";
 import { customScrollBar3 } from "utils/styles";
+import UpdateCryptoWallet from "components/Settings/UpdateCryptoWallet";
 
 const initialTransactionFeeOptions = [
   "BUY_CRYPTO_FEE",
@@ -46,12 +53,21 @@ const Settings = () => {
   const [addFundWalletFeeOptions, setAddFundWalletFeeOptions] = useState([]);
   const [transactionFees, setTransactionFees] = useState([]);
   const [fundWalletFees, setFundWalletFees] = useState([]);
+  const [cryptoWallets, setCryptoWallets] = useState([]);
+  const [paypal, setPaypal] = useState(null);
 
   const { isOpen, onOpen, onClose } = useDisclosure();
+
   const {
     isOpen: isWalletFeeOpen,
     onOpen: onWalletFeeOpen,
     onClose: onWalletFeeClose,
+  } = useDisclosure();
+
+  const {
+    isOpen: isAddCryptoOpen,
+    onOpen: onAddCryptoOpen,
+    onClose: onAddCryptoClose,
   } = useDisclosure();
 
   const { setActiveNav } = useNavContext();
@@ -60,6 +76,8 @@ const Settings = () => {
   }, []);
 
   const { data: feesResp, isLoading: loadingFees } = useGetAllFees();
+  const { data: cryptoResp, isLoading: loadingCrypto } =
+    useGetCryptoAddresses();
 
   const {
     data: updateResp,
@@ -73,18 +91,32 @@ const Settings = () => {
         feesResp?.data?.filter((item) => item?.name === "usdToNgn")[0]
       );
 
+      // setCryptoWallets(
+      //   feesResp?.data?.filter((item) => item?.name === "crypto_address")[0]
+      //     ?.addresses
+      // );
+      setPaypal(feesResp?.data?.filter((item) => item?.name === "paypal")[0]);
+
       let allFees = feesResp?.data?.filter(
         (item) =>
           item?.name?.includes("FEE") || item?.name?.includes("TRANSFER")
       );
+
       setTransactionFees(
         allFees?.filter((item) => !item?.name?.includes("FUND_WALLET"))
       );
+
       setFundWalletFees(
         allFees?.filter((item) => item?.name?.includes("FUND_WALLET"))
       );
     }
   }, [feesResp]);
+
+  useEffect(() => {
+    if (!!cryptoResp && cryptoResp?.status === "success") {
+      setCryptoWallets(cryptoResp?.data?.addresses);
+    }
+  }, [cryptoResp]);
 
   useEffect(() => {
     // ===== FILTER LOGIC FOR ADD TRANSACTION FEE MODAL =====
@@ -145,6 +177,16 @@ const Settings = () => {
             <Skeleton h="30px" mt="4" />
           </Box>
         ) : (
+          !!paypal?.email && <UpdatePaypal data={paypal} />
+        )}
+
+        {loadingFees ? (
+          <Box padding="6" boxShadow="lg" bg="white">
+            <Skeleton h="15px" mt="4" w="50%" />
+            <Skeleton h="30px" mt="4" w="80%" />
+            <Skeleton h="30px" mt="4" />
+          </Box>
+        ) : (
           !!transactionFees &&
           transactionFees?.length > 0 && (
             <UpdateTransactionFees options={transactionFees} />
@@ -162,6 +204,19 @@ const Settings = () => {
             <UpdateFundWalletFee options={fundWalletFees} />
           )
         )}
+
+        {loadingCrypto ? (
+          <Box padding="6" boxShadow="lg" bg="white">
+            <Skeleton h="15px" mt="4" w="50%" />
+            <Skeleton h="30px" mt="4" w="80%" />
+            <Skeleton h="30px" mt="4" />
+          </Box>
+        ) : (
+          !!cryptoWallets &&
+          cryptoWallets?.length > 0 && (
+            <UpdateCryptoWallet options={cryptoWallets} />
+          )
+        )}
       </Grid>
       <Box pos="fixed" bottom={8} right={8}>
         <Menu>
@@ -175,16 +230,13 @@ const Settings = () => {
             maxH="200px"
             overflowY="auto"
             sx={customScrollBar3}
+            fontWeight={500}
+            fontSize="14px"
           >
-            <MenuItem fontWeight={500} fontSize="14px" onClick={onOpen}>
-              Add Transaction Fee
-            </MenuItem>
-            <MenuItem
-              fontWeight={500}
-              fontSize="14px"
-              onClick={onWalletFeeOpen}
-            >
-              Add Fund Wallet Fee
+            <MenuItem onClick={onOpen}>Add Transaction Fee</MenuItem>
+            <MenuItem onClick={onWalletFeeOpen}>Add Fund Wallet Fee</MenuItem>
+            <MenuItem onClick={onAddCryptoOpen}>
+              Add Crypto Wallet Address
             </MenuItem>
           </MenuList>
         </Menu>
@@ -203,6 +255,10 @@ const Settings = () => {
           onClose={onWalletFeeClose}
           options={addFundWalletFeeOptions}
         />
+      )}
+
+      {isAddCryptoOpen && (
+        <AddCryptoAddress isOpen={isAddCryptoOpen} onClose={onAddCryptoClose} />
       )}
     </Box>
   );

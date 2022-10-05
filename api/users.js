@@ -10,7 +10,18 @@ const request = axios.create({
 export const useGetUsers = () => {
   const headers = configOptions();
   return useQuery("users", () =>
-    request.get(`/get-users`, { headers: headers }).then((res) => res.data)
+    request
+      .get(`/get-users?item_per_page=20`, { headers: headers })
+      .then((res) => res.data)
+  );
+};
+
+export const useGetUsersSize = () => {
+  const headers = configOptions();
+  return useQuery("users-size", () =>
+    request
+      .get(`/get-users?component=count`, { headers: headers })
+      .then((res) => res.data)
   );
 };
 

@@ -9,6 +9,7 @@ import FloatingAddBtn from "./FloatingAddBtn";
 import ModalCard from "./ModalCard";
 import LargeHeading from "./LargeHeading";
 import FilterMenu from "./FilterMenu";
+import Pagination from "./Pagination";
 
 export {
   CustomTabList,
@@ -22,4 +23,5 @@ export {
   ModalCard,
   LargeHeading,
   FilterMenu,
+  Pagination,
 };

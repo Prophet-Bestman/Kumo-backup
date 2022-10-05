@@ -28,6 +28,15 @@ export const useGetSingleTransaction = (id) => {
   );
 };
 
+export const useGetCryptoAddresses = () => {
+  const headers = configOptions();
+  return useQuery("crypto-addresses", () =>
+    request
+      .get(`/get-crypto-addresses`, { headers: headers })
+      .then((res) => res.data)
+  );
+};
+
 export const useUpdateCryptoAddress = () => {
   const queryClient = useQueryClient();
   const headers = configOptions();
@@ -40,7 +49,7 @@ export const useUpdateCryptoAddress = () => {
         .then((res) => res.data),
     {
       onSuccess: () => {
-        queryClient.invalidateQueries("fee-costs");
+        queryClient.invalidateQueries("crypto-addresses");
       },
     }
   );
@@ -53,6 +62,24 @@ export const useUpdateUsdToDollar = () => {
     (values) =>
       request2
         .put(`/update-kumo-usd-ngn`, values, {
+          headers: headers,
+        })
+        .then((res) => res.data),
+    {
+      onSuccess: () => {
+        queryClient.invalidateQueries("fee-costs");
+      },
+    }
+  );
+};
+
+export const useUpdatePaypal = () => {
+  const queryClient = useQueryClient();
+  const headers = configOptions();
+  return useMutation(
+    (values) =>
+      request2
+        .put(`/update-paypal`, values, {
           headers: headers,
         })
         .then((res) => res.data),
@@ -131,6 +158,24 @@ export const useUpdateFundWalletFee = () => {
     {
       onSuccess: () => {
         queryClient.invalidateQueries("fee-costs");
+      },
+    }
+  );
+};
+
+export const useDeleteCryptoAddress = () => {
+  const queryClient = useQueryClient();
+  const headers = configOptions();
+  return useMutation(
+    (values) =>
+      request2
+        .delete(`/delete-crypto-address?coin_name=${values?.coin_name}`, {
+          headers: headers,
+        })
+        .then((res) => res.data),
+    {
+      onSuccess: () => {
+        queryClient.invalidateQueries("crypto-addresses");
       },
     }
   );
