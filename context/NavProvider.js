@@ -14,12 +14,12 @@ export const navStates = {
   transactions: "Transactions",
   referrals: "My Referrals",
   loans: "Take Loans",
-  investment: "Investment",
   account: "Account Settings",
   users: "Users",
   agents: "Agents",
   settings: "Settings",
   logs: "Logs",
+  investments: "Investments",
 };
 
 const NavProvider = ({ children }) => {

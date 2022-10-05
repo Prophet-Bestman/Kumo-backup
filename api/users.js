@@ -1,5 +1,5 @@
 import axios from "axios";
-import { useQuery } from "react-query";
+import { useMutation, useQuery, useQueryClient } from "react-query";
 import { baseUrl } from "./baseUrl";
 import configOptions from "./config";
 
@@ -34,5 +34,23 @@ export const useSingleGetUser = (id, options) => {
         .get(`/get-user/${id || ""}`, { headers: headers })
         .then((res) => res.data),
     { ...options }
+  );
+};
+
+export const useDeleteUser = () => {
+  const queryClient = useQueryClient();
+  const headers = configOptions();
+  return useMutation(
+    (values) =>
+      request
+        .delete(`/delete-user/${values}`, {
+          headers: headers,
+        })
+        .then((res) => res.data),
+    {
+      onSuccess: () => {
+        queryClient.invalidateQueries("users");
+      },
+    }
   );
 };

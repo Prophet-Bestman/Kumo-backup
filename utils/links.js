@@ -1,4 +1,4 @@
-import { GiSwapBag } from "react-icons/gi";
+import { GiPayMoney, GiSwapBag } from "react-icons/gi";
 import { FaCoins, FaMoneyBillWaveAlt, FaUserTie } from "react-icons/fa";
 import { IoPeople, IoPeopleSharp } from "react-icons/io5";
 import {
@@ -8,6 +8,7 @@ import {
 } from "react-icons/ri";
 import { BiTransfer, BiTrendingUp } from "react-icons/bi";
 import { MdManageAccounts } from "react-icons/md";
+import { TiDocumentText } from "react-icons/ti";
 
 export const navs = [
   {
@@ -33,7 +34,7 @@ export const navs = [
   {
     name: "Logs",
     link: "/logs",
-    icon: <FaUserTie />,
+    icon: <TiDocumentText />,
   },
   // {
   //   name: "Buy & Sell Cyrpto",
@@ -60,6 +61,11 @@ export const navs = [
     name: "Transactions",
     link: "/transactions",
     icon: <BiTransfer />,
+  },
+  {
+    name: "Investments",
+    link: "/investments",
+    icon: <GiPayMoney />,
   },
   // {
   //   name: "My Referrals",

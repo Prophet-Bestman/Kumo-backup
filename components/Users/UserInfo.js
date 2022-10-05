@@ -1,6 +1,18 @@
-import { Avatar, Flex, Grid, GridItem, Text, useToast } from "@chakra-ui/react";
-import React, { useRef } from "react";
-import { FaCopy } from "react-icons/fa";
+import {
+  Avatar,
+  Button,
+  Flex,
+  Grid,
+  GridItem,
+  Text,
+  useDisclosure,
+  useToast,
+} from "@chakra-ui/react";
+import { useRouter } from "next/router";
+import { useDeleteUser } from "api/users";
+import ConfirmModal from "components/ConfirmModal";
+import React, { useEffect, useRef } from "react";
+import { handleRequestError } from "utils/helpers";
 
 const UserInfo = ({ user }) => {
   const {
@@ -17,6 +29,14 @@ const UserInfo = ({ user }) => {
     phone_number_verified,
     _id,
   } = user;
+
+  const router = useRouter();
+
+  const {
+    isOpen: isDeleteOpen,
+    onClose: onDeleteClose,
+    onOpen: onDeleteOpen,
+  } = useDisclosure();
 
   const toast = useToast();
 
@@ -47,6 +67,31 @@ const UserInfo = ({ user }) => {
     e.target.focus();
     successToast();
   }
+
+  const {
+    mutate: deleteUser,
+    data: deleteResp,
+    error: deleteError,
+    isLoading: deleting,
+    reset: resetDelete,
+  } = useDeleteUser();
+
+  const handleDelete = () => {
+    deleteUser(_id);
+  };
+
+  useEffect(() => {
+    if (!!deleteResp && deleteResp?.status === "success") {
+      successToast("Succesfully Deleted User");
+      resetDelete();
+      router.push("/users");
+    }
+  }, [deleteResp]);
+
+  useEffect(() => {
+    handleRequestError(deleteError);
+    resetDelete();
+  }, [deleteError]);
 
   return (
     <Flex
@@ -150,6 +195,23 @@ const UserInfo = ({ user }) => {
           </Text>
         </GridItem>
       </Grid>
+
+      <Button
+        bg="red.600"
+        _hover={{ bg: "red.500" }}
+        mt="10"
+        onClick={onDeleteOpen}
+      >
+        Delete user
+      </Button>
+
+      <ConfirmModal
+        isOpen={isDeleteOpen}
+        onClose={onDeleteClose}
+        primaryFunc={{ name: "Delete User", func: handleDelete }}
+        message={"Are you sure you want to delete this user"}
+        isLoading={deleting}
+      />
     </Flex>
   );
 };

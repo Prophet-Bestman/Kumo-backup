@@ -1,12 +1,7 @@
-import { Box, Grid, GridItem, Text } from "@chakra-ui/react";
-import {
-  useGetAllLogger,
-  useGetAllLoggerSize,
-  useGetSingleLogger,
-} from "api/logger";
-import { ActionOptions, Pagination } from "components";
+import { Box } from "@chakra-ui/react";
+import { useGetAllLogger, useGetAllLoggerSize } from "api/logger";
+import { Pagination } from "components";
 import { LogTable } from "components/Logs";
-import { BuyWaecCard, ConfirmPayment } from "components/PayBills";
 import { navStates, useNavContext } from "context/NavProvider";
 import React, { useEffect, useState } from "react";
 
