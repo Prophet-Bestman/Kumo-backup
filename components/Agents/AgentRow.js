@@ -1,5 +1,5 @@
-import { Button, Tag, Td, Tr, useDisclosure } from "@chakra-ui/react";
-import Link from "next/link";
+import { Button, Td, Tr, useDisclosure } from "@chakra-ui/react";
+
 import React from "react";
 import UpdateAgent from "./UpdateAgent";
 

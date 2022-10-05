@@ -48,8 +48,14 @@ export function underscoreToSpace(str = "") {
 export const getStatusColor = (status) => {
   if (status?.toLocaleLowerCase() === statuses?.pending)
     return statusColors?.pending;
-  if (status?.toLocaleLowerCase() === statuses?.failed)
+  if (
+    status?.toLocaleLowerCase() === statuses?.failed ||
+    status?.toLocaleLowerCase() === statuses?.inactive
+  )
     return statusColors?.failed;
-  if (status?.toLocaleLowerCase() === statuses?.fulfilled)
+  if (
+    status?.toLocaleLowerCase() === statuses?.fulfilled ||
+    status?.toLocaleLowerCase() === statuses?.active
+  )
     return statusColors?.fulfilled;
 };

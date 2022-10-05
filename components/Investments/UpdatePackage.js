@@ -4,28 +4,37 @@ import {
   Grid,
   Input,
   Stack,
+  Switch,
   Text,
   useDisclosure,
   useToast,
 } from "@chakra-ui/react";
 import { yupResolver } from "@hookform/resolvers/yup";
-import { useDeleteAgent, useUpdateAgent } from "api/agents";
+import { useDeletePackage, useUpdatePackage } from "api/investment";
 import { ModalCard, LargeHeading, InputError, ConfirmModal } from "components";
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
 import { handleRequestError } from "utils/helpers";
-import { updateAgentSchema } from "utils/schema";
+import { updatePackageSchema } from "utils/schema";
 import { customScrollBar3 } from "utils/styles";
 
-const UpdateAgent = ({ isOpen, onClose, agent }) => {
+const UpdatePackage = ({ isOpen, onClose, singlePackage }) => {
+  const [status, setStatus] = useState(singlePackage?.status);
+
   const {
     register,
     handleSubmit,
     formState: { errors },
   } = useForm({
-    resolver: yupResolver(updateAgentSchema),
-    defaultValues: { ...agent },
+    resolver: yupResolver(updatePackageSchema),
+    defaultValues: { ...singlePackage },
   });
+
+  const handleChangeStatus = () => {
+    if (status === "active") {
+      setStatus("inactive");
+    } else setStatus("active");
+  };
 
   const {
     isOpen: isDeleteOpen,
@@ -49,36 +58,39 @@ const UpdateAgent = ({ isOpen, onClose, agent }) => {
   };
 
   const {
-    mutate: updateAgent,
+    mutate: updatePackage,
     data: updateResp,
     error: updateError,
     isLoading,
     reset,
-  } = useUpdateAgent();
+  } = useUpdatePackage();
 
   const {
-    mutate: deleteAgent,
+    mutate: deletePackage,
     data: deleteResp,
     error: deleteError,
     isLoading: deleting,
     reset: resetDelete,
-  } = useDeleteAgent();
+  } = useDeletePackage();
 
-  const handleUpdateAgent = (data) => {
+  const handleUpdatePackage = (data) => {
     const payload = {
-      _id: agent?._id,
-      data: data,
+      id: singlePackage?._id,
+      data: {
+        ...data,
+        status,
+      },
     };
-    updateAgent(payload);
+    updatePackage(payload);
   };
 
   const handleDelete = () => {
-    deleteAgent(agent?._id);
+    deletePackage(singlePackage?._id);
   };
 
   useEffect(() => {
     if (!!updateResp && updateResp?.status === "success") {
-      successToast("Succesfully Updated Agent");
+      successToast("Succesfully Updated Package");
       reset();
       onClose();
     }
@@ -86,7 +98,7 @@ const UpdateAgent = ({ isOpen, onClose, agent }) => {
 
   useEffect(() => {
     if (!!deleteResp && deleteResp?.status === "success") {
-      successToast("Succesfully Deleted Agent");
+      successToast("Succesfully Deleted Package");
       resetDelete();
       onClose();
     }
@@ -105,51 +117,44 @@ const UpdateAgent = ({ isOpen, onClose, agent }) => {
   return (
     <ModalCard isOpen={isOpen} onClose={onClose}>
       <Box p="4" h="80vh" overflowY="auto" sx={customScrollBar3}>
-        <LargeHeading>Update Agent</LargeHeading>
+        <LargeHeading>Update Package</LargeHeading>
 
-        <form onSubmit={handleSubmit(handleUpdateAgent)}>
-          <Grid my="6" gap="3">
+        <form onSubmit={handleSubmit(handleUpdatePackage)}>
+          <Grid rowGap="4" my="12">
             <Stack>
-              <Text fontSize="12px">Agent Full Name</Text>
-              <Input placeholder="Agent Name" {...register("agent_name")} />
-              <InputError msg={errors?.agent_name?.message} />
+              <Text fontSize="12px">Name</Text>
+              <Input {...register("package_name")} />
+              <InputError msg={errors?.package_name?.message} />
+            </Stack>
+
+            <Stack>
+              <Text fontSize="12px">Package Apr</Text>
+              <Input {...register("package_apr")} />
+              <InputError msg={errors?.package_apr?.message} />
             </Stack>
             <Stack>
-              <Text fontSize="12px">Agent Email</Text>
-              <Input
-                placeholder="agent@email.com"
-                type="email"
-                {...register("agent_email")}
+              <Text fontSize="12px">Max Amount</Text>
+              <Input {...register("max_amount")} type="number" />
+              <InputError msg={errors?.max_amount?.message} />
+            </Stack>
+            <Stack>
+              <Text fontSize="12px">Min Amount</Text>
+              <Input {...register("min_amount")} type="number" />
+              <InputError msg={errors?.min_amount?.message} />
+            </Stack>
+            <Stack>
+              <Text fontSize="12px">Is Fixed?</Text>
+              <Switch {...register("isFixed")} />
+              <InputError msg={errors?.isFixed?.message} />
+            </Stack>
+            <Stack>
+              <Text fontSize="12px">Status</Text>
+              <Switch
+                value={status}
+                isChecked={status === "active"}
+                onChange={handleChangeStatus}
               />
-              <InputError msg={errors?.agent_email?.message} />
-            </Stack>
-            <Stack>
-              <Text fontSize="12px">Agent Phone No.</Text>
-              <Input
-                placeholder="080X XXX XXXX"
-                type="tel"
-                {...register("agent_phone")}
-              />
-              <InputError msg={errors?.agent_phone?.message} />
-            </Stack>
-            <Stack>
-              <Text fontSize="12px">Agent Account Name</Text>
-              <Input placeholder="Account Name" {...register("account_name")} />
-              <InputError msg={errors?.account_name?.message} />
-            </Stack>
-            <Stack>
-              <Text fontSize="12px">Agent Bank Name</Text>
-              <Input placeholder="Bank Name" {...register("bank_name")} />
-              <InputError msg={errors?.bank_name?.message} />
-            </Stack>
-            <Stack>
-              <Text fontSize="12px">Agent Account Number</Text>
-              <Input
-                placeholder="102XXXXXXX"
-                type="tel"
-                {...register("account_number")}
-              />
-              <InputError msg={errors?.account_number?.message} />
+              <InputError msg={errors?.status?.message} />
             </Stack>
           </Grid>
 
@@ -162,7 +167,7 @@ const UpdateAgent = ({ isOpen, onClose, agent }) => {
             isLoading={deleting}
             onClick={onDeleteOpen}
           >
-            Delete Agent
+            Delete Package
           </Button>
         </form>
       </Box>
@@ -170,12 +175,12 @@ const UpdateAgent = ({ isOpen, onClose, agent }) => {
       <ConfirmModal
         isOpen={isDeleteOpen}
         onClose={onDeleteClose}
-        primaryFunc={{ name: "Delete Agent", func: handleDelete }}
-        message={"Are you sure you want to delete this agent"}
+        primaryFunc={{ name: "Delete package", func: handleDelete }}
+        message={"Are you sure you want to delete this package"}
         isLoading={deleting}
       />
     </ModalCard>
   );
 };
 
-export default UpdateAgent;
+export default UpdatePackage;

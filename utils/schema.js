@@ -109,3 +109,12 @@ export const createPackageSchema = yup
     isFixed: yup.boolean().required("Min Amount  is required"),
   })
   .required();
+export const updatePackageSchema = yup
+  .object({
+    package_name: yup.string().required("Package name is required"),
+    package_apr: yup.string().required("Package Apr is required"),
+    max_amount: yup.string().required("Max Amount  is required"),
+    min_amount: yup.string().required("Min Amount  is required"),
+    isFixed: yup.boolean().required("Min Amount  is required"),
+  })
+  .required();

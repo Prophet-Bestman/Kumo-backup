@@ -5,19 +5,43 @@ import {
   MenuButton,
   MenuItem,
   MenuList,
+  TabPanel,
+  TabPanels,
+  Tabs,
   useDisclosure,
 } from "@chakra-ui/react";
-import { FloatingAddBtn } from "components";
+import { useGetPackages } from "api/investment";
+import { CustomTabList, FloatingAddBtn } from "components";
 import { CreatePackage } from "components/Investments";
-import React from "react";
+import PackagesTable from "components/Investments/PackagesTable";
+import React, { useEffect, useState } from "react";
 import { customScrollBar3 } from "utils/styles";
 
+const tabs = [{ title: "Packages" }];
+
 const Investments = () => {
+  const [packages, setPackages] = useState([]);
   const { isOpen, onClose, onOpen } = useDisclosure();
+
+  const { data: packagesResp, isLoading } = useGetPackages();
+
+  useEffect(() => {
+    if (!!packagesResp && packagesResp?.status === "success") {
+      setPackages(packagesResp?.data);
+    }
+  }, [packagesResp]);
 
   return (
     <Box p="6">
       {/* ========= ADD MENU ======= */}
+      <Tabs>
+        <CustomTabList tabList={tabs} />
+        <TabPanels>
+          <TabPanel>
+            {<PackagesTable isLoading={isLoading} packages={packages} />}
+          </TabPanel>
+        </TabPanels>
+      </Tabs>
       <Box pos="fixed" bottom={8} right={8}>
         <Menu>
           <MenuButton variant="unstyled" as={Button}>
