@@ -109,6 +109,7 @@ export const createPackageSchema = yup
     isFixed: yup.boolean().required("Min Amount  is required"),
   })
   .required();
+
 export const updatePackageSchema = yup
   .object({
     package_name: yup.string().required("Package name is required"),
@@ -116,5 +117,19 @@ export const updatePackageSchema = yup
     max_amount: yup.string().required("Max Amount  is required"),
     min_amount: yup.string().required("Min Amount  is required"),
     isFixed: yup.boolean().required("Min Amount  is required"),
+  })
+  .required();
+
+export const addTokenSchema = yup
+  .object({
+    token_name: yup.string().required("Token Name is required"),
+    token_code: yup.string().required("Token Code is required"),
+  })
+  .required();
+
+export const fundWalletSchema = yup
+  .object({
+    currency_name: yup.string().required("Currency is required"),
+    amount: yup.string().required("Amount is required"),
   })
   .required();

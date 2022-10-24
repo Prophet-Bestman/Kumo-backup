@@ -50,11 +50,13 @@ export const getStatusColor = (status) => {
     return statusColors?.pending;
   if (
     status?.toLocaleLowerCase() === statuses?.failed ||
-    status?.toLocaleLowerCase() === statuses?.inactive
+    status?.toLocaleLowerCase() === statuses?.inactive ||
+    status?.toLocaleLowerCase() === statuses?.terminated
   )
     return statusColors?.failed;
   if (
     status?.toLocaleLowerCase() === statuses?.fulfilled ||
+    status?.toLocaleLowerCase() === statuses?.ongoing ||
     status?.toLocaleLowerCase() === statuses?.active
   )
     return statusColors?.fulfilled;

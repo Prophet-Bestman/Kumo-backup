@@ -4,12 +4,17 @@ import { useRouter } from "next/router";
 import React, { useEffect, useState } from "react";
 import { SkeletonCircle, SkeletonText } from "@chakra-ui/react";
 import { UserCards, UserInfo, UserWallets } from "components/Users";
+import { useGetTransactions } from "api/transactions";
 
 const UserDetailsPage = () => {
   const router = useRouter();
   const [user, setUser] = useState(null);
 
   const { userDetails } = router.query;
+
+  const { data } = useGetTransactions();
+
+  // console.log(data);
 
   const { data: userResp, isLoading } = useSingleGetUser(userDetails);
 

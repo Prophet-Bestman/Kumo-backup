@@ -10,26 +10,32 @@ import {
   Tabs,
   useDisclosure,
 } from "@chakra-ui/react";
-import { useGetPackages } from "api/investment";
+import { useGetInvestments, useGetPackages } from "api/investment";
 import { CustomTabList, FloatingAddBtn } from "components";
 import { CreatePackage } from "components/Investments";
+import InvestmentsTable from "components/Investments/InvestmentsTable";
 import PackagesTable from "components/Investments/PackagesTable";
 import React, { useEffect, useState } from "react";
 import { customScrollBar3 } from "utils/styles";
 
-const tabs = [{ title: "Packages" }];
+const tabs = [{ title: "Packages" }, { title: "Investments" }];
 
 const Investments = () => {
   const [packages, setPackages] = useState([]);
+  const [investments, setInvestments] = useState([]);
   const { isOpen, onClose, onOpen } = useDisclosure();
 
   const { data: packagesResp, isLoading } = useGetPackages();
+  const { data: investmentsResp } = useGetInvestments();
 
   useEffect(() => {
     if (!!packagesResp && packagesResp?.status === "success") {
       setPackages(packagesResp?.data);
     }
-  }, [packagesResp]);
+    if (!!investmentsResp && investmentsResp?.status === "success") {
+      setInvestments(investmentsResp?.data);
+    }
+  }, [packagesResp, investmentsResp]);
 
   return (
     <Box p="6">
@@ -39,6 +45,14 @@ const Investments = () => {
         <TabPanels>
           <TabPanel>
             {<PackagesTable isLoading={isLoading} packages={packages} />}
+          </TabPanel>
+          <TabPanel>
+            {
+              <InvestmentsTable
+                isLoading={isLoading}
+                investments={investments}
+              />
+            }
           </TabPanel>
         </TabPanels>
       </Tabs>

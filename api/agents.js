@@ -79,7 +79,7 @@ export const useDeleteAgent = () => {
   return useMutation(
     (values) =>
       request1
-        .delete(`/delete-agent?_id=${values}`, {
+        .delete(`/delete-agents?_id=${values}`, {
           headers: headers,
         })
         .then((res) => res.data),

@@ -11,9 +11,12 @@ export const useGetTransactions = (page) => {
   const headers = configOptions();
   return useQuery(["transactions", page], () =>
     request
-      .get(`/get-transactions?item_per_page=20&page=${page}`, {
-        headers: headers,
-      })
+      .get(
+        `/get-transactions?item_per_page=20&page=${page}&q=${"632c77f56cb347559e9d9420"}`,
+        {
+          headers: headers,
+        }
+      )
       .then((res) => res.data)
   );
 };

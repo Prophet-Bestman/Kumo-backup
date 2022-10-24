@@ -9,7 +9,7 @@ import {
   useToast,
 } from "@chakra-ui/react";
 import { useRouter } from "next/router";
-import { useDeleteUser } from "api/users";
+import { useDeleteUser, useFreezeUser } from "api/users";
 import ConfirmModal from "components/ConfirmModal";
 import React, { useEffect, useRef } from "react";
 import { handleRequestError } from "utils/helpers";
@@ -40,9 +40,10 @@ const UserInfo = ({ user }) => {
 
   const toast = useToast();
 
-  const successToast = () => {
+  const successToast = (msg) => {
     toast({
-      title: "Copied",
+      title: "Successful",
+      description: msg,
       status: "success",
       duration: 3000,
       isClosable: true,
@@ -50,6 +51,8 @@ const UserInfo = ({ user }) => {
       position: "top",
     });
   };
+
+  // console.log(user);
 
   const userIdRef = useRef(null);
   const referralIdRef = useRef(null);
@@ -76,8 +79,33 @@ const UserInfo = ({ user }) => {
     reset: resetDelete,
   } = useDeleteUser();
 
+  const {
+    mutate: freezeUser,
+    data: freezeResp,
+    error: freezeError,
+    isLoading: freezing,
+    reset: resetFreeze,
+  } = useFreezeUser();
+  const {
+    mutate: unfreezeUser,
+    data: unfreezeResp,
+    error: unfreezeError,
+    isLoading: unfreezing,
+    reset: resetUnreeze,
+  } = useFreezeUser();
+
   const handleDelete = () => {
     deleteUser(_id);
+  };
+
+  const handleFreeze = () => {
+    const payload = {
+      data: {
+        user_id: _id,
+        account_email: email,
+      },
+    };
+    unfreezeUser(payload);
   };
 
   useEffect(() => {
@@ -89,9 +117,30 @@ const UserInfo = ({ user }) => {
   }, [deleteResp]);
 
   useEffect(() => {
+    if (!!freezeResp && freezeResp?.status === "success") {
+      successToast("Succesfully Frozen User");
+      resetFreeze();
+    }
+    if (!!unfreezeResp && unfreezeResp?.status === "success") {
+      successToast("Succesfully Unfrozen User");
+      resetUnreeze();
+    }
+  }, [freezeResp, unfreezeResp]);
+
+  useEffect(() => {
     handleRequestError(deleteError);
     resetDelete();
   }, [deleteError]);
+
+  useEffect(() => {
+    handleRequestError(freezeError);
+    resetFreeze();
+  }, [freezeError]);
+
+  useEffect(() => {
+    handleRequestError(unfreezeError);
+    resetUnreeze();
+  }, [unfreezeError]);
 
   return (
     <Flex
@@ -204,7 +253,15 @@ const UserInfo = ({ user }) => {
       >
         Delete user
       </Button>
-
+      <Button
+        my="5"
+        variant="link"
+        color="red.500"
+        onClick={handleFreeze}
+        isLoading={freezing}
+      >
+        Freeze Account
+      </Button>
       <ConfirmModal
         isOpen={isDeleteOpen}
         onClose={onDeleteClose}

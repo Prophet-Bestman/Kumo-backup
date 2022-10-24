@@ -54,3 +54,39 @@ export const useDeleteUser = () => {
     }
   );
 };
+
+export const useFreezeUser = () => {
+  const queryClient = useQueryClient();
+  const headers = configOptions();
+  return useMutation(
+    (values) =>
+      request
+        .put(`/freeze-user-account`, values?.data, {
+          headers: headers,
+        })
+        .then((res) => res.data),
+    {
+      onSuccess: () => {
+        queryClient.invalidateQueries("users");
+      },
+    }
+  );
+};
+
+export const useUnfreezeUser = () => {
+  const queryClient = useQueryClient();
+  const headers = configOptions();
+  return useMutation(
+    (values) =>
+      request
+        .put(`/unfreeze-user-account`, values?.data, {
+          headers: headers,
+        })
+        .then((res) => res.data),
+    {
+      onSuccess: () => {
+        queryClient.invalidateQueries("users");
+      },
+    }
+  );
+};

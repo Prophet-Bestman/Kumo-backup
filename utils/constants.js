@@ -3,6 +3,8 @@ export const statuses = {
   failed: "failed",
   fulfilled: "fulfilled",
   active: "active",
+  terminated: "terminated",
+  ongoing: "ongoing",
   inactive: "inactive",
 };
 
@@ -11,3 +13,5 @@ export const statusColors = {
   failed: "red.400",
   fulfilled: "green.400",
 };
+
+export const currencies = ["bitcoin", "ethereum", "dash", "tron"];
