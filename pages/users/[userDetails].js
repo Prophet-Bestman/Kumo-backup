@@ -16,8 +16,6 @@ const UserDetailsPage = () => {
 
   const { userDetails } = router.query;
 
-  console.log(pages);
-
   const { data: userResp, isLoading } = useSingleGetUser(userDetails);
   const { data: transactionsData, refetch } = useGetTransactions(
     page,
@@ -38,8 +36,6 @@ const UserDetailsPage = () => {
       setPages(Math.ceil(countResp?.data?.total / 30));
     }
   }, [countResp]);
-
-  console.log(countResp);
 
   useEffect(() => {
     refetch();
