@@ -7,22 +7,25 @@ const request = axios.create({
   baseURL: baseUrl + "/admin/transaction",
 });
 
-export const useGetTransactions = (page) => {
+export const useGetTransactions = (page, userID) => {
   const headers = configOptions();
   return useQuery(["transactions", page], () =>
     request
-      .get(`/get-transactions?item_per_page=20&page=${page}`, {
-        headers: headers,
-      })
+      .get(
+        `/get-transactions?item_per_page=30&page=${page}&q=${userID || ""}`,
+        {
+          headers: headers,
+        }
+      )
       .then((res) => res.data)
   );
 };
 
-export const useGetTransactionsSize = () => {
+export const useGetTransactionsSize = (userID) => {
   const headers = configOptions();
   return useQuery(["users"], () =>
     request
-      .get(`/get-transactions?component=count`, {
+      .get(`/get-transactions?component=count&q${userID || ""}`, {
         headers: headers,
       })
       .then((res) => res.data)
