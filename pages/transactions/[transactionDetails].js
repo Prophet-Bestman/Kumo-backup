@@ -21,6 +21,7 @@ import {
 } from "api/transactions";
 import { useSingleGetUser } from "api/users";
 import { InputError, LargeHeading, ModalCard } from "components";
+import Link from "next/link";
 
 import { useRouter } from "next/router";
 import React, { useEffect, useState } from "react";
@@ -91,9 +92,14 @@ const TransactionDetails = () => {
       <Grid templateColumns={"repeat(2, 1fr)"} w={["100%", , , "75%"]} gap="4">
         <GridItem bg="white" px="8">
           <Box my="12" textTransform="capitalize">
-            <Text fontSize="20px" my="2">
-              <strong>User: </strong> {user?.first_name} {user?.last_name}
-            </Text>
+            <Link href={`/users/${userId}`}>
+              <Flex gap="2" fontSize="20px" my="2" cursor="pointer">
+                <strong>User: </strong>
+                <Text textDecor="underline" color="app.primary.700">
+                  {user?.first_name} {user?.last_name}
+                </Text>
+              </Flex>
+            </Link>
             <Text my="2">
               <strong>Type: </strong> {transaction?.type}
             </Text>
@@ -108,9 +114,15 @@ const TransactionDetails = () => {
             <Text fontSize="" my="2" textTransform="capitalize">
               <strong>currency: </strong> {transaction?.currency}
             </Text>
-            <Text fontSize="" my="2">
-              <strong>From: </strong> {transaction?.from}
-            </Text>
+            <Link href={`/users/${userId}`}>
+              <Flex gap="2" fontSize="" my="2" cursor="pointer">
+                <strong>From: </strong>
+                <Text textDecor="underline" color="app.primary.700">
+                  {transaction?.from}
+                </Text>
+              </Flex>
+            </Link>
+
             <Text fontSize="" my="2">
               <strong>to: </strong> {transaction?.to}
             </Text>

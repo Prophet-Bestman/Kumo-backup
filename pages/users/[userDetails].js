@@ -4,11 +4,16 @@ import { useRouter } from "next/router";
 import React, { useEffect, useState } from "react";
 import { SkeletonCircle, SkeletonText } from "@chakra-ui/react";
 import { UserCards, UserInfo, UserWallets } from "components/Users";
-import { useGetTransactions } from "api/transactions";
+
+import { useGetTransactions, useGetTransactionsSize } from "api/transactions";
+import { TransactionsTable } from "components/TransactionHistory";
+import { Pagination } from "components";
 
 const UserDetailsPage = () => {
   const router = useRouter();
   const [user, setUser] = useState(null);
+  const [page, setPage] = useState(1);
+  const [pages, setPages] = useState(1);
 
   const { userDetails } = router.query;
 
@@ -17,12 +22,29 @@ const UserDetailsPage = () => {
   // console.log(data);
 
   const { data: userResp, isLoading } = useSingleGetUser(userDetails);
+  const { data: transactionsData, refetch } = useGetTransactions(
+    page,
+    userDetails
+  );
 
   useEffect(() => {
     if (!!userResp && userResp?.status == "success") {
       setUser(userResp?.data);
     }
   }, [userResp]);
+
+  //  ============= PAGINATION LOGIC ===============
+  const { data: countResp } = useGetTransactionsSize(userDetails);
+
+  useEffect(() => {
+    if (!!countResp && countResp?.status === "success") {
+      setPages(Math.ceil(countResp?.data?.total / 30));
+    }
+  }, [countResp]);
+
+  useEffect(() => {
+    refetch();
+  }, [page]);
 
   return (
     <Box p="6">
@@ -31,6 +53,9 @@ const UserDetailsPage = () => {
         {isLoading ? <UserSkeleton /> : !!user && <UserWallets user={user} />}
         {isLoading ? <UserSkeleton /> : !!user && <UserCards user={user} />}
       </Grid>
+
+      <TransactionsTable transactions={transactionsData?.data} />
+      <Pagination page={page} pages={pages} setPage={setPage} />
     </Box>
   );
 };
