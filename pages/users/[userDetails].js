@@ -48,7 +48,7 @@ const UserDetailsPage = () => {
 
   return (
     <Box p="6">
-      <Grid templateColumns="repeat(3, 1fr)" gap="4">
+      <Grid templateColumns="repeat(3, 1fr)" gap="4" mb="40px">
         {isLoading ? <UserSkeleton /> : !!user && <UserInfo user={user} />}
         {isLoading ? <UserSkeleton /> : !!user && <UserWallets user={user} />}
         {isLoading ? <UserSkeleton /> : !!user && <UserCards user={user} />}
