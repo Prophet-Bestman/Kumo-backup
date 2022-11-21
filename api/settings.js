@@ -19,6 +19,15 @@ export const useGetAllFees = () => {
   );
 };
 
+export const useGetUtilities = () => {
+  const headers = configOptions();
+  return useQuery("utilities", () =>
+    request2
+      .get(`/get-utilities-state`, { headers: headers })
+      .then((res) => res.data)
+  );
+};
+
 export const useGetCurrencies = () => {
   const headers = configOptions();
   return useQuery("currencies", () =>
@@ -74,7 +83,25 @@ export const useUpdateCurrency = () => {
         .then((res) => res.data),
     {
       onSuccess: () => {
-        queryClient.invalidateQueries("currency");
+        queryClient.invalidateQueries("currencies");
+      },
+    }
+  );
+};
+
+export const useUpdateUtility = () => {
+  const queryClient = useQueryClient();
+  const headers = configOptions();
+  return useMutation(
+    (values) =>
+      request2
+        .put(`/update-utilities-state`, values, {
+          headers: headers,
+        })
+        .then((res) => res.data),
+    {
+      onSuccess: () => {
+        queryClient.invalidateQueries("utilities");
       },
     }
   );
@@ -219,6 +246,27 @@ export const useDeleteCurrency = () => {
     {
       onSuccess: () => {
         queryClient.invalidateQueries("currencies");
+      },
+    }
+  );
+};
+
+export const useDeleteUtility = () => {
+  const queryClient = useQueryClient();
+  const headers = configOptions();
+  return useMutation(
+    (values) =>
+      request2
+        .delete(
+          `/delete-utilities-state?utility_name=${values?.utility_name}`,
+          {
+            headers: headers,
+          }
+        )
+        .then((res) => res.data),
+    {
+      onSuccess: () => {
+        queryClient.invalidateQueries("utilities");
       },
     }
   );

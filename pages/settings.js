@@ -11,6 +11,7 @@ import {
 import {
   useGetAllFees,
   useGetCryptoAddresses,
+  useGetUtilities,
   useUpdateCryptoAddress,
 } from "api/settings";
 import {
@@ -30,6 +31,8 @@ import { FloatingAddBtn } from "components";
 import { customScrollBar3 } from "utils/styles";
 import UpdateCryptoWallet from "components/Settings/UpdateCryptoWallet";
 import AddCurrency from "components/Settings/AddCurrency";
+import AddUtility from "components/Settings/AddUtitlity";
+import UpdateUtility from "components/Settings/UpdateUtitlity";
 
 const initialTransactionFeeOptions = [
   "BUY_CRYPTO_FEE",
@@ -57,8 +60,15 @@ const Settings = () => {
   const [fundWalletFees, setFundWalletFees] = useState([]);
   const [cryptoWallets, setCryptoWallets] = useState([]);
   const [paypal, setPaypal] = useState(null);
+  const [utilities, setUtitlities] = useState([]);
 
   const { isOpen, onOpen, onClose } = useDisclosure();
+
+  const {
+    isOpen: isUtilityOpen,
+    onOpen: onUtilityOpen,
+    onClose: onUtilityClose,
+  } = useDisclosure();
 
   const {
     isOpen: isWalletFeeOpen,
@@ -86,6 +96,7 @@ const Settings = () => {
   const { data: feesResp, isLoading: loadingFees } = useGetAllFees();
   const { data: cryptoResp, isRefetching: loadingCrypto } =
     useGetCryptoAddresses();
+  const { data: utilityResp } = useGetUtilities();
 
   const {
     data: updateResp,
@@ -126,6 +137,12 @@ const Settings = () => {
       setCryptoWallets(cryptoResp?.data?.addresses);
     }
   }, [cryptoResp]);
+
+  useEffect(() => {
+    if (!!utilityResp && utilityResp?.status === "success") {
+      setUtitlities(utilityResp?.data?.utilities);
+    }
+  }, [utilityResp]);
 
   useEffect(() => {
     // ===== FILTER LOGIC FOR ADD TRANSACTION FEE MODAL =====
@@ -180,6 +197,9 @@ const Settings = () => {
         {!!cryptoWallets && cryptoWallets?.length > 0 && (
           <UpdateCryptoWallet options={cryptoWallets} />
         )}
+        {!!utilities && utilities?.length > 0 && (
+          <UpdateUtility options={utilities} />
+        )}
 
         <Currencies />
       </Grid>
@@ -204,6 +224,7 @@ const Settings = () => {
               Add Crypto Wallet Address
             </MenuItem>
             <MenuItem onClick={onAddCurrencyOpen}>Add Currency</MenuItem>
+            <MenuItem onClick={onUtilityOpen}>Add Utility</MenuItem>
           </MenuList>
         </Menu>
       </Box>
@@ -228,6 +249,9 @@ const Settings = () => {
       )}
       {isAddCurrencyOpen && (
         <AddCurrency isOpen={isAddCurrencyOpen} onClose={onAddCurrencyClose} />
+      )}
+      {isUtilityOpen && (
+        <AddUtility isOpen={isUtilityOpen} onClose={onUtilityClose} />
       )}
     </Box>
   );

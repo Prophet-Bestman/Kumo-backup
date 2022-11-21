@@ -5,6 +5,7 @@ import LargeHeading from "components/LargeHeading";
 import React, { useEffect, useState } from "react";
 import { AiOutlineDelete } from "react-icons/ai";
 import { handleRequestError } from "utils/helpers";
+import { customScrollBar3 } from "utils/styles";
 
 const Currencies = () => {
   const [currencies, setCurrencies] = useState([]);
@@ -47,8 +48,6 @@ const Currencies = () => {
     error: deleteError,
   } = useDeleteCurrency();
 
-  console.log(currencies);
-
   const handleDelete = () => {
     deleteCurrency(selectedCurrency);
   };
@@ -67,12 +66,12 @@ const Currencies = () => {
   }, [deleteError]);
 
   return (
-    <Box rounded="md" bg="white" py="12" px="6" shadow="md">
+    <Box rounded="md" bg="white" py="12" px="6" shadow="md" h="full">
       <LargeHeading color="app.primary.700" fontSize="20px">
         Currencies
       </LargeHeading>
 
-      <Box>
+      <Box overflowY="auto" h="280px" sx={customScrollBar3}>
         {currencies?.length > 0 &&
           currencies?.map((currency, i) => (
             <Flex

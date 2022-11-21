@@ -1,21 +1,29 @@
-import { Box, Button, Input, Stack, Text, useToast } from "@chakra-ui/react";
+import {
+  Box,
+  Button,
+  Input,
+  Select,
+  Stack,
+  Text,
+  useToast,
+} from "@chakra-ui/react";
 import { yupResolver } from "@hookform/resolvers/yup";
-import { useUpdateCurrency } from "api/settings";
+import { useUpdateUtility } from "api/settings";
 import InputError from "components/InputError";
 import LargeHeading from "components/LargeHeading";
 import ModalCard from "components/ModalCard";
 import React, { useEffect } from "react";
 import { useForm } from "react-hook-form";
 import { handleRequestError } from "utils/helpers";
-import { addCurrencySchema } from "utils/schema";
+import { addUtilitySchema } from "utils/schema";
 
-const AddCurrency = ({ isOpen, onClose }) => {
+const AddUtility = ({ isOpen, onClose }) => {
   const {
     register,
     handleSubmit,
     formState: { errors },
   } = useForm({
-    resolver: yupResolver(addCurrencySchema),
+    resolver: yupResolver(addUtilitySchema),
   });
 
   // ====== TOASTS ======
@@ -24,7 +32,7 @@ const AddCurrency = ({ isOpen, onClose }) => {
   const successToast = () => {
     toast({
       title: "Action Successful",
-      description: "Added Wallet Address",
+      description: "Added Utility",
       status: "success",
       duration: 3000,
       isClosable: true,
@@ -34,15 +42,15 @@ const AddCurrency = ({ isOpen, onClose }) => {
   };
 
   const {
-    mutate: addCurrency,
+    mutate: updateUtility,
     data: updateResp,
     isLoading,
     error: updateError,
     reset,
-  } = useUpdateCurrency();
+  } = useUpdateUtility();
 
   const handleUpdate = (data) => {
-    addCurrency(data);
+    updateUtility(data);
   };
 
   useEffect(() => {
@@ -62,24 +70,33 @@ const AddCurrency = ({ isOpen, onClose }) => {
     <ModalCard onClose={onClose} isOpen={isOpen}>
       <Box bg="white" py="12" px="6">
         <LargeHeading color="app.primary.700" fontSize="20px">
-          Add Currency
+          Add Utility
         </LargeHeading>
 
         <form onSubmit={handleSubmit(handleUpdate)}>
           <Stack mt="4">
-            <Text fontSize="14px">Currency Name</Text>
-            <Input {...register("currency_name")} />
-            <InputError msg={errors?.currency_name?.message} />
+            <Text fontSize="14px">Utility Name</Text>
+            <Select {...register("utility_name")}>
+              <option value="WAEC_PIN">WAEC PIN</option>
+              <option value="NECO_PIN">NECO PIN</option>
+              <option value="ELECTRICITY">ELECTRICITY</option>
+              <option value="AIRTIME">AIRTIME</option>
+              <option value="DATA">DATA </option>
+            </Select>
+            <InputError msg={errors?.utility_name?.message} />
           </Stack>
 
           <Stack mt="4">
-            <Text fontSize="14px">Currency Code</Text>
-            <Input {...register("currency_code")} />
-            <InputError msg={errors?.currency_code?.message} />
+            <Text fontSize="14px">Utility Status</Text>
+            <Select {...register("utility_status")}>
+              <option value="enabled">Enabled</option>
+              <option value="disabled">Disabled</option>
+            </Select>
+            <InputError msg={errors?.utility_status?.message} />
           </Stack>
 
           <Button mt="4" h="48px" type="submit" isLoading={isLoading}>
-            Add Currency
+            Add Utility
           </Button>
         </form>
       </Box>
@@ -87,4 +104,4 @@ const AddCurrency = ({ isOpen, onClose }) => {
   );
 };
 
-export default AddCurrency;
+export default AddUtility;

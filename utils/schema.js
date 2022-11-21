@@ -89,6 +89,19 @@ export const addCurrencySchema = yup
   })
   .required();
 
+export const addUtilitySchema = yup
+  .object({
+    utility_name: yup.string().required("Currency name is required"),
+    utility_status: yup.string().required("Currency code is required"),
+  })
+  .required();
+
+export const updateUtilitySchema = yup
+  .object({
+    utility_status: yup.string().required("Currency code is required"),
+  })
+  .required();
+
 export const updateCurrencySchema = yup
   .object({
     currency_name: yup.string().required("Currency name is required"),
