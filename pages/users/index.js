@@ -8,7 +8,7 @@ import {
   Tag,
   Text,
 } from "@chakra-ui/react";
-import { useGetUsers, useGetUsersSize } from "api/users";
+import { useGetAllAdminReplies, useGetUsers, useGetUsersSize } from "api/users";
 import { FilterMenu, Pagination } from "components";
 import { UsersTable } from "components/Users";
 import { navStates, useNavContext } from "context/NavProvider";
@@ -33,6 +33,10 @@ const Users = () => {
   const [pages, setPages] = useState(1);
   const [filters, setFilters] = useState(filterList);
   const [filterObjs, setFilterObjs] = useState([]);
+
+  const { data } = useGetAllAdminReplies();
+
+  // console.log(data);
 
   const { data: usersResp, isLoading } = useGetUsers(page);
 

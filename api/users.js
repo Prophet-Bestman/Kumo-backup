@@ -16,6 +16,15 @@ export const useGetUsers = () => {
   );
 };
 
+export const useGetAllAdminReplies = () => {
+  const headers = configOptions();
+  return useQuery("admin-replies", () =>
+    request
+      .get(`/get-admin-replies?item_per_page=20`, { headers: headers })
+      .then((res) => res.data)
+  );
+};
+
 export const useGetUsersSize = () => {
   const headers = configOptions();
   return useQuery("users-size", () =>

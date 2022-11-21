@@ -37,7 +37,12 @@ export const handleRequestError = (error) => {
 };
 
 export function numberWithCommas(number = 0) {
-  let approx = number.toFixed(2);
+  let approx = parseInt(number).toFixed(2);
+  return approx.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+}
+
+export function numberWithCommasNoDecimal(number = 0) {
+  let approx = parseInt(number);
   return approx.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
 }
 

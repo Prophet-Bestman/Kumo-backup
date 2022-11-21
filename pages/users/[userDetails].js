@@ -17,10 +17,6 @@ const UserDetailsPage = () => {
 
   const { userDetails } = router.query;
 
-  const { data } = useGetTransactions();
-
-  // console.log(data);
-
   const { data: userResp, isLoading } = useSingleGetUser(userDetails);
   const { data: transactionsData, refetch } = useGetTransactions(
     page,

@@ -13,10 +13,12 @@ import { useDeleteUser, useFreezeUser } from "api/users";
 import ConfirmModal from "components/ConfirmModal";
 import React, { useEffect, useRef } from "react";
 import { handleRequestError } from "utils/helpers";
+import { format } from "date-fns";
 
 const UserInfo = ({ user }) => {
   const {
     first_name,
+    created_at,
     image_url,
     is_verified,
     language,
@@ -26,6 +28,7 @@ const UserInfo = ({ user }) => {
     email,
     two_factor_verification,
     referral_id,
+    user_referral_id,
     phone_number_verified,
     _id,
   } = user;
@@ -51,8 +54,6 @@ const UserInfo = ({ user }) => {
       position: "top",
     });
   };
-
-  // console.log(user);
 
   const userIdRef = useRef(null);
   const referralIdRef = useRef(null);
@@ -152,22 +153,26 @@ const UserInfo = ({ user }) => {
       alignItems="center"
       boxShadow="sm"
     >
-      <Text alignItems="center" fontSize="20px" mb="6" fontWeight={600}>
+      <Text alignItems="center" fontSize="20px" mb="5" fontWeight={600}>
         User Info
       </Text>
 
       <Avatar name={`${first_name} ${last_name}`} size="2xl" src={image_url} />
 
-      <Text my="4" color="app.primary.900" fontWeight={700}>
+      <Text my="2" color="app.primary.900" fontWeight={700}>
         {first_name} {last_name}
       </Text>
 
-      <Grid gap="2" justifyContent="center" w="full" textAlign="center">
+      <Grid gap="1" justifyContent="center" w="full" textAlign="center">
         <Text fontWeight="500" fontSize="12px">
           {email}
         </Text>
         <Text fontWeight="500" fontSize="12px">
           {phone_number}
+        </Text>
+
+        <Text fontWeight="500" fontSize="12px">
+          Date Joined: {format(new Date(created_at), "dd-MM-yyyy")}
         </Text>
 
         <Flex
@@ -201,31 +206,56 @@ const UserInfo = ({ user }) => {
             <Text fontSize="12px">Copy</Text>
           </Flex> */}
         </Flex>
+        <Flex
+          aignItems="center"
+          gap="2"
+          justify="center"
+          cursor="pointer"
+          onClick={copyReferralId}
+        >
+          <Text fontWeight="500" fontSize="12px">
+            User Referal ID: {user_referral_id || "Nil"}
+          </Text>
+          {/* <Flex aignItems="center" gap="1" color="app.primary.300">
+            <FaCopy />
+            <Text fontSize="12px">Copy</Text>
+          </Flex> */}
+        </Flex>
       </Grid>
 
-      <Grid fontSize="14px" mt="12" w="full" templateColumns={"repeat(2, 1fr)"}>
-        <GridItem fontWeight="600">Language:</GridItem>
-        <GridItem>{language || "Nil"} </GridItem>
+      <Grid fontSize="14px" mt="8" w="full" templateColumns={"repeat(5, 1fr)"}>
+        <GridItem colSpan={3} fontWeight="600">
+          Language:
+        </GridItem>
+        <GridItem colSpan={2}> {language || "Nil"} </GridItem>
 
-        <GridItem fontWeight="600">Account Verification:</GridItem>
-        <GridItem>
+        <GridItem colSpan={3} fontWeight="600">
+          Account Verification:
+        </GridItem>
+        <GridItem colSpan={2}>
           <Text fontWeight="600" color={is_verified ? "green" : "red"}>
             {is_verified ? "Verified" : "Unverified"}
           </Text>
         </GridItem>
 
-        <GridItem fontWeight="600">BVN:</GridItem>
-        <GridItem>{bvn?.bvn_number || "Nil"} </GridItem>
+        <GridItem colSpan={3} fontWeight="600">
+          BVN Number:
+        </GridItem>
+        <GridItem colSpan={2}>{bvn?.bvn_number || "Nil"} </GridItem>
 
-        <GridItem fontWeight="600">BVN Verification:</GridItem>
-        <GridItem>
+        <GridItem colSpan={3} fontWeight="600">
+          KYC Status
+        </GridItem>
+        <GridItem colSpan={2}>
           <Text fontWeight="600" color={bvn?.verified ? "green" : "red"}>
             {bvn?.verified ? "Verified" : "Unverified"}
           </Text>
         </GridItem>
 
-        <GridItem fontWeight="600">Phone No. Verification:</GridItem>
-        <GridItem>
+        <GridItem colSpan={3} fontWeight="600">
+          Phone No. Verification:
+        </GridItem>
+        <GridItem colSpan={2}>
           <Text
             fontWeight="600"
             color={phone_number_verified ? "green" : "red"}
@@ -234,8 +264,10 @@ const UserInfo = ({ user }) => {
           </Text>
         </GridItem>
 
-        <GridItem fontWeight="600">Two-Factor Verification:</GridItem>
-        <GridItem>
+        <GridItem colSpan={3} fontWeight="600">
+          Two-Factor Verification:
+        </GridItem>
+        <GridItem colSpan={2}>
           <Text
             fontWeight="600"
             color={two_factor_verification ? "green" : "red"}

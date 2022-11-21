@@ -27,7 +27,7 @@ export const useGetPackages = (page) => {
   const headers = configOptions();
   return useQuery(["packages", page], () =>
     request
-      .get(`/get-packages?item_per_page=20&page=${page}`, {
+      .get(`/get-packages?item_per_page=20&page=${page || 1}`, {
         headers: headers,
       })
       .then((res) => res.data)

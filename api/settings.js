@@ -13,9 +13,16 @@ const request2 = axios.create({
 export const useGetAllFees = () => {
   const headers = configOptions();
   return useQuery("fee-costs", () =>
-    request
+    request2
       .get(`/get-all-settings`, { headers: headers })
       .then((res) => res.data)
+  );
+};
+
+export const useGetCurrency = () => {
+  const headers = configOptions();
+  return useQuery("currency", () =>
+    request2.get(`/get-currency`, { headers: headers }).then((res) => res.data)
   );
 };
 
@@ -50,6 +57,24 @@ export const useUpdateCryptoAddress = () => {
     {
       onSuccess: () => {
         queryClient.invalidateQueries("crypto-addresses");
+      },
+    }
+  );
+};
+
+export const useAddCurrency = () => {
+  const queryClient = useQueryClient();
+  const headers = configOptions();
+  return useMutation(
+    (values) =>
+      request2
+        .put(`/add-currency`, values, {
+          headers: headers,
+        })
+        .then((res) => res.data),
+    {
+      onSuccess: () => {
+        queryClient.invalidateQueries("currency");
       },
     }
   );

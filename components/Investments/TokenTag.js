@@ -38,8 +38,6 @@ const TokenTag = ({ token, id }) => {
     removeToken(payload);
   };
 
-  console.log(deleteResp);
-
   useEffect(() => {
     if (!!deleteResp && deleteResp?.status === "success") {
       successToast("Succesfully Removed Token");

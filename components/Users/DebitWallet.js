@@ -49,7 +49,6 @@ const DebitWallet = ({ isOpen, onClose, user }) => {
   } = useDebitWallet();
 
   const handleDebit = (data) => {
-    console.log(data);
     const payload = {
       _id: user?._id,
       data: { ...data },
@@ -73,7 +72,6 @@ const DebitWallet = ({ isOpen, onClose, user }) => {
     reset();
   }, [debitError]);
 
-  console.log(debitResp);
   return (
     <ModalCard isOpen={isOpen} onClose={onClose}>
       <Box p={6}>

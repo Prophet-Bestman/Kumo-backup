@@ -11,6 +11,7 @@ import {
 import {
   useGetAllFees,
   useGetCryptoAddresses,
+  useGetCurrency,
   useUpdateCryptoAddress,
 } from "api/settings";
 import {
@@ -28,6 +29,7 @@ import { Skeleton } from "@chakra-ui/react";
 import { FloatingAddBtn } from "components";
 import { customScrollBar3 } from "utils/styles";
 import UpdateCryptoWallet from "components/Settings/UpdateCryptoWallet";
+import AddCurrency from "components/Settings/AddCurrency";
 
 const initialTransactionFeeOptions = [
   "BUY_CRYPTO_FEE",
@@ -65,6 +67,12 @@ const Settings = () => {
   } = useDisclosure();
 
   const {
+    isOpen: isAddCurrencyOpen,
+    onOpen: onAddCurrencyOpen,
+    onClose: onAddCurrencyClose,
+  } = useDisclosure();
+
+  const {
     isOpen: isAddCryptoOpen,
     onOpen: onAddCryptoOpen,
     onClose: onAddCryptoClose,
@@ -76,7 +84,7 @@ const Settings = () => {
   }, []);
 
   const { data: feesResp, isLoading: loadingFees } = useGetAllFees();
-  const { data: cryptoResp, isLoading: loadingCrypto } =
+  const { data: cryptoResp, isRefetching: loadingCrypto } =
     useGetCryptoAddresses();
 
   const {
@@ -85,6 +93,11 @@ const Settings = () => {
     isLoading,
   } = useUpdateCryptoAddress();
 
+  const { data } = useGetCurrency();
+
+  console.log(data);
+
+  //  ================ USEEFFECTS ==========
   useEffect(() => {
     if (!!feesResp && feesResp?.status === "success") {
       setUsdToNaira(
@@ -160,62 +173,16 @@ const Settings = () => {
   return (
     <Box p="6">
       <Grid templateColumns={"repeat(3, 1fr)"} gap="4" my="5">
-        {loadingFees ? (
-          <Box padding="6" boxShadow="lg" bg="white">
-            <Skeleton h="15px" mt="4" w="50%" />
-            <Skeleton h="30px" mt="4" w="80%" />
-            <Skeleton h="30px" mt="4" />
-          </Box>
-        ) : (
-          !!usdToNaira?.value && <UsdToNaira data={usdToNaira} />
+        {!!usdToNaira?.value && <UsdToNaira data={usdToNaira} />}
+        {!!paypal?.email && <UpdatePaypal data={paypal} />}
+        {!!transactionFees && transactionFees?.length > 0 && (
+          <UpdateTransactionFees options={transactionFees} />
         )}
-
-        {loadingFees ? (
-          <Box padding="6" boxShadow="lg" bg="white">
-            <Skeleton h="15px" mt="4" w="50%" />
-            <Skeleton h="30px" mt="4" w="80%" />
-            <Skeleton h="30px" mt="4" />
-          </Box>
-        ) : (
-          !!paypal?.email && <UpdatePaypal data={paypal} />
+        {!!fundWalletFees && fundWalletFees?.length > 0 && (
+          <UpdateFundWalletFee options={fundWalletFees} />
         )}
-
-        {loadingFees ? (
-          <Box padding="6" boxShadow="lg" bg="white">
-            <Skeleton h="15px" mt="4" w="50%" />
-            <Skeleton h="30px" mt="4" w="80%" />
-            <Skeleton h="30px" mt="4" />
-          </Box>
-        ) : (
-          !!transactionFees &&
-          transactionFees?.length > 0 && (
-            <UpdateTransactionFees options={transactionFees} />
-          )
-        )}
-        {loadingFees ? (
-          <Box padding="6" boxShadow="lg" bg="white">
-            <Skeleton h="15px" mt="4" w="50%" />
-            <Skeleton h="30px" mt="4" w="80%" />
-            <Skeleton h="30px" mt="4" />
-          </Box>
-        ) : (
-          !!fundWalletFees &&
-          fundWalletFees?.length > 0 && (
-            <UpdateFundWalletFee options={fundWalletFees} />
-          )
-        )}
-
-        {loadingCrypto ? (
-          <Box padding="6" boxShadow="lg" bg="white">
-            <Skeleton h="15px" mt="4" w="50%" />
-            <Skeleton h="30px" mt="4" w="80%" />
-            <Skeleton h="30px" mt="4" />
-          </Box>
-        ) : (
-          !!cryptoWallets &&
-          cryptoWallets?.length > 0 && (
-            <UpdateCryptoWallet options={cryptoWallets} />
-          )
+        {!!cryptoWallets && cryptoWallets?.length > 0 && (
+          <UpdateCryptoWallet options={cryptoWallets} />
         )}
       </Grid>
       <Box pos="fixed" bottom={8} right={8}>
@@ -238,6 +205,7 @@ const Settings = () => {
             <MenuItem onClick={onAddCryptoOpen}>
               Add Crypto Wallet Address
             </MenuItem>
+            <MenuItem onClick={onAddCurrencyOpen}>Add Currency</MenuItem>
           </MenuList>
         </Menu>
       </Box>
@@ -259,6 +227,9 @@ const Settings = () => {
 
       {isAddCryptoOpen && (
         <AddCryptoAddress isOpen={isAddCryptoOpen} onClose={onAddCryptoClose} />
+      )}
+      {isAddCurrencyOpen && (
+        <AddCurrency isOpen={isAddCurrencyOpen} onClose={onAddCurrencyClose} />
       )}
     </Box>
   );

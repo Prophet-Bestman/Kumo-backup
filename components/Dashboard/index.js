@@ -4,6 +4,7 @@ import PayWithKumo from "./PayWithKumo";
 import QuickActions from "./QuickActions";
 import RecentTransactions from "./RecentTransactions";
 import WalletBalance from "./WalletBalance";
+import StatsCard from "./StatsCard";
 
 export {
   WalletBalance,
@@ -12,4 +13,5 @@ export {
   GetLoans,
   DashboardTransactions,
   PayWithKumo,
+  StatsCard,
 };

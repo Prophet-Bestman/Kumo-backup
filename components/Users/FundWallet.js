@@ -49,7 +49,6 @@ const FundWallet = ({ isOpen, onClose, user }) => {
   } = useFundWallet();
 
   const handleFund = (data) => {
-    console.log(data);
     const payload = {
       _id: user?._id,
       data: { ...data },
@@ -73,7 +72,6 @@ const FundWallet = ({ isOpen, onClose, user }) => {
     reset();
   }, [fundError]);
 
-  console.log(fundResp);
   return (
     <ModalCard isOpen={isOpen} onClose={onClose}>
       <Box p={6}>

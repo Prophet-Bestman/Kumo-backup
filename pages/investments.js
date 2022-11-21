@@ -15,6 +15,7 @@ import { CustomTabList, FloatingAddBtn } from "components";
 import { CreatePackage } from "components/Investments";
 import InvestmentsTable from "components/Investments/InvestmentsTable";
 import PackagesTable from "components/Investments/PackagesTable";
+import { navStates, useNavContext } from "context/NavProvider";
 import React, { useEffect, useState } from "react";
 import { customScrollBar3 } from "utils/styles";
 
@@ -23,6 +24,11 @@ const tabs = [{ title: "Packages" }, { title: "Investments" }];
 const Investments = () => {
   const [packages, setPackages] = useState([]);
   const [investments, setInvestments] = useState([]);
+  const { setActiveNav } = useNavContext();
+  useEffect(() => {
+    setActiveNav(navStates.investments);
+  }, []);
+
   const { isOpen, onClose, onOpen } = useDisclosure();
 
   const { data: packagesResp, isLoading } = useGetPackages();

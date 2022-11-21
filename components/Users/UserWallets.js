@@ -10,13 +10,14 @@ import {
   useDisclosure,
 } from "@chakra-ui/react";
 import React from "react";
+import { numberWithCommas } from "utils/helpers";
 import DebitWallet from "./DebitWallet";
 import FundWallet from "./FundWallet";
 
 const getWalletBalance = (name, wallets) => {
   const filteredWallet = wallets?.filter((wallet) => wallet?.name === name);
 
-  return filteredWallet[0]?.value;
+  return numberWithCommas(parseInt(filteredWallet[0]?.value));
 };
 
 const UserWallets = ({ user }) => {
