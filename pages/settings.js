@@ -11,13 +11,13 @@ import {
 import {
   useGetAllFees,
   useGetCryptoAddresses,
-  useGetCurrency,
   useUpdateCryptoAddress,
 } from "api/settings";
 import {
   AddCryptoAddress,
   AddFundWalletFee,
   AddTransactionFee,
+  Currencies,
   UpdateFundWalletFee,
   UpdatePaypal,
   UpdateTransactionFees,
@@ -92,10 +92,6 @@ const Settings = () => {
     mutate: updateCrypto,
     isLoading,
   } = useUpdateCryptoAddress();
-
-  const { data } = useGetCurrency();
-
-  console.log(data);
 
   //  ================ USEEFFECTS ==========
   useEffect(() => {
@@ -184,6 +180,8 @@ const Settings = () => {
         {!!cryptoWallets && cryptoWallets?.length > 0 && (
           <UpdateCryptoWallet options={cryptoWallets} />
         )}
+
+        <Currencies />
       </Grid>
       <Box pos="fixed" bottom={8} right={8}>
         <Menu>

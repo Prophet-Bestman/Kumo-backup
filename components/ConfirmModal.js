@@ -38,15 +38,15 @@ const ConfirmModal = ({
               </Text>
             </Flex>
             <Flex justify="center" gap="2">
+              <Button variant="link" w="148px" onClick={onClose}>
+                Cancel
+              </Button>
               <Button
                 onClick={primaryFunc?.func}
-                w="124px"
+                w="148px"
                 isLoading={isLoading}
               >
                 {primaryFunc?.name}
-              </Button>
-              <Button variant="link" w="124px" onClick={onClose}>
-                Cancel
               </Button>
             </Flex>
 

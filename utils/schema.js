@@ -89,6 +89,12 @@ export const addCurrencySchema = yup
   })
   .required();
 
+export const updateCurrencySchema = yup
+  .object({
+    currency_name: yup.string().required("Currency name is required"),
+  })
+  .required();
+
 export const updateCryptoAddressSchema = yup
   .object({
     address: yup.string().required("Wallet address is required"),

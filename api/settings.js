@@ -19,9 +19,9 @@ export const useGetAllFees = () => {
   );
 };
 
-export const useGetCurrency = () => {
+export const useGetCurrencies = () => {
   const headers = configOptions();
-  return useQuery("currency", () =>
+  return useQuery("currencies", () =>
     request2.get(`/get-currency`, { headers: headers }).then((res) => res.data)
   );
 };
@@ -62,7 +62,7 @@ export const useUpdateCryptoAddress = () => {
   );
 };
 
-export const useAddCurrency = () => {
+export const useUpdateCurrency = () => {
   const queryClient = useQueryClient();
   const headers = configOptions();
   return useMutation(
@@ -201,6 +201,24 @@ export const useDeleteCryptoAddress = () => {
     {
       onSuccess: () => {
         queryClient.invalidateQueries("crypto-addresses");
+      },
+    }
+  );
+};
+
+export const useDeleteCurrency = () => {
+  const queryClient = useQueryClient();
+  const headers = configOptions();
+  return useMutation(
+    (values) =>
+      request2
+        .delete(`/delete-currency?currency_name=${values}`, {
+          headers: headers,
+        })
+        .then((res) => res.data),
+    {
+      onSuccess: () => {
+        queryClient.invalidateQueries("currencies");
       },
     }
   );
