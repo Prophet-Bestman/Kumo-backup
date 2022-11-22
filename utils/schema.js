@@ -159,3 +159,9 @@ export const fundWalletSchema = yup
     amount: yup.string().required("Amount is required"),
   })
   .required();
+
+export const resetPinSchema = yup
+  .object({
+    pin: yup.string().required("Pin is required").min(4).max(4),
+  })
+  .required();

@@ -99,3 +99,81 @@ export const useUnfreezeUser = () => {
     }
   );
 };
+
+export const useLookupBvn = (bvn) => {
+  const headers = configOptions();
+  return useQuery(
+    "bvn-validity",
+    () =>
+      request
+        .get(`/lookup-bvn-validity?bvn=${bvn}`, { headers: headers })
+        .then((res) => res.data),
+    {
+      enabled: false,
+      retry: false,
+      refetchOnWindowFocus: false,
+      refetchOnMount: false,
+    }
+  );
+};
+
+export const useApproveBvn = () => {
+  const queryClient = useQueryClient();
+  const headers = configOptions();
+  return useMutation(
+    (user_id) =>
+      request
+        .put(
+          `/approve-user-bvn-validation?user_id=${user_id}`,
+          {},
+          {
+            headers: headers,
+          }
+        )
+        .then((res) => res.data),
+    {
+      onSuccess: () => {
+        queryClient.invalidateQueries("users");
+        queryClient.invalidateQueries("single-user");
+      },
+    }
+  );
+};
+
+export const useResetUsersPin = () => {
+  const queryClient = useQueryClient();
+  const headers = configOptions();
+  return useMutation(
+    (values) =>
+      request
+        .put(`admin-reset-users-pin?_id=${values?.id}`, values?.data, {
+          headers: headers,
+        })
+        .then((res) => res.data),
+    {
+      onSuccess: () => {
+        queryClient.invalidateQueries("users");
+        queryClient.invalidateQueries("single-user");
+      },
+    }
+  );
+};
+
+export const useResendActivationCode = () => {
+  const queryClient = useQueryClient();
+  const headers = configOptions();
+  return useMutation(
+    (values) =>
+      request
+        .post(`/resend-activation-code`, values, {
+          headers: headers,
+        })
+        .then((res) => res.data),
+    {
+      onSuccess: () => {
+        queryClient.invalidateQueries("users");
+        queryClient.invalidateQueries("single-user");
+      },
+    }
+  );
+};

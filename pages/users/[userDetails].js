@@ -8,6 +8,7 @@ import { UserCards, UserInfo, UserWallets } from "components/Users";
 import { useGetTransactions, useGetTransactionsSize } from "api/transactions";
 import { TransactionsTable } from "components/TransactionHistory";
 import { Pagination } from "components";
+import UserActions from "components/Users/UserActions";
 
 const UserDetailsPage = () => {
   const router = useRouter();
@@ -49,6 +50,8 @@ const UserDetailsPage = () => {
         {isLoading ? <UserSkeleton /> : !!user && <UserWallets user={user} />}
         {isLoading ? <UserSkeleton /> : !!user && <UserCards user={user} />}
       </Grid>
+
+      {!!user && <UserActions user_id={userDetails} user={user} />}
 
       <TransactionsTable transactions={transactionsData?.data} />
       <Pagination page={page} pages={pages} setPage={setPage} />
