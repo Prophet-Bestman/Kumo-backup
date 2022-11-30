@@ -31,12 +31,21 @@ const UserWallets = ({ user }) => {
   } = useDisclosure();
 
   return (
-    <Box p="6" py="12" rounded="md" bg="white">
-      <Text textAlign="center" fontSize="20px" fontWeight={600}>
-        Wallets
-      </Text>
-      <Grid rowGap="8" pos="relative">
-        <Box>
+    <Box px="10" py="14" rounded="md" bg="white">
+      <Grid
+        pos="relative"
+        // templateColumns={"repeat(2, 1fr)"}
+        // gap="8"
+        rowGap="10"
+        mt="30px"
+      >
+        <Grid
+          pos="relative"
+          templateColumns={"repeat(2, 1fr)"}
+          gap="8"
+          rowGap="10"
+          alignItems="flex-end"
+        >
           {wallet_addreses?.length > 0 &&
             wallet_addreses?.map((wallet) => (
               <Stack mb="5" key={wallet?.walletAddress}>
@@ -57,10 +66,7 @@ const UserWallets = ({ user }) => {
                   </Text>
                 </Flex>
                 <InputGroup>
-                  <Input value={wallet.walletAddress} />
-                  {/* <InputRightElement>
-                  <BiEdit size="20px" cursor="pointer" />
-                </InputRightElement> */}
+                  <Input value={wallet.walletAddress} disabled />
                 </InputGroup>
               </Stack>
             ))}
@@ -77,15 +83,18 @@ const UserWallets = ({ user }) => {
             <InputGroup>
               <Input
                 value={`NGN: ${getWalletBalance("naira", wallet_balance)}`}
+                disabled
               />
             </InputGroup>
           </Stack>
-        </Box>
+        </Grid>
 
-        <Button onClick={onOpen}>Fund Wallet</Button>
-        <Button variant="outline" onClick={onDebitOpen}>
-          Debit Wallet Wallet
-        </Button>
+        <Flex gap="6">
+          <Button variant="outline" onClick={onDebitOpen}>
+            Debit Wallet Wallet
+          </Button>
+          <Button onClick={onOpen}>Fund Wallet</Button>
+        </Flex>
       </Grid>
       <FundWallet isOpen={isOpen} onClose={onClose} user={user} />
       <DebitWallet isOpen={isDebitOpen} onClose={onDebitClose} user={user} />
