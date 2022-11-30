@@ -216,10 +216,6 @@ const UserInfo = ({ user }) => {
           <Text fontWeight="500" fontSize="12px">
             User Referal ID: {user_referral_id || "Nil"}
           </Text>
-          {/* <Flex aignItems="center" gap="1" color="app.primary.300">
-            <FaCopy />
-            <Text fontSize="12px">Copy</Text>
-          </Flex> */}
         </Flex>
       </Grid>
 

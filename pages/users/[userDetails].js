@@ -7,6 +7,7 @@ import {
   UserCards,
   UserDetails,
   UserInfo,
+  UserVerifications,
   UserWallets,
 } from "components/Users";
 
@@ -74,7 +75,9 @@ const UserDetailsPage = () => {
               <TabPanel>
                 <UserDetails user={user} />
               </TabPanel>
-              <TabPanel>Verification</TabPanel>
+              <TabPanel>
+                <UserVerifications user={user} />
+              </TabPanel>
             </TabPanels>
           )}
         </Tabs>

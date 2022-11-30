@@ -4,11 +4,11 @@ import React from "react";
 
 const UserDetails = ({ user }) => {
   return (
-    <Box p="10" bg="white" boxShadow="sm">
+    <Box py="14" px="10" bg="white" boxShadow="sm">
       <Avatar
         src={user?.image_url}
         name={`${user?.first_name} ${user?.last_name}`}
-        my="12"
+        mb="12"
         size="2xl"
       />
 

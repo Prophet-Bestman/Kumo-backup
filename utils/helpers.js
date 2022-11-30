@@ -51,18 +51,24 @@ export function underscoreToSpace(str = "") {
 }
 
 export const getStatusColor = (status) => {
-  if (status?.toLocaleLowerCase() === statuses?.pending)
-    return statusColors?.pending;
-  if (
-    status?.toLocaleLowerCase() === statuses?.failed ||
-    status?.toLocaleLowerCase() === statuses?.inactive ||
-    status?.toLocaleLowerCase() === statuses?.terminated
-  )
-    return statusColors?.failed;
-  if (
-    status?.toLocaleLowerCase() === statuses?.fulfilled ||
-    status?.toLocaleLowerCase() === statuses?.ongoing ||
-    status?.toLocaleLowerCase() === statuses?.active
-  )
-    return statusColors?.fulfilled;
+  if (typeof status === "boolean") {
+    if (status) {
+      return statusColors?.fulfilled;
+    } else return statusColors?.failed;
+  } else {
+    if (status?.toLocaleLowerCase() === statuses?.pending)
+      return statusColors?.pending;
+    if (
+      status?.toLocaleLowerCase() === statuses?.failed ||
+      status?.toLocaleLowerCase() === statuses?.inactive ||
+      status?.toLocaleLowerCase() === statuses?.terminated
+    )
+      return statusColors?.failed;
+    if (
+      status?.toLocaleLowerCase() === statuses?.fulfilled ||
+      status?.toLocaleLowerCase() === statuses?.ongoing ||
+      status?.toLocaleLowerCase() === statuses?.active
+    )
+      return statusColors?.fulfilled;
+  }
 };
