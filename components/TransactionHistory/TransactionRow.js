@@ -16,6 +16,7 @@ const TransactionRow = ({ transaction, number }) => {
     status,
     created_at,
   } = transaction;
+
   return (
     <Link href={`/transactions/${transaction?._id}`}>
       <Tr

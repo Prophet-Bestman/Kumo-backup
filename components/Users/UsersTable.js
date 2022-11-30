@@ -38,6 +38,7 @@ const UsersTable = ({ users, isLoading }) => {
               <Th>S/N</Th>
               <Th>Name</Th>
               <Th>Email</Th>
+              {/* <Th>Username</Th> */}
               <Th>Phone Number</Th>
               <Th>Verification</Th>
               <Th>Action</Th>
@@ -50,6 +51,7 @@ const UsersTable = ({ users, isLoading }) => {
                   last_name,
                   first_name,
                   email,
+                  // username,
                   phone_number,
                   is_verified,
                   _id,
@@ -64,6 +66,7 @@ const UsersTable = ({ users, isLoading }) => {
                       {first_name} {last_name}
                     </Td>
                     <Td>{email}</Td>
+                    {/* <Td>{username}</Td> */}
                     <Td>{phone_number}</Td>
                     <Td>
                       <Tag

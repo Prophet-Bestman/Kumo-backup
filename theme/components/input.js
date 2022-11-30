@@ -20,6 +20,9 @@ export const inputStyle = {
           bg: "#f2f2f2",
           borderWidth: "2px",
         },
+        _disabled: {
+          opacity: 0.8,
+        },
         _placeholder: {
           fontWeight: 400,
         },
