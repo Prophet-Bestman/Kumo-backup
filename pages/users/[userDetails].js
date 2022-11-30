@@ -78,6 +78,9 @@ const UserDetailsPage = () => {
               <TabPanel>
                 <UserVerifications user={user} />
               </TabPanel>
+              <TabPanel>
+                <UserWallets user={user} />
+              </TabPanel>
             </TabPanels>
           )}
         </Tabs>
