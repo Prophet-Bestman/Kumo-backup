@@ -19,19 +19,18 @@ const ConfirmModal = ({
   isLoading,
 }) => {
   return (
-    <Modal isOpen={isOpen} onClose={onClose} size="3xl" isCentered>
+    <Modal isOpen={isOpen} onClose={onClose} size="xl" isCentered>
       <ModalOverlay />
       <ModalContent>
         <ModalBody>
-          <Box h="80vh">
+          <Box py="20">
             <Flex>
               <Text
                 fontSize="18px"
                 fontWeight="700"
-                w="50%"
+                w="70%"
                 mx="auto"
-                mt="40"
-                mb="12"
+                mb="8"
                 textAlign="center"
               >
                 {message}

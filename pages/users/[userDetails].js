@@ -70,7 +70,7 @@ const UserDetailsPage = () => {
         <Tabs>
           <CustomTabList tabList={tabList} />
 
-          {!isLoading && (
+          {!isLoading && !!user && (
             <TabPanels>
               <TabPanel>
                 <UserDetails user={user} />
@@ -80,6 +80,9 @@ const UserDetailsPage = () => {
               </TabPanel>
               <TabPanel>
                 <UserWallets user={user} />
+              </TabPanel>
+              <TabPanel>
+                {!!user && <UserActions user_id={userDetails} user={user} />}
               </TabPanel>
             </TabPanels>
           )}

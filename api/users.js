@@ -177,3 +177,22 @@ export const useResendActivationCode = () => {
     }
   );
 };
+
+export const useUpdateUserStatus = () => {
+  const queryClient = useQueryClient();
+  const headers = configOptions();
+  return useMutation(
+    (values) =>
+      request
+        .put(`/update-users-status`, values, {
+          headers: headers,
+        })
+        .then((res) => res.data),
+    {
+      onSuccess: () => {
+        queryClient.invalidateQueries("users");
+        queryClient.invalidateQueries("single-user");
+      },
+    }
+  );
+};

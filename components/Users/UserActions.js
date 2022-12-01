@@ -1,16 +1,38 @@
-import { Box, Button, Flex, useDisclosure, useToast } from "@chakra-ui/react";
+import {
+  Box,
+  Button,
+  Flex,
+  Grid,
+  useDisclosure,
+  useToast,
+} from "@chakra-ui/react";
 import {
   useApproveBvn,
   useLookupBvn,
   useResendActivationCode,
-  useResetUsersPin,
+  useUpdateUserStatus,
 } from "api/users";
-import React, { useEffect } from "react";
+import ConfirmModal from "components/ConfirmModal";
+import React, { useEffect, useState } from "react";
 import { handleRequestError } from "utils/helpers";
+import AdminText from "./AdminText";
 import NewPin from "./NewPin";
 
 const UserActions = ({ user_id, user }) => {
+  const [confirmModalData, setConfirmModalData] = useState(null);
   const { isOpen, onOpen, onClose } = useDisclosure();
+
+  const {
+    isOpen: isConfirmOpen,
+    onOpen: onConfirmOpen,
+    onClose: onConfirmClose,
+  } = useDisclosure();
+
+  const {
+    isOpen: isBlockOpen,
+    onOpen: onBlockOpen,
+    onClose: onBlockClose,
+  } = useDisclosure();
 
   // ====== TOASTS ======
   const toast = useToast();
@@ -26,6 +48,72 @@ const UserActions = ({ user_id, user }) => {
       position: "top",
     });
   };
+  const errorToast = (msg) => {
+    toast({
+      title: "Action Failed",
+      description: msg,
+      status: "error",
+      duration: 3000,
+      isClosable: true,
+      variant: "top-accent",
+      position: "top",
+    });
+  };
+
+  // ======= RESEND CODE ======
+  const {
+    mutate: updateStatus,
+    isLoading: updating,
+    data: updateResp,
+    error: updateError,
+    reset: updateReset,
+  } = useUpdateUserStatus();
+
+  // OPEN CONFIRM MODAL
+  useEffect(() => {
+    if (confirmModalData === null) {
+    } else onConfirmOpen();
+  }, [confirmModalData]);
+
+  // CLOSE CONFIRM MODAL
+  const closeModal = () => {
+    setConfirmModalData(null);
+    onConfirmClose();
+  };
+
+  const handleUpdate = (status) => {
+    updateStatus({ _id: user_id, status });
+  };
+
+  const openActivate = () => {
+    setConfirmModalData({
+      msg: "Are you sure you want to activate this user?",
+      btnText: "Yes, Activate",
+      function: () => handleUpdate("active"),
+    });
+  };
+
+  const openDeactivate = () => {
+    setConfirmModalData({
+      msg: "Are you sure you want to deactivate this user?",
+      btnText: "Yes, Deactivate",
+      function: () => handleUpdate("inActive"),
+    });
+  };
+
+  console.log(updateResp);
+
+  useEffect(() => {
+    if (updateResp && updateResp?.status === "success") {
+      successToast("User account status updated");
+      updateReset();
+      closeModal();
+    } else if (updateResp?.status === "failed") {
+      errorToast(updateResp?.msg);
+      updateReset();
+      closeModal();
+    }
+  }, [updateResp]);
 
   // ======= RESEND CODE ======
   const {
@@ -35,6 +123,7 @@ const UserActions = ({ user_id, user }) => {
     error: resendError,
     reset: resendReset,
   } = useResendActivationCode();
+
   const handleResend = () => {
     resendCode({ _id: user_id });
   };
@@ -87,25 +176,59 @@ const UserActions = ({ user_id, user }) => {
     bvnReset();
     handleRequestError(approveError);
     approveReset();
-  }, [resendError, bvnError, approveError]);
+    handleRequestError(updateError);
+    updateReset();
+  }, [resendError, bvnError, approveError, updateError]);
 
   return (
-    <Flex gap="4" my="10" justify={"center"}>
-      <Button onClick={onOpen} w="fit-content">
-        Reset Pin
-      </Button>
-      <Button onClick={handleResend} maxW="fit-content" isLoading={resending}>
-        Resend Activation Code
-      </Button>
-      <Button onClick={lookupBvn} maxW="fit-content" isLoading={lookingUp}>
-        Lookup Bvn Validity
-      </Button>
-      <Button onClick={handleApprove} maxW="fit-content" isLoading={approving}>
-        Activate KYC
-      </Button>
+    <Box px="10" py="14" bg="white" boxShadow="sm">
+      <Grid
+        templateColumns={"repeat(3, 1fr)"}
+        gap="4"
+        my="10"
+        justify={"center"}
+      >
+        <Button onClick={openActivate} w="full">
+          Acivate
+        </Button>
+        <Button onClick={openDeactivate} w="full">
+          Deactivate
+        </Button>
+        <Button onClick={onBlockOpen} w="full">
+          Block
+        </Button>
+        <Button onClick={onOpen} w="full">
+          Reset Pin
+        </Button>
+        <Button onClick={handleResend} maxW="full" isLoading={resending}>
+          Resend Activation Code
+        </Button>
+        <Button onClick={lookupBvn} maxW="full" isLoading={lookingUp}>
+          Lookup Bvn Validity
+        </Button>
+        <Button onClick={handleApprove} maxW="full" isLoading={approving}>
+          Activate KYC
+        </Button>
 
-      <NewPin onClose={onClose} isOpen={isOpen} user_id={user_id} />
-    </Flex>
+        <NewPin onClose={onClose} isOpen={isOpen} user_id={user_id} />
+        <AdminText
+          onClose={onBlockClose}
+          isOpen={isBlockOpen}
+          user_id={user_id}
+        />
+
+        <ConfirmModal
+          message={confirmModalData?.msg}
+          primaryFunc={{
+            name: confirmModalData?.btnText,
+            func: confirmModalData?.function,
+          }}
+          isOpen={isConfirmOpen}
+          onClose={closeModal}
+          isLoading={updating}
+        />
+      </Grid>
+    </Box>
   );
 };
 

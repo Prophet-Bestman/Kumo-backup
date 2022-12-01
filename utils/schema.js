@@ -165,3 +165,7 @@ export const resetPinSchema = yup
     pin: yup.string().required("Pin is required").min(4).max(4),
   })
   .required();
+
+export const adminTextSchema = yup.object({
+  admin_text: yup.string().required("Admin Text is required"),
+});
