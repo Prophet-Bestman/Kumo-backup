@@ -169,3 +169,17 @@ export const resetPinSchema = yup
 export const adminTextSchema = yup.object({
   admin_text: yup.string().required("Admin Text is required"),
 });
+
+export const resetPasswordSchema = yup.object({
+  password: yup
+    .string()
+    .required()
+    .matches(
+      /((?=.*\d)(?=.*[A-Z])(?=.*[a-z])(?=.*\W)\w.{8,18}\w)/,
+      "Password should have at least one upper and lowercase, a number and a special character"
+    )
+    .min(7),
+  confirm_password: yup
+    .string()
+    .oneOf([yup.ref("password"), null], "Passwords must match"),
+});

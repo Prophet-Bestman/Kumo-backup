@@ -34,7 +34,7 @@ const UserDetailsPage = () => {
 
   const { data: adminRepliesResp } = useGetUserAdminReplies(userDetails);
 
-  // console.log(adminRepliesResp);
+  console.log(adminRepliesResp);
 
   const { data: userResp, isLoading } = useSingleGetUser(userDetails);
   const { data: transactionsData, refetch } = useGetTransactions(
@@ -63,14 +63,6 @@ const UserDetailsPage = () => {
 
   return (
     <Box p="6">
-      {/* <Grid templateColumns="repeat(3, 1fr)" gap="4" mb="40px">
-        {isLoading ? <UserSkeleton /> : !!user && <UserInfo user={user} />}
-        {isLoading ? <UserSkeleton /> : !!user && <UserWallets user={user} />}
-        {isLoading ? <UserSkeleton /> : !!user && <UserCards user={user} />}
-      </Grid>
-
-      {!!user && <UserActions user_id={userDetails} user={user} />} */}
-
       <Box mb="4">
         <Tabs>
           <CustomTabList tabList={tabList} />

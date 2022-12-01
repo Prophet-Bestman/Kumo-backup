@@ -205,3 +205,22 @@ export const useUpdateUserStatus = () => {
     }
   );
 };
+
+export const useResetUserPassword = () => {
+  const queryClient = useQueryClient();
+  const headers = configOptions();
+  return useMutation(
+    (values) =>
+      request
+        .put(`/reset-users-password?_id=${values?.user_id}`, values?.data, {
+          headers: headers,
+        })
+        .then((res) => res.data),
+    {
+      onSuccess: () => {
+        queryClient.invalidateQueries("users");
+        queryClient.invalidateQueries("single-user");
+      },
+    }
+  );
+};

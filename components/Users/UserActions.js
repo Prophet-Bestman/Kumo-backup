@@ -17,6 +17,7 @@ import React, { useEffect, useState } from "react";
 import { handleRequestError } from "utils/helpers";
 import AdminText from "./AdminText";
 import NewPin from "./NewPin";
+import ResetUserPassword from "./ResetUserPassword";
 
 const UserActions = ({ user_id, user }) => {
   const [confirmModalData, setConfirmModalData] = useState(null);
@@ -26,6 +27,12 @@ const UserActions = ({ user_id, user }) => {
     isOpen: isConfirmOpen,
     onOpen: onConfirmOpen,
     onClose: onConfirmClose,
+  } = useDisclosure();
+
+  const {
+    isOpen: isPasswordOpen,
+    onOpen: onPasswordOpen,
+    onClose: onPasswordClose,
   } = useDisclosure();
 
   const {
@@ -218,6 +225,9 @@ const UserActions = ({ user_id, user }) => {
             Block
           </Button>
         )}
+        <Button onClick={onPasswordOpen} w="full">
+          Reset Password
+        </Button>
         <Button onClick={onOpen} w="full">
           Initiate Reset Pin
         </Button>
@@ -233,6 +243,14 @@ const UserActions = ({ user_id, user }) => {
 
         {isOpen && (
           <NewPin onClose={onClose} isOpen={isOpen} user_id={user_id} />
+        )}
+
+        {isPasswordOpen && (
+          <ResetUserPassword
+            onClose={onPasswordClose}
+            isOpen={isPasswordOpen}
+            user_id={user_id}
+          />
         )}
         <AdminText
           onClose={onBlockClose}
