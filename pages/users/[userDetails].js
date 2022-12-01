@@ -1,5 +1,5 @@
 import { Box, Grid, Tab, TabPanel, TabPanels, Tabs } from "@chakra-ui/react";
-import { useSingleGetUser } from "api/users";
+import { useGetUserAdminReplies, useSingleGetUser } from "api/users";
 import { useRouter } from "next/router";
 import React, { useEffect, useState } from "react";
 import { SkeletonCircle, SkeletonText } from "@chakra-ui/react";
@@ -28,8 +28,13 @@ const UserDetailsPage = () => {
   const [user, setUser] = useState(null);
   const [page, setPage] = useState(1);
   const [pages, setPages] = useState(1);
+  const [adminReplies, setAdminReplies] = useState(null);
 
   const { userDetails } = router.query;
+
+  const { data: adminRepliesResp } = useGetUserAdminReplies(userDetails);
+
+  // console.log(adminRepliesResp);
 
   const { data: userResp, isLoading } = useSingleGetUser(userDetails);
   const { data: transactionsData, refetch } = useGetTransactions(
@@ -70,21 +75,25 @@ const UserDetailsPage = () => {
         <Tabs>
           <CustomTabList tabList={tabList} />
 
-          {!isLoading && !!user && (
-            <TabPanels>
-              <TabPanel>
-                <UserDetails user={user} />
-              </TabPanel>
-              <TabPanel>
-                <UserVerifications user={user} />
-              </TabPanel>
-              <TabPanel>
-                <UserWallets user={user} />
-              </TabPanel>
-              <TabPanel>
-                {!!user && <UserActions user_id={userDetails} user={user} />}
-              </TabPanel>
-            </TabPanels>
+          {isLoading ? (
+            <UserSkeleton />
+          ) : (
+            !!user && (
+              <TabPanels>
+                <TabPanel>
+                  <UserDetails user={user} />
+                </TabPanel>
+                <TabPanel>
+                  <UserVerifications user={user} />
+                </TabPanel>
+                <TabPanel>
+                  <UserWallets user={user} />
+                </TabPanel>
+                <TabPanel>
+                  {!!user && <UserActions user_id={userDetails} user={user} />}
+                </TabPanel>
+              </TabPanels>
+            )
           )}
         </Tabs>
       </Box>
@@ -103,7 +112,7 @@ UserDetailsPage.requireAuth = true;
 const UserSkeleton = () => {
   return (
     <Box padding="6" boxShadow="md" bg="white" h="400px">
-      <SkeletonCircle size="20" mx="auto" />
+      <SkeletonCircle size="20" />
       <SkeletonText mt="4" noOfLines={2} spacing="4" />
 
       <Grid templateColumns="repeat(3, 1fr)" gap="4" mt="8">

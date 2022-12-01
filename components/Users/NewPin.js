@@ -1,15 +1,34 @@
-import { Box, Button, Input, Stack, Text, useToast } from "@chakra-ui/react";
+import {
+  Box,
+  Button,
+  Flex,
+  Input,
+  Stack,
+  Text,
+  useToast,
+} from "@chakra-ui/react";
 import { yupResolver } from "@hookform/resolvers/yup";
 import { useResetUsersPin } from "api/users";
 import InputError from "components/InputError";
 import LargeHeading from "components/LargeHeading";
 import ModalCard from "components/ModalCard";
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
+import { AiOutlineReload } from "react-icons/ai";
 import { handleRequestError } from "utils/helpers";
 import { resetPinSchema } from "utils/schema";
 
 const NewPin = ({ isOpen, onClose, user_id }) => {
+  const [randomPin, setRandomPin] = useState(1);
+
+  const generateRandomPin = () => {
+    setRandomPin(Math.ceil(Math.random() * 10000));
+  };
+
+  useEffect(() => {
+    generateRandomPin();
+  }, []);
+
   const {
     register,
     handleSubmit,
@@ -69,14 +88,28 @@ const NewPin = ({ isOpen, onClose, user_id }) => {
 
         <form onSubmit={handleSubmit(handleReset)}>
           <Stack mt="4">
-            <Text fontSize="14px">New Pin</Text>
+            <Text fontSize="14px">
+              New Pin (This default Pin Will be sent to the user)
+            </Text>
 
-            <Input {...register("pin")} placeholder="" type="number" />
+            <Input
+              {...register("pin")}
+              placeholder=""
+              type="number"
+              value={randomPin}
+            />
+            <Flex justify="flex-end" px="8" mb="'200px" color="app.primary">
+              <AiOutlineReload
+                fontSize="20px"
+                onClick={generateRandomPin}
+                cursor="pointer"
+              />
+            </Flex>
             <InputError msg={errors?.pin?.message} />
           </Stack>
 
           <Button mt="4" h="48px" type="submit" isLoading={isLoading}>
-            Add Fee
+            Initiate Reset Pin
           </Button>
         </form>
       </Box>

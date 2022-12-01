@@ -15,7 +15,7 @@ import LargeHeading from "components/LargeHeading";
 import ModalCard from "components/ModalCard";
 import React, { useEffect } from "react";
 import { useForm } from "react-hook-form";
-import { currencies } from "utils/constants";
+// import { currencies } from "utils/constants";
 import { handleRequestError } from "utils/helpers";
 import { fundWalletSchema } from "utils/schema";
 
@@ -88,9 +88,9 @@ const FundWallet = ({ isOpen, onClose, user }) => {
                 placeholder="Select Currency"
                 {...register("currency_name")}
               >
-                {currencies?.map((currency) => (
-                  <option key={currency} value={currency}>
-                    {currency}
+                {user?.wallet_addreses?.map((currency) => (
+                  <option key={currency?.cryptoAddress} value={currency?.name}>
+                    {currency?.name}
                   </option>
                 ))}
               </Select>

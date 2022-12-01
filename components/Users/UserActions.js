@@ -101,8 +101,6 @@ const UserActions = ({ user_id, user }) => {
     });
   };
 
-  console.log(updateResp);
-
   useEffect(() => {
     if (updateResp && updateResp?.status === "success") {
       successToast("User account status updated");
@@ -128,10 +126,19 @@ const UserActions = ({ user_id, user }) => {
     resendCode({ _id: user_id });
   };
 
+  const openResend = () => {
+    setConfirmModalData({
+      msg: "Are you sure you want to resend the activation code?",
+      btnText: "Yes, Resend",
+      function: () => handleResend(),
+    });
+  };
+
   useEffect(() => {
     if (resendResp && resendResp?.status === "success") {
       successToast("Check mail for code");
       resendReset();
+      closeModal();
     }
   }, [resendResp]);
 
@@ -163,6 +170,14 @@ const UserActions = ({ user_id, user }) => {
     approveBvn(user_id);
   };
 
+  const openActivateKyc = () => {
+    setConfirmModalData({
+      msg: "Are you sure you want to this user's KYC",
+      btnText: "Yes, Activate",
+      function: () => handleApprove(),
+    });
+  };
+
   useEffect(() => {
     if (!!approveResp && approveResp?.status === "success") {
       successToast("KYC Successfully Activated");
@@ -188,29 +203,37 @@ const UserActions = ({ user_id, user }) => {
         my="10"
         justify={"center"}
       >
-        <Button onClick={openActivate} w="full">
-          Acivate
-        </Button>
-        <Button onClick={openDeactivate} w="full">
-          Deactivate
-        </Button>
-        <Button onClick={onBlockOpen} w="full">
-          Block
-        </Button>
+        {user?.status !== "active" && (
+          <Button onClick={openActivate} w="full">
+            Acivate
+          </Button>
+        )}
+        {user?.status !== "inActive" && (
+          <Button onClick={openDeactivate} w="full">
+            Deactivate
+          </Button>
+        )}
+        {user?.status !== "suspended" && (
+          <Button onClick={onBlockOpen} w="full">
+            Block
+          </Button>
+        )}
         <Button onClick={onOpen} w="full">
-          Reset Pin
+          Initiate Reset Pin
         </Button>
-        <Button onClick={handleResend} maxW="full" isLoading={resending}>
+        <Button onClick={openResend} maxW="full" isLoading={resending}>
           Resend Activation Code
         </Button>
         <Button onClick={lookupBvn} maxW="full" isLoading={lookingUp}>
           Lookup Bvn Validity
         </Button>
-        <Button onClick={handleApprove} maxW="full" isLoading={approving}>
-          Activate KYC
+        <Button onClick={openActivateKyc} maxW="full" isLoading={approving}>
+          Activate KYC/Verify BVN
         </Button>
 
-        <NewPin onClose={onClose} isOpen={isOpen} user_id={user_id} />
+        {isOpen && (
+          <NewPin onClose={onClose} isOpen={isOpen} user_id={user_id} />
+        )}
         <AdminText
           onClose={onBlockClose}
           isOpen={isBlockOpen}
@@ -225,7 +248,7 @@ const UserActions = ({ user_id, user }) => {
           }}
           isOpen={isConfirmOpen}
           onClose={closeModal}
-          isLoading={updating}
+          isLoading={updating || resending || approving}
         />
       </Grid>
     </Box>
