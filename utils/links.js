@@ -53,8 +53,8 @@ export const navs = [
   // },
 
   // {
-  //   name: "Airtime and Data",
-  //   link: "/airtime-and-data",
+  //   name: "Verifications",
+  //   link: "/verifications",
   //   icon: <RiSmartphoneFill />,
   // },
   {

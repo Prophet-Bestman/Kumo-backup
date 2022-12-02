@@ -1,15 +1,9 @@
-import { Box, Grid, Tab, TabPanel, TabPanels, Tabs } from "@chakra-ui/react";
-import { useGetUserAdminReplies, useSingleGetUser } from "api/users";
+import { Box, Grid, TabPanel, TabPanels, Tabs } from "@chakra-ui/react";
+import { useSingleGetUser } from "api/users";
 import { useRouter } from "next/router";
 import React, { useEffect, useState } from "react";
 import { SkeletonCircle, SkeletonText } from "@chakra-ui/react";
-import {
-  UserCards,
-  UserDetails,
-  UserInfo,
-  UserVerifications,
-  UserWallets,
-} from "components/Users";
+import { UserDetails, UserVerifications, UserWallets } from "components/Users";
 
 import { useGetTransactions, useGetTransactionsSize } from "api/transactions";
 import { TransactionsTable } from "components/TransactionHistory";
@@ -28,13 +22,8 @@ const UserDetailsPage = () => {
   const [user, setUser] = useState(null);
   const [page, setPage] = useState(1);
   const [pages, setPages] = useState(1);
-  const [adminReplies, setAdminReplies] = useState(null);
 
   const { userDetails } = router.query;
-
-  const { data: adminRepliesResp } = useGetUserAdminReplies(userDetails);
-
-  console.log(adminRepliesResp);
 
   const { data: userResp, isLoading } = useSingleGetUser(userDetails);
   const { data: transactionsData, refetch } = useGetTransactions(

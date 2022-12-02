@@ -20,6 +20,7 @@ export const navStates = {
   settings: "Settings",
   logs: "Logs",
   investments: "Investments",
+  verifications: "Verifications",
 };
 
 const NavProvider = ({ children }) => {
