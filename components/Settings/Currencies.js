@@ -15,8 +15,7 @@ const Currencies = () => {
   const {
     isOpen: isDeleteOpen,
     onOpen: onDeleteOpen,
-    onClose,
-    onDeleteClose,
+    onClose: onDeleteClose,
   } = useDisclosure();
 
   // ====== TOASTS ======

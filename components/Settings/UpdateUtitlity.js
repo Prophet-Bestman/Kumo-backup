@@ -130,6 +130,9 @@ const UpdateUtility = ({ options }) => {
       </LargeHeading>
 
       <form onSubmit={handleSubmit(handleUpdate)}>
+        <Text fontSize="14px" mt="12px" mb="-8px">
+          Select Utility
+        </Text>
         <Menu>
           <MenuButton
             size="sm"
