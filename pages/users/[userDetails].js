@@ -25,7 +25,9 @@ const UserDetailsPage = () => {
 
   const { userDetails } = router.query;
 
-  const { data: userResp, isLoading } = useSingleGetUser(userDetails);
+  const { data: userResp, isLoading } = useSingleGetUser(userDetails, {
+    refetchInterval: 5000,
+  });
   const { data: transactionsData, refetch } = useGetTransactions(
     page,
     userDetails

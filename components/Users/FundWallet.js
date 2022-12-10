@@ -40,6 +40,8 @@ const FundWallet = ({ isOpen, onClose, user }) => {
     });
   };
 
+  // console.log(user);
+
   const {
     mutate: fundWallet,
     data: fundResp,
@@ -88,7 +90,7 @@ const FundWallet = ({ isOpen, onClose, user }) => {
                 placeholder="Select Currency"
                 {...register("currency_name")}
               >
-                {user?.wallet_addreses?.map((currency) => (
+                {user?.wallet_balance?.map((currency) => (
                   <option key={currency?.cryptoAddress} value={currency?.name}>
                     {currency?.name}
                   </option>
