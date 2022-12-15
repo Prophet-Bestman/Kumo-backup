@@ -215,6 +215,27 @@ export const useUpdateFundWalletFee = () => {
   );
 };
 
+export const useDeleteUtility = () => {
+  const queryClient = useQueryClient();
+  const headers = configOptions();
+  return useMutation(
+    (values) =>
+      request2
+        .delete(
+          `/delete-utilities-state?utility_name=${values?.utility_name}`,
+          {
+            headers: headers,
+          }
+        )
+        .then((res) => res.data),
+    {
+      onSuccess: () => {
+        queryClient.invalidateQueries("utilities");
+      },
+    }
+  );
+};
+
 export const useDeleteCryptoAddress = () => {
   const queryClient = useQueryClient();
   const headers = configOptions();
@@ -251,22 +272,134 @@ export const useDeleteCurrency = () => {
   );
 };
 
-export const useDeleteUtility = () => {
-  const queryClient = useQueryClient();
+export const useGetExternalCoins = (searchText) => {
   const headers = configOptions();
-  return useMutation(
-    (values) =>
+
+  return useQuery(
+    ["external-coins"],
+    () =>
       request2
-        .delete(
-          `/delete-utilities-state?utility_name=${values?.utility_name}`,
+        .get(
+          `/get-external-coin-listing?item_per_page=50&q=${searchText || ""}`,
           {
             headers: headers,
           }
         )
         .then((res) => res.data),
+    { refetchOnWindowFocus: false }
+  );
+};
+
+export const useGetAllCoinListing = () => {
+  const headers = configOptions();
+  return useQuery("coin-listings", () =>
+    request2
+      .get(`/get-all-coin-listings`, { headers: headers })
+      .then((res) => res.data)
+  );
+};
+
+export const useAddCoinToListing = () => {
+  const queryClient = useQueryClient();
+  const headers = configOptions();
+  return useMutation(
+    (values) =>
+      request2
+        .post(`/add-coin-to-listing`, values, {
+          headers: headers,
+        })
+        .then((res) => res.data),
     {
       onSuccess: () => {
-        queryClient.invalidateQueries("utilities");
+        queryClient.invalidateQueries("coin-listing");
+      },
+    }
+  );
+};
+
+export const useRemoveCoinFromListing = () => {
+  const queryClient = useQueryClient();
+  const headers = configOptions();
+  return useMutation(
+    (values) =>
+      request2
+        .delete(`/remove-coin-from-listing?coin_id=${values}`, {
+          headers: headers,
+        })
+        .then((res) => res.data),
+    {
+      onSuccess: () => {
+        queryClient.invalidateQueries("coin-listing");
+      },
+    }
+  );
+};
+
+export const useGetCryptoTokens = () => {
+  const headers = configOptions();
+  return useQuery(
+    ["crypto-tokens"],
+    () =>
+      request2
+        .get(`/get-all-tokens?item_per_page=50`, {
+          headers: headers,
+        })
+        .then((res) => {
+          return res.data;
+        }),
+    { refetchOnWindowFocus: false }
+  );
+};
+
+export const useCreateToken = () => {
+  const queryClient = useQueryClient();
+  const headers = configOptions();
+  return useMutation(
+    (values) =>
+      request2
+        .post(`/create-token`, values, {
+          headers: headers,
+        })
+        .then((res) => res.data),
+    {
+      onSuccess: () => {
+        queryClient.invalidateQueries("crypto-tokens");
+      },
+    }
+  );
+};
+
+export const useUpdateCryptoToken = () => {
+  const queryClient = useQueryClient();
+  const headers = configOptions();
+  return useMutation(
+    (values) =>
+      request2
+        .put(`/update-token`, values, {
+          headers: headers,
+        })
+        .then((res) => res.data),
+    {
+      onSuccess: () => {
+        queryClient.invalidateQueries("crypto-tokens");
+      },
+    }
+  );
+};
+
+export const useDeleteCryptotToken = () => {
+  const queryClient = useQueryClient();
+  const headers = configOptions();
+  return useMutation(
+    (values) =>
+      request2
+        .delete(`/delete-token?token_id=${values}`, {
+          headers: headers,
+        })
+        .then((res) => res.data),
+    {
+      onSuccess: () => {
+        queryClient.invalidateQueries("crypto-tokens");
       },
     }
   );

@@ -15,9 +15,11 @@ import {
   useUpdateCryptoAddress,
 } from "api/settings";
 import {
+  AddCoinListing,
   AddCryptoAddress,
   AddFundWalletFee,
   AddTransactionFee,
+  CoinListings,
   Currencies,
   UpdateFundWalletFee,
   UpdatePaypal,
@@ -33,6 +35,8 @@ import UpdateCryptoWallet from "components/Settings/UpdateCryptoWallet";
 import AddCurrency from "components/Settings/AddCurrency";
 import AddUtility from "components/Settings/AddUtitlity";
 import UpdateUtility from "components/Settings/UpdateUtitlity";
+import CreateToken from "components/Settings/CreateToken";
+import CryptoTokens from "components/Settings/CryptoTokens";
 
 const initialTransactionFeeOptions = [
   "BUY_CRYPTO_FEE",
@@ -82,6 +86,16 @@ const Settings = () => {
     onClose: onAddCurrencyClose,
   } = useDisclosure();
 
+  const {
+    isOpen: isAddCoinOpen,
+    onOpen: onAddCoinOpen,
+    onClose: onAddCoinClose,
+  } = useDisclosure();
+  const {
+    isOpen: isCreateTokenOpen,
+    onOpen: onCreateTokenOpen,
+    onClose: onCreateTokenClose,
+  } = useDisclosure();
   const {
     isOpen: isAddCryptoOpen,
     onOpen: onAddCryptoOpen,
@@ -202,6 +216,8 @@ const Settings = () => {
         )}
 
         <Currencies />
+        <CryptoTokens />
+        <CoinListings />
       </Grid>
       <Box pos="fixed" bottom={8} right={8}>
         <Menu>
@@ -224,6 +240,8 @@ const Settings = () => {
               Add Crypto Wallet Address
             </MenuItem>
             <MenuItem onClick={onAddCurrencyOpen}>Add Currency</MenuItem>
+            <MenuItem onClick={onCreateTokenOpen}>Create Token</MenuItem>
+            <MenuItem onClick={onAddCoinOpen}>Add Coin to listing </MenuItem>
             <MenuItem onClick={onUtilityOpen}>Add Utility</MenuItem>
           </MenuList>
         </Menu>
@@ -246,6 +264,12 @@ const Settings = () => {
 
       {isAddCryptoOpen && (
         <AddCryptoAddress isOpen={isAddCryptoOpen} onClose={onAddCryptoClose} />
+      )}
+      {isAddCoinOpen && (
+        <AddCoinListing isOpen={isAddCoinOpen} onClose={onAddCoinClose} />
+      )}
+      {isCreateTokenOpen && (
+        <CreateToken isOpen={isCreateTokenOpen} onClose={onCreateTokenClose} />
       )}
       {isAddCurrencyOpen && (
         <AddCurrency isOpen={isAddCurrencyOpen} onClose={onAddCurrencyClose} />

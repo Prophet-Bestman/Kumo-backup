@@ -88,9 +88,9 @@ const DebitWallet = ({ isOpen, onClose, user }) => {
                 placeholder="Select Currency"
                 {...register("currency_name")}
               >
-                {currencies?.map((currency) => (
-                  <option key={currency} value={currency}>
-                    {currency}
+                {user?.wallet_balance?.map((currency) => (
+                  <option key={currency?.cryptoAddress} value={currency?.name}>
+                    {currency?.name}
                   </option>
                 ))}
               </Select>

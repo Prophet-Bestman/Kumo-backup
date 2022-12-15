@@ -183,3 +183,25 @@ export const resetPasswordSchema = yup.object({
     .string()
     .oneOf([yup.ref("password"), null], "Passwords must match"),
 });
+
+export const createCryptoTokenSchema = yup
+  .object({
+    token_id: yup.string().required("Token ID is required"),
+    name: yup.string().required("Token Name is required"),
+    name: yup.string().required("Token Name is required"),
+    code: yup.string().required("Token code is required"),
+    token_to_usd: yup.string().required("Token Dollar rate is required"),
+    token_to_naira: yup.string().required("Token Naira rate is required"),
+  })
+  .required();
+
+export const updateCryptoTokenSchema = yup
+  .object({
+    name: yup.string().required("Token Name is required"),
+    name: yup.string().required("Token Name is required"),
+    code: yup.string().required("Token code is required"),
+    token_to_usd: yup.string().required("Token Dollar rate is required"),
+    token_to_naira: yup.string().required("Token Naira rate is required"),
+    // is_listed: yup.string().required("Is listed is required"),
+  })
+  .required();

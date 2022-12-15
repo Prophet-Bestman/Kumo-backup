@@ -10,6 +10,7 @@ import ModalCard from "./ModalCard";
 import LargeHeading from "./LargeHeading";
 import FilterMenu from "./FilterMenu";
 import Pagination from "./Pagination";
+import SearchSelect from "./SearchSelect";
 
 export {
   CustomTabList,
@@ -24,4 +25,5 @@ export {
   LargeHeading,
   FilterMenu,
   Pagination,
+  SearchSelect,
 };

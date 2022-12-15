@@ -10,6 +10,8 @@ import UpdateTransactionFees from "./UpdateTransactionFees";
 
 import UsdToNaira from "./UsdToNaira";
 import Currencies from "./Currencies";
+import CoinListings from "./CoinListings";
+import AddCoinListing from "./AddCoinListing";
 
 export {
   UsdToNaira,
@@ -22,4 +24,6 @@ export {
   AddCryptoAddress,
   UpdatePaypal,
   Currencies,
+  CoinListings,
+  AddCoinListing,
 };

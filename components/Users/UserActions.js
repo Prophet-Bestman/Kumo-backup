@@ -23,6 +23,8 @@ const UserActions = ({ user_id, user }) => {
   const [confirmModalData, setConfirmModalData] = useState(null);
   const { isOpen, onOpen, onClose } = useDisclosure();
 
+  // console.log(user);
+
   const {
     isOpen: isConfirmOpen,
     onOpen: onConfirmOpen,
@@ -173,22 +175,33 @@ const UserActions = ({ user_id, user }) => {
     reset: approveReset,
   } = useApproveBvn();
 
-  const handleApprove = () => {
-    approveBvn(user_id);
+  const handleApprove = (option) => {
+    const payload = {
+      user_id,
+      data: {
+        admin_reply: option === "activate" ? "approved" : "disapproved",
+        verified: option === "activate" ? true : "false",
+      },
+    };
+    approveBvn(payload);
   };
 
-  const openActivateKyc = () => {
+  const openActivateKyc = (option) => {
     setConfirmModalData({
-      msg: "Are you sure you want to this user's KYC",
-      btnText: "Yes, Activate",
-      function: () => handleApprove(),
+      msg:
+        option === "activate"
+          ? "Are you sure you want to activate this user's KYC"
+          : "Are you sure you want to decline this user's KYC",
+      btnText: option === "activate" ? "Yes, Activate" : "Yes, Decline",
+      function: () => handleApprove(option),
     });
   };
 
   useEffect(() => {
     if (!!approveResp && approveResp?.status === "success") {
-      successToast("KYC Successfully Activated");
+      successToast(approveResp?.msg);
     }
+    approveReset();
   }, [approveResp]);
 
   useEffect(() => {
@@ -237,10 +250,25 @@ const UserActions = ({ user_id, user }) => {
         <Button onClick={lookupBvn} maxW="full" isLoading={lookingUp}>
           Lookup Bvn Validity
         </Button>
-        <Button onClick={openActivateKyc} maxW="full" isLoading={approving}>
-          Activate KYC/Verify BVN
-        </Button>
 
+        {user?.bvn?.admin_reply === "" && (
+          <>
+            <Button
+              onClick={() => openActivateKyc("activate")}
+              maxW="full"
+              isLoading={approving}
+            >
+              Activate KYC/Verify BVN
+            </Button>
+            <Button
+              onClick={() => openActivateKyc("decline")}
+              maxW="full"
+              isLoading={approving}
+            >
+              Decline KYC/BVN Verification
+            </Button>
+          </>
+        )}
         {isOpen && (
           <NewPin onClose={onClose} isOpen={isOpen} user_id={user_id} />
         )}

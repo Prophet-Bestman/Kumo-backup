@@ -130,11 +130,11 @@ export const useApproveBvn = () => {
   const queryClient = useQueryClient();
   const headers = configOptions();
   return useMutation(
-    (user_id) =>
+    (values) =>
       request
         .put(
-          `/approve-user-bvn-validation?user_id=${user_id}`,
-          {},
+          `/approve-user-bvn-validation?user_id=${values?.user_id}`,
+          values?.data,
           {
             headers: headers,
           }
