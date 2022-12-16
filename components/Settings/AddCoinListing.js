@@ -113,12 +113,15 @@ const AddCoinListing = ({ isOpen, onClose }) => {
           Add Coin
         </LargeHeading>
 
-        <Stack>
+        <Stack mt="4">
+          <Text fontSize="14px" fontWeight={600} mb="2">
+            Select Coin
+          </Text>
           <SearchSelect
             handleChange={handleChange}
             values={externalCoins}
             // defaultValue={area}
-            placeholder="Search Areas"
+            placeholder="Search Crytocurrency with exact name"
             setValue={setSearchText}
             getItemValue={getItemValue}
             isLoading={loadingExternalCoins}

@@ -311,7 +311,7 @@ export const useAddCoinToListing = () => {
         .then((res) => res.data),
     {
       onSuccess: () => {
-        queryClient.invalidateQueries("coin-listing");
+        queryClient.invalidateQueries("coin-listings");
       },
     }
   );
