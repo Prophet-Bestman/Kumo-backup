@@ -414,10 +414,7 @@ export const useListUnlistToken = () => {
         .put(`/list-unlist-token?token_id=${values?.token_id}`, values?.data, {
           headers: headers,
         })
-        .then((res) => {
-          console.log(res);
-          res.data;
-        }),
+        .then((res) => res.data),
     {
       onSuccess: () => {
         queryClient.invalidateQueries("crypto-tokens");

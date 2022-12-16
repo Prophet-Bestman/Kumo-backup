@@ -40,8 +40,6 @@ const FundWallet = ({ isOpen, onClose, user }) => {
     });
   };
 
-  // console.log(user);
-
   const {
     mutate: fundWallet,
     data: fundResp,

@@ -36,8 +36,6 @@ const Verifications = () => {
 
   const { data } = useGetAllAdminReplies();
 
-  // console.log(data);
-
   const { data: usersResp, isLoading } = useGetUsers(page);
 
   //  ============= PAGINATION LOGIC ===============

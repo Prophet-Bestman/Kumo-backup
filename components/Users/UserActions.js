@@ -23,8 +23,6 @@ const UserActions = ({ user_id, user }) => {
   const [confirmModalData, setConfirmModalData] = useState(null);
   const { isOpen, onOpen, onClose } = useDisclosure();
 
-  // console.log(user);
-
   const {
     isOpen: isConfirmOpen,
     onOpen: onConfirmOpen,

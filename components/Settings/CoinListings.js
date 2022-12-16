@@ -53,7 +53,6 @@ const CoinListings = () => {
 
   const handleDelete = () => {
     removeCoin(selectedCoin);
-    // console.log(selectedCoin);
   };
 
   useEffect(() => {

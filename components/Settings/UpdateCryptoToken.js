@@ -61,7 +61,6 @@ const UpdateCryptoToken = ({ isOpen, onClose, token }) => {
 
   const handleUpdate = (data) => {
     delete data.is_listed;
-    console.log({ ...data });
     updateToken({ ...data });
   };
 
