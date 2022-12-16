@@ -351,6 +351,22 @@ export const useGetCryptoTokens = () => {
   );
 };
 
+export const useGetAllListedTokens = () => {
+  const headers = configOptions();
+  return useQuery(
+    ["listed-tokens"],
+    () =>
+      request2
+        .get(`/get-all-list-tokens?item_per_page=50`, {
+          headers: headers,
+        })
+        .then((res) => {
+          return res.data;
+        }),
+    { refetchOnWindowFocus: false }
+  );
+};
+
 export const useCreateToken = () => {
   const queryClient = useQueryClient();
   const headers = configOptions();
@@ -363,7 +379,7 @@ export const useCreateToken = () => {
         .then((res) => res.data),
     {
       onSuccess: () => {
-        queryClient.invalidateQueries("crypto-tokens");
+        queryClient.invalidateQueries("crypto-tokens", "listed-tokens");
       },
     }
   );
@@ -375,13 +391,34 @@ export const useUpdateCryptoToken = () => {
   return useMutation(
     (values) =>
       request2
-        .put(`/update-token`, values, {
+        .put(`/update-token?token_id=${values?.token_id}`, values, {
           headers: headers,
         })
         .then((res) => res.data),
     {
       onSuccess: () => {
-        queryClient.invalidateQueries("crypto-tokens");
+        queryClient.invalidateQueries("crypto-tokens", "listed-tokens");
+      },
+    }
+  );
+};
+
+export const useListUnlistToken = () => {
+  const queryClient = useQueryClient();
+  const headers = configOptions();
+  return useMutation(
+    (values) =>
+      request2
+        .put(`/list-unlist-token?token_id=${values?.token_id}`, values?.data, {
+          headers: headers,
+        })
+        .then((res) => {
+          console.log(res);
+          res.data;
+        }),
+    {
+      onSuccess: () => {
+        queryClient.invalidateQueries("crypto-tokens", "listed-tokens");
       },
     }
   );
@@ -399,7 +436,7 @@ export const useDeleteCryptotToken = () => {
         .then((res) => res.data),
     {
       onSuccess: () => {
-        queryClient.invalidateQueries("crypto-tokens");
+        queryClient.invalidateQueries("crypto-tokens", "listed-tokens");
       },
     }
   );

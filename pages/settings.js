@@ -37,6 +37,7 @@ import AddUtility from "components/Settings/AddUtitlity";
 import UpdateUtility from "components/Settings/UpdateUtitlity";
 import CreateToken from "components/Settings/CreateToken";
 import CryptoTokens from "components/Settings/CryptoTokens";
+import AllListedTokens from "components/Settings/AllListedTokens";
 
 const initialTransactionFeeOptions = [
   "BUY_CRYPTO_FEE",
@@ -208,16 +209,17 @@ const Settings = () => {
         {!!fundWalletFees && fundWalletFees?.length > 0 && (
           <UpdateFundWalletFee options={fundWalletFees} />
         )}
-        {!!cryptoWallets && cryptoWallets?.length > 0 && (
+        {/* {!!cryptoWallets && cryptoWallets?.length > 0 && (
           <UpdateCryptoWallet options={cryptoWallets} />
-        )}
+        )} */}
         {!!utilities && utilities?.length > 0 && (
           <UpdateUtility options={utilities} />
         )}
 
-        <Currencies />
+        {/* <Currencies /> */}
         <CryptoTokens />
         <CoinListings />
+        <AllListedTokens />
       </Grid>
       <Box pos="fixed" bottom={8} right={8}>
         <Menu>
@@ -236,10 +238,10 @@ const Settings = () => {
           >
             <MenuItem onClick={onOpen}>Add Transaction Fee</MenuItem>
             <MenuItem onClick={onWalletFeeOpen}>Add Fund Wallet Fee</MenuItem>
-            <MenuItem onClick={onAddCryptoOpen}>
+            {/* <MenuItem onClick={onAddCryptoOpen}>
               Add Crypto Wallet Address
-            </MenuItem>
-            <MenuItem onClick={onAddCurrencyOpen}>Add Currency</MenuItem>
+            </MenuItem> */}
+            {/* <MenuItem onClick={onAddCurrencyOpen}>Add Currency</MenuItem> */}
             <MenuItem onClick={onCreateTokenOpen}>Create Token</MenuItem>
             <MenuItem onClick={onAddCoinOpen}>Add Coin to listing </MenuItem>
             <MenuItem onClick={onUtilityOpen}>Add Utility</MenuItem>
