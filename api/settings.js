@@ -379,7 +379,8 @@ export const useCreateToken = () => {
         .then((res) => res.data),
     {
       onSuccess: () => {
-        queryClient.invalidateQueries("crypto-tokens", "listed-tokens");
+        queryClient.invalidateQueries("crypto-tokens");
+        queryClient.invalidateQueries("listed-tokens");
       },
     }
   );
@@ -397,7 +398,8 @@ export const useUpdateCryptoToken = () => {
         .then((res) => res.data),
     {
       onSuccess: () => {
-        queryClient.invalidateQueries("crypto-tokens", "listed-tokens");
+        queryClient.invalidateQueries("crypto-tokens");
+        queryClient.invalidateQueries("listed-tokens");
       },
     }
   );
@@ -418,7 +420,8 @@ export const useListUnlistToken = () => {
         }),
     {
       onSuccess: () => {
-        queryClient.invalidateQueries("crypto-tokens", "listed-tokens");
+        queryClient.invalidateQueries("crypto-tokens");
+        queryClient.invalidateQueries("listed-tokens");
       },
     }
   );
@@ -436,7 +439,8 @@ export const useDeleteCryptotToken = () => {
         .then((res) => res.data),
     {
       onSuccess: () => {
-        queryClient.invalidateQueries("crypto-tokens", "listed-tokens");
+        queryClient.invalidateQueries("crypto-tokens");
+        queryClient.invalidateQueries("listed-tokens");
       },
     }
   );
