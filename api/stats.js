@@ -7,12 +7,15 @@ const request = axios.create({
   baseURL: baseUrl + "/admin/stats",
 });
 
-export const useGetOverallStats = () => {
+export const useGetOverallStats = (options) => {
   const headers = configOptions();
-  return useQuery("overall-stats", () =>
-    request
-      .get(`/get-overall-stats`, { headers: headers })
-      .then((res) => res.data)
+  return useQuery(
+    "overall-stats",
+    () =>
+      request
+        .get(`/get-overall-stats`, { headers: headers })
+        .then((res) => res.data),
+    { ...options }
   );
 };
 
