@@ -34,7 +34,6 @@
 
 import { Box, Button, Text } from "@chakra-ui/react";
 import { useGetOverallStats } from "api/stats";
-import { useSingleGetUser } from "api/users";
 import { useRouter } from "next/router";
 import React, { useEffect, useState } from "react";
 import { useAuthContext } from "./AuthProvider";
@@ -65,7 +64,7 @@ const AuthGuard = ({ children }) => {
     if (!!error) {
       if (error?.response?.status === 401) {
         setRedirect(router.route);
-        router.push("/auth/signin");
+        router.push("/auth/login");
         setAuthError(true);
       } else if (error?.code === "ERR_NETWORK") {
         setNetworkError(true);
