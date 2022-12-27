@@ -184,6 +184,8 @@ const UserActions = ({ user_id, user }) => {
     approveBvn(payload);
   };
 
+  console.log(user);
+
   const openActivateKyc = (option) => {
     setConfirmModalData({
       msg:
@@ -245,12 +247,12 @@ const UserActions = ({ user_id, user }) => {
         <Button onClick={openResend} maxW="full" isLoading={resending}>
           Resend Activation Code
         </Button>
-        <Button onClick={lookupBvn} maxW="full" isLoading={lookingUp}>
-          Lookup Bvn Validity
-        </Button>
 
-        {user?.bvn?.admin_reply === "" && (
+        {!user?.bvn?.verified && (
           <>
+            <Button onClick={lookupBvn} maxW="full" isLoading={lookingUp}>
+              Lookup Bvn Validity
+            </Button>
             <Button
               onClick={() => openActivateKyc("activate")}
               maxW="full"
