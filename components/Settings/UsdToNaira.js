@@ -24,7 +24,7 @@ const UsdToNaira = ({ data }) => {
     formState: { errors },
   } = useForm({
     resolver: yupResolver(updateUsdToNairaSchema),
-    defaultValues: { value: data?.value },
+    defaultValues: { value: data.value },
   });
 
   // ====== TOASTS ======
@@ -81,7 +81,11 @@ const UsdToNaira = ({ data }) => {
                 N
               </Text>
             </InputLeftElement>
-            <Input {...register("value")} type="number" />
+            <Input
+              {...register("value")}
+              type="number"
+              defaultValue={data.value}
+            />
           </InputGroup>
           <InputError msg={errors?.value?.message} />
         </Stack>

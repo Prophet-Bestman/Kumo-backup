@@ -184,8 +184,6 @@ const UserActions = ({ user_id, user }) => {
     approveBvn(payload);
   };
 
-  console.log(user);
-
   const openActivateKyc = (option) => {
     setConfirmModalData({
       msg:
