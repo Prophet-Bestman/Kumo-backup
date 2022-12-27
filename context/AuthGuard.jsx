@@ -66,7 +66,10 @@ const AuthGuard = ({ children }) => {
         setRedirect(router.route);
         router.push("/auth/login");
         setAuthError(true);
-      } else if (error?.code === "ERR_NETWORK") {
+      } else if (
+        error?.code === "ERR_NETWORK" ||
+        error?.code === "ERR_BAD_RESPONSE"
+      ) {
         setNetworkError(true);
       }
     } else if (!loading && !isLoading) {
@@ -101,7 +104,7 @@ const AuthGuard = ({ children }) => {
   if (
     !loading &&
     !isLoading &&
-    isFetchedAfterMount &&
+    // isFetchedAfterMount &&
     !authError &&
     Object.keys(user).length !== 0
   ) {
@@ -138,7 +141,7 @@ const AuthGuard = ({ children }) => {
   }
 
   // SUBJECT TO CHANGE
-  if (!loading && networkError)
+  if (!loading && !isLoading && networkError)
     return (
       <Box h="100vh" display="flex" justifyContent="center" alignItems="center">
         <Text textAlign="center" fontSize="24px" fontWeight="medium">
