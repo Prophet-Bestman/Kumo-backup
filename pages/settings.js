@@ -201,7 +201,8 @@ const Settings = () => {
   return (
     <Box p="6">
       <Grid templateColumns={"repeat(3, 1fr)"} gap="4" my="5">
-        {!!usdToNaira?.value && <UsdToNaira data={usdToNaira} />}
+        {/* {!!usdToNaira?.value && <UsdToNaira data={usdToNaira} />} */}
+        <UsdToNaira data={usdToNaira} />
         {!!paypal?.email && <UpdatePaypal data={paypal} />}
         {!!transactionFees && transactionFees?.length > 0 && (
           <UpdateTransactionFees options={transactionFees} />

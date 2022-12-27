@@ -21,7 +21,7 @@ const getWalletBalance = (name, wallets) => {
 };
 
 const UserWallets = ({ user }) => {
-  const { wallet_addreses, wallet_balance } = user;
+  const { wallet_addresses, wallet_balance } = user;
 
   const { isOpen, onClose, onOpen } = useDisclosure();
   const {
@@ -46,28 +46,41 @@ const UserWallets = ({ user }) => {
           rowGap="10"
           alignItems="flex-end"
         >
-          {wallet_addreses?.length > 0 &&
-            wallet_addreses?.map((wallet) => (
+          {wallet_addresses?.length > 0 &&
+            wallet_addresses?.map((wallet) => (
               <Stack mb="5" key={wallet?.walletAddress}>
-                <Text
-                  fontWeight={500}
-                  fontSize="14px"
+                <Flex
+                  gap="1"
+                  justifyContent={"space-between"}
+                  alignItems="center"
+                  paddingRight={"40px"}
                   color="app.primary.900"
                   textTransform={"capitalize"}
+                  mb="2"
                 >
-                  {wallet.name}
-                </Text>
-                <Flex gap="1">
-                  <Text fontWeight={500} fontSize="12px">
-                    {wallet.code}:
+                  <Text fontWeight={500} fontSize="14px">
+                    {wallet.name}
                   </Text>
-                  <Text fontSize="12px" fontWeight={600}>
-                    {getWalletBalance(wallet.name, wallet_balance)}
-                  </Text>
+
+                  <Flex gap="1">
+                    <Text fontWeight={500} fontSize="12px">
+                      {wallet.code}:
+                    </Text>
+                    <Text fontSize="12px" fontWeight={600}>
+                      {getWalletBalance(wallet.name, wallet_balance)}
+                    </Text>
+                  </Flex>
                 </Flex>
-                <InputGroup>
-                  <Input value={wallet.walletAddress} disabled />
-                </InputGroup>
+
+                <Text fontWeight={500} fontSize="12px">
+                  Wallet Address
+                </Text>
+                <Input value={wallet.walletAddress} disabled />
+
+                <Text fontWeight={500} fontSize="12px">
+                  Crypto Address
+                </Text>
+                <Input value={wallet.cryptoAddress} disabled />
               </Stack>
             ))}
           <Stack mb="5">
