@@ -42,6 +42,7 @@ const AuthGuard = ({ children }) => {
   const { user, loading, setRedirect } = useAuthContext();
   const [authError, setAuthError] = useState(true);
   const [networkError, setNetworkError] = useState(false);
+  const [serverError, setServerError] = useState(false);
   const router = useRouter();
 
   const {
@@ -66,17 +67,17 @@ const AuthGuard = ({ children }) => {
         setRedirect(router.route);
         router.push("/auth/login");
         setAuthError(true);
-      } else if (
-        error?.code === "ERR_NETWORK" ||
-        error?.code === "ERR_BAD_RESPONSE"
-      ) {
+      } else if (error?.code === "ERR_BAD_RESPONSE") {
         setNetworkError(true);
+      } else if (error?.code === "ERR_BAD_RESPONSE") {
+        setServerError(true);
       }
     } else if (!loading && !isLoading) {
       //auth is initialized and there is no user
       if (!user || Object.keys(user).length === 0) {
         // remember the page that user tried to access
         setRedirect(router.route);
+
         // redirect
         router.push("/auth/login");
       }
@@ -88,11 +89,6 @@ const AuthGuard = ({ children }) => {
     return (
       <Box h="100vh" display="flex" justifyContent="center" alignItems="center">
         <div className="animate-pulse">
-          {/* <img
-            src="/images/kipati_gradient.png"
-            className="h-[80px] md:h-[120px] mb-4"
-            alt=""
-          /> */}
           <Text textAlign="center" fontSize="18px" fontWeight="medium">
             LOADING...
           </Text>
@@ -141,15 +137,14 @@ const AuthGuard = ({ children }) => {
   }
 
   // SUBJECT TO CHANGE
-  if (!loading && !isLoading && networkError)
+  if (!loading && !isLoading && serverError)
     return (
       <Box h="100vh" display="flex" justifyContent="center" alignItems="center">
         <Text textAlign="center" fontSize="24px" fontWeight="medium">
-          {" "}
-          We are sorry
+          Server Error
         </Text>
         <Text textAlign="center" fontSize="18px" fontWeight="medium">
-          Cannot Connect to server
+          {`There's an error with the server`}
         </Text>
         <Button
           size="sm"
