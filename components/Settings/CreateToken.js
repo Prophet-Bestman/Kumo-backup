@@ -69,11 +69,11 @@ const CreateToken = ({ isOpen, onClose }) => {
             <Input {...register("name")} />
             <InputError msg={errors?.name?.message} />
           </Stack>
-          <Stack mt="4">
+          {/* <Stack mt="4">
             <Text fontSize="14px">Code</Text>
             <Input {...register("code")} />
             <InputError msg={errors?.code?.message} />
-          </Stack>
+          </Stack> */}
           <Stack mt="4">
             <Text fontSize="14px">Token to USD</Text>
             <Input {...register("token_to_usd")} type="tel" />

@@ -69,12 +69,12 @@ const UsdToNaira = ({ data }) => {
   return (
     <Box rounded="md" bg="white" py="12" px="6" shadow="md">
       <LargeHeading color="app.primary.700" fontSize="20px">
-        USD to Dollar Rate
+        Naira to Dollar Rate
       </LargeHeading>
 
       <form onSubmit={handleSubmit(handleUpdate)}>
         <Stack mt="4">
-          <Text fontSize="14px">USD To NGN</Text>
+          <Text fontSize="14px">NGN To USD</Text>
           <InputGroup>
             <InputLeftElement px="0">
               <Text fontSize="20" color={"app.primary.700"} fontWeight={700}>

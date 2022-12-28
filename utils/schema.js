@@ -17,8 +17,8 @@ export const createAgentSchema = yup
     agent_phone: yup
       .string()
       .required("Agent's Phone Number is required")
-      .min(11, "Phone number must be 11 digits")
-      .max(11, "Phone number must be 11 digits"),
+      .min(6, "Phone number must be at least 6 digits")
+      .max(20, "Phone number must be at most 20 digits"),
     account_name: yup.string().required("Agent's Account name is required"),
     account_number: yup
       .string()
@@ -45,8 +45,8 @@ export const updateAgentSchema = yup
     agent_phone: yup
       .string()
       .required("Agent's Phone Number is required")
-      .min(11, "Enter a valid phone number")
-      .max(14, "Enter a valid phone number"),
+      .min(6, "Phone number must be at least 6 digits")
+      .max(20, "Phone number must be at most 20 digits"),
     account_name: yup.string().required("Agent's Account name is required"),
     account_number: yup
       .string()
@@ -189,7 +189,7 @@ export const createCryptoTokenSchema = yup
     token_id: yup.string().required("Token ID is required"),
     name: yup.string().required("Token Name is required"),
     name: yup.string().required("Token Name is required"),
-    code: yup.string().required("Token code is required"),
+    // code: yup.string().required("Token code is required"),
     token_to_usd: yup.string().required("Token Dollar rate is required"),
     token_to_naira: yup.string().required("Token Naira rate is required"),
   })
