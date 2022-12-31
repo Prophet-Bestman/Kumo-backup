@@ -13,6 +13,7 @@ import Currencies from "./Currencies";
 import CoinListings from "./CoinListings";
 import AddCoinListing from "./AddCoinListing";
 
+import AddBaseCurrency from "./AddBaseCurrency";
 export {
   UsdToNaira,
   SendCryptoFee,
@@ -26,4 +27,5 @@ export {
   Currencies,
   CoinListings,
   AddCoinListing,
+  AddBaseCurrency,
 };

@@ -10,17 +10,17 @@ import {
 } from "@chakra-ui/react";
 import {
   useGetAllFees,
+  useGetBaseCurrency,
   useGetCryptoAddresses,
   useGetUtilities,
-  useUpdateCryptoAddress,
 } from "api/settings";
 import {
+  AddBaseCurrency,
   AddCoinListing,
   AddCryptoAddress,
   AddFundWalletFee,
   AddTransactionFee,
   CoinListings,
-  Currencies,
   UpdateFundWalletFee,
   UpdatePaypal,
   UpdateTransactionFees,
@@ -28,10 +28,8 @@ import {
 } from "components/Settings";
 import { navStates, useNavContext } from "context/NavProvider";
 import React, { useEffect, useState } from "react";
-import { Skeleton } from "@chakra-ui/react";
 import { FloatingAddBtn } from "components";
 import { customScrollBar3 } from "utils/styles";
-import UpdateCryptoWallet from "components/Settings/UpdateCryptoWallet";
 import AddCurrency from "components/Settings/AddCurrency";
 import AddUtility from "components/Settings/AddUtitlity";
 import UpdateUtility from "components/Settings/UpdateUtitlity";
@@ -66,6 +64,7 @@ const Settings = () => {
   const [cryptoWallets, setCryptoWallets] = useState([]);
   const [paypal, setPaypal] = useState(null);
   const [utilities, setUtitlities] = useState([]);
+  const [baseCurrency, setBaseCurrency] = useState(null);
 
   const { isOpen, onOpen, onClose } = useDisclosure();
 
@@ -112,12 +111,6 @@ const Settings = () => {
   const { data: cryptoResp, isRefetching: loadingCrypto } =
     useGetCryptoAddresses();
   const { data: utilityResp } = useGetUtilities();
-
-  const {
-    data: updateResp,
-    mutate: updateCrypto,
-    isLoading,
-  } = useUpdateCryptoAddress();
 
   //  ================ USEEFFECTS ==========
   useEffect(() => {
@@ -190,17 +183,24 @@ const Settings = () => {
     } else setAddFundWalletFeeOptions(initialFundWalletFeeOptions);
   }, [transactionFees, fundWalletFees]);
 
-  const handleUpdateCryptoAddress = () => {
-    const payload = {
-      coin_name: "Bitcoin",
-      address: "0x20949098304891238492349",
-    };
-    updateCrypto(payload);
-  };
+  const {
+    data: baseCurrencyResp,
+    isLoading: loadingBaseCurrency,
+    isFetched,
+  } = useGetBaseCurrency();
+
+  useEffect(() => {
+    if (!!baseCurrencyResp && baseCurrencyResp.status === "success") {
+      setBaseCurrency(baseCurrencyResp?.data[0]);
+    } else setBaseCurrency(null);
+  }, [baseCurrencyResp]);
 
   return (
     <Box p="6">
       <Grid templateColumns={"repeat(3, 1fr)"} gap="4" my="5">
+        {!loadingBaseCurrency && (
+          <AddBaseCurrency baseCurrency={baseCurrencyResp?.data[0] || null} />
+        )}
         {!!usdToNaira?.value && <UsdToNaira data={usdToNaira} />}
         {!usdToNaira && <UsdToNaira data={usdToNaira} />}
         {!!paypal?.email && <UpdatePaypal data={paypal} />}
@@ -210,9 +210,7 @@ const Settings = () => {
         {!!fundWalletFees && fundWalletFees?.length > 0 && (
           <UpdateFundWalletFee options={fundWalletFees} />
         )}
-        {/* {!!cryptoWallets && cryptoWallets?.length > 0 && (
-          <UpdateCryptoWallet options={cryptoWallets} />
-        )} */}
+
         {!!utilities && utilities?.length > 0 && (
           <UpdateUtility options={utilities} />
         )}

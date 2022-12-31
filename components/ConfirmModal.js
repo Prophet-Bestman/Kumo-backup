@@ -21,7 +21,7 @@ const ConfirmModal = ({
   return (
     <Modal isOpen={isOpen} onClose={onClose} size="xl" isCentered>
       <ModalOverlay />
-      <ModalContent>
+      <ModalContent height="300px">
         <ModalBody>
           <Box py="20">
             <Flex>

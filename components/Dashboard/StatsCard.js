@@ -19,6 +19,8 @@ export default function StatsCard({ stats }) {
       <Text fontSize="20px" fontWeight="600" color="gray.800">
         {stats?.name === "total_usd"
           ? `$${numberWithCommas(stats.total)}`
+          : stats?.name === "total_ngn"
+          ? `N${numberWithCommas(stats.total)}`
           : numberWithCommasNoDecimal(stats?.total)}
         {/* {stats.total} */}
       </Text>

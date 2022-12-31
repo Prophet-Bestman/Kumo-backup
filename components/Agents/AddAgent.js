@@ -3,6 +3,7 @@ import {
   Button,
   Grid,
   Input,
+  Select,
   Stack,
   Text,
   useToast,
@@ -10,6 +11,7 @@ import {
 import { yupResolver } from "@hookform/resolvers/yup";
 import { useCreateAgent } from "api/agents";
 import { ModalCard, LargeHeading, InputError } from "components";
+import countries from "data/coutriesAndCode";
 import React, { useEffect } from "react";
 import { useForm } from "react-hook-form";
 import { handleRequestError } from "utils/helpers";
@@ -46,6 +48,15 @@ const AddAgent = ({ isOpen, onClose }) => {
     reset,
   } = useCreateAgent();
 
+  const handleCreate = (data) => {
+    const payload = {
+      ...data,
+      agent_phone: `+${data.country}${Number.parseInt(data.agent_phone)}`,
+    };
+
+    createAgent(payload);
+  };
+
   useEffect(() => {
     if (!!createResp && createResp?.status === "success") {
       successToast();
@@ -64,12 +75,20 @@ const AddAgent = ({ isOpen, onClose }) => {
       <Box p="4" h="80vh" overflowY="auto" sx={customScrollBar3}>
         <LargeHeading>Create Agent</LargeHeading>
 
-        <form onSubmit={handleSubmit((data) => createAgent(data))}>
+        <form onSubmit={handleSubmit(handleCreate)}>
           <Grid my="6" gap="3">
             <Stack>
               <Text fontSize="12px">Agent Full Name</Text>
               <Input placeholder="Agent Name" {...register("agent_name")} />
               <InputError msg={errors?.agent_name?.message} />
+            </Stack>
+            <Stack>
+              <Text fontSize="12px">Agent Nickname</Text>
+              <Input
+                placeholder="Agent Nickname"
+                {...register("agent_nickname")}
+              />
+              <InputError msg={errors?.agent_nickname?.message} />
             </Stack>
             <Stack>
               <Text fontSize="12px">Agent Email</Text>
@@ -79,6 +98,17 @@ const AddAgent = ({ isOpen, onClose }) => {
                 {...register("agent_email")}
               />
               <InputError msg={errors?.agent_email?.message} />
+            </Stack>
+            <Stack>
+              <Text fontSize="12px">Select Country</Text>
+              <Select placeholder="Select country" {...register("country")}>
+                {countries.map((country) => (
+                  <option key={country.code} value={country.phone}>
+                    {country.name}
+                  </option>
+                ))}
+              </Select>
+              <InputError msg={errors?.country?.message} />
             </Stack>
             <Stack>
               <Text fontSize="12px">Agent Phone No.</Text>

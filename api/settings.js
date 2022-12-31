@@ -19,6 +19,15 @@ export const useGetAllFees = () => {
   );
 };
 
+export const useGetBaseCurrency = () => {
+  const headers = configOptions();
+  return useQuery("base-currency", () =>
+    request2
+      .get(`/get-base-currency`, { headers: headers })
+      .then((res) => res.data)
+  );
+};
+
 export const useGetUtilities = () => {
   const headers = configOptions();
   return useQuery("utilities", () =>
@@ -438,6 +447,42 @@ export const useDeleteCryptotToken = () => {
       onSuccess: () => {
         queryClient.invalidateQueries("crypto-tokens");
         queryClient.invalidateQueries("listed-tokens");
+      },
+    }
+  );
+};
+
+export const useUpdateBaseCurrency = () => {
+  const queryClient = useQueryClient();
+  const headers = configOptions();
+  return useMutation(
+    (values) =>
+      request2
+        .put(`/add-base-currency`, values, {
+          headers: headers,
+        })
+        .then((res) => res.data),
+    {
+      onSuccess: () => {
+        queryClient.invalidateQueries("base-currency");
+      },
+    }
+  );
+};
+
+export const useDeleteBaseCurrency = () => {
+  const queryClient = useQueryClient();
+  const headers = configOptions();
+  return useMutation(
+    (values) =>
+      request2
+        .delete(`/delete-base-currency?code=${values}`, {
+          headers: headers,
+        })
+        .then((res) => res.data),
+    {
+      onSuccess: () => {
+        queryClient.invalidateQueries("base-currency");
       },
     }
   );

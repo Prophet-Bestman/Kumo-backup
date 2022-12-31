@@ -3,6 +3,7 @@ import {
   Button,
   Grid,
   Input,
+  Select,
   Stack,
   Text,
   useDisclosure,
@@ -11,6 +12,7 @@ import {
 import { yupResolver } from "@hookform/resolvers/yup";
 import { useDeleteAgent, useUpdateAgent } from "api/agents";
 import { ModalCard, LargeHeading, InputError, ConfirmModal } from "components";
+import countries from "data/coutriesAndCode";
 import React, { useEffect } from "react";
 import { useForm } from "react-hook-form";
 import { handleRequestError } from "utils/helpers";
@@ -122,6 +124,17 @@ const UpdateAgent = ({ isOpen, onClose, agent }) => {
                 {...register("agent_email")}
               />
               <InputError msg={errors?.agent_email?.message} />
+            </Stack>
+            <Stack>
+              <Text fontSize="12px">Select Country</Text>
+              <Select placeholder="Select country" {...register("country")}>
+                {countries.map((country) => (
+                  <option key={country.code} value={country.phone}>
+                    {country.name}
+                  </option>
+                ))}
+              </Select>
+              <InputError msg={errors?.country?.message} />
             </Stack>
             <Stack>
               <Text fontSize="12px">Agent Phone No.</Text>

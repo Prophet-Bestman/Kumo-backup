@@ -10,6 +10,8 @@ export const loginSchema = yup
 export const createAgentSchema = yup
   .object({
     agent_name: yup.string().required("Agent's Full name is required"),
+    agent_nickname: yup.string().required("Agent's nickname is required"),
+    country: yup.string().required("Country is required"),
     agent_email: yup
       .string()
       .required("Agent's Full name is required")
@@ -38,6 +40,8 @@ export const addFilterSchema = yup
 export const updateAgentSchema = yup
   .object({
     agent_name: yup.string().required("Agent's Full name is required"),
+    agent_nickname: yup.string().required("Agent's nickname is required"),
+    country: yup.string().required("Country is required"),
     agent_email: yup
       .string()
       .required("Agent's Full name is required")
@@ -66,6 +70,14 @@ export const updateTransactionSchema = yup
 export const updateUsdToNairaSchema = yup
   .object({
     value: yup.string().required("Value is required"),
+  })
+  .required();
+
+export const updateBaseCurrencySchema = yup
+  .object({
+    name: yup.string().required("Name is required"),
+    code: yup.string().required("Code is required"),
+    currency_id: yup.string().required("Current ID is required"),
   })
   .required();
 

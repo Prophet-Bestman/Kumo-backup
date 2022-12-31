@@ -75,12 +75,12 @@ const CreateToken = ({ isOpen, onClose }) => {
             <InputError msg={errors?.code?.message} />
           </Stack> */}
           <Stack mt="4">
-            <Text fontSize="14px">Token to USD</Text>
+            <Text fontSize="14px">Price in USD</Text>
             <Input {...register("token_to_usd")} type="tel" />
             <InputError msg={errors?.token_to_usd?.message} />
           </Stack>
           <Stack mt="4">
-            <Text fontSize="14px">Token to Naira</Text>
+            <Text fontSize="14px">Price in Naira</Text>
             <Input {...register("token_to_naira")} type="tel" />
             <InputError msg={errors?.token_to_naira?.message} />
           </Stack>
