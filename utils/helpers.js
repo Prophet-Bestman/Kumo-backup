@@ -47,7 +47,8 @@ export function numberWithCommasNoDecimal(number = 0) {
 }
 
 export function underscoreToSpace(str = "") {
-  return str.replace(/_/g, " ");
+  if (!str) return str;
+  else return str.replace(/_/g, " ");
 }
 
 export const getStatusColor = (status) => {

@@ -13,7 +13,7 @@ import {
   useToast,
 } from "@chakra-ui/react";
 import { yupResolver } from "@hookform/resolvers/yup";
-import { useUpdateFundWalletFee, useUpdateGeneralFee } from "api/settings";
+import { useUpdateFundWalletFee } from "api/settings";
 import InputError from "components/InputError";
 import LargeHeading from "components/LargeHeading";
 import ModalCard from "components/ModalCard";
