@@ -40,7 +40,7 @@ const AgentsTable = ({ agents, isLoading }) => {
               <Th>Name</Th>
               <Th>Email</Th>
               <Th>Phone Number</Th>
-              <Th>Verification</Th>
+              <Th>Account Name</Th>
               <Th>Action</Th>
             </Tr>
           </Thead>

@@ -113,7 +113,7 @@ const AddBaseCurrency = ({ baseCurrency }) => {
           <InputError msg={errors?.code?.message} />
         </Stack>
         <Stack mt="4">
-          <Text fontSize="14px">Current ID</Text>
+          <Text fontSize="14px">Currency ID</Text>
 
           <Input {...register("currency_id")} />
           <InputError msg={errors?.currency_id?.message} />
