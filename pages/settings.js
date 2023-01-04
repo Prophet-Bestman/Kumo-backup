@@ -182,8 +182,8 @@ const Settings = () => {
   }, [transactionFees, fundWalletFees]);
 
   return (
-    <Box p="6">
-      <Grid templateColumns={"repeat(3, 1fr)"} gap="4" my="5">
+    <Box p="12">
+      <Grid templateColumns={"repeat(3, 1fr)"} gap="12" my="5">
         {!loadingBaseCurrency && (
           <AddBaseCurrency
             baseCurrency={baseCurrencyResp?.data[0] || null}
