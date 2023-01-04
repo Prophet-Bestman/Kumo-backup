@@ -1,9 +1,11 @@
 import {
   Box,
   Button,
+  Grid,
   Input,
   InputGroup,
   InputLeftElement,
+  Spinner,
   Stack,
   Text,
   useToast,
@@ -17,14 +19,14 @@ import { useForm } from "react-hook-form";
 import { handleRequestError } from "utils/helpers";
 import { updatePaypalSchema } from "utils/schema";
 
-const UpdatePaypal = ({ data }) => {
+const UpdatePaypal = ({ data, loading }) => {
   const {
     register,
     handleSubmit,
     formState: { errors },
   } = useForm({
     resolver: yupResolver(updatePaypalSchema),
-    defaultValues: { email: data?.email },
+    defaultValues: data,
   });
 
   // ====== TOASTS ======
@@ -67,22 +69,34 @@ const UpdatePaypal = ({ data }) => {
   }, [updateError]);
 
   return (
-    <Box rounded="md" bg="white" py="12" px="6" shadow="md">
-      <LargeHeading color="app.primary.700" fontSize="20px">
-        Paypal Email
-      </LargeHeading>
+    <Box display="flex" rounded="md" bg="white" py="12" px="6" shadow="md">
+      {loading ? (
+        <Spinner size="lg" mx="auto" />
+      ) : (
+        <Box w="full" mx="auto">
+          <LargeHeading color="app.primary.700" fontSize="20px">
+            Paypal Email
+          </LargeHeading>
+          <form onSubmit={handleSubmit(handleUpdate)}>
+            <Grid gap="4" my="4">
+              <Stack>
+                <Text fontSize="14px">Email</Text>
+                <Input {...register("email")} />
+                <InputError msg={errors?.email?.message} />
+              </Stack>
+              <Stack>
+                <Text fontSize="14px">Rate</Text>
+                <Input {...register("rate")} type="tel" />
+                <InputError msg={errors?.rate?.message} />
+              </Stack>
+            </Grid>
 
-      <form onSubmit={handleSubmit(handleUpdate)}>
-        <Stack mt="4">
-          <Text fontSize="14px">Email</Text>
-          <Input {...register("email")} />
-          <InputError msg={errors?.email?.message} />
-        </Stack>
-
-        <Button mt="4" h="48px" type="submit" isLoading={isLoading}>
-          Update
-        </Button>
-      </form>
+            <Button mt="4" h="48px" type="submit" isLoading={isLoading}>
+              Update
+            </Button>
+          </form>
+        </Box>
+      )}
     </Box>
   );
 };

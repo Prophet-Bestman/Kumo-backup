@@ -9,6 +9,7 @@ import {
   Stack,
   Switch,
   Text,
+  Textarea,
   useDisclosure,
   useToast,
 } from "@chakra-ui/react";
@@ -201,6 +202,12 @@ const UpdatePackage = ({ isOpen, onClose, singlePackage }) => {
         </GridItem>
 
         <GridItem>
+          <Stack mb="5">
+            <Text fontSize="12px">Info</Text>
+            <Textarea {...register("info")} />
+            <InputError msg={errors?.info?.message} />
+          </Stack>
+
           <Text fontWeight={700} mb="3">
             Package Tokens
           </Text>

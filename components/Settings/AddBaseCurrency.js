@@ -4,6 +4,7 @@ import {
   Input,
   InputGroup,
   InputLeftElement,
+  Spinner,
   Stack,
   Text,
   useDisclosure,
@@ -23,7 +24,7 @@ import { useForm } from "react-hook-form";
 import { handleRequestError } from "utils/helpers";
 import { updateBaseCurrencySchema } from "utils/schema";
 
-const AddBaseCurrency = ({ baseCurrency }) => {
+const AddBaseCurrency = ({ baseCurrency, loading }) => {
   const { isOpen, onOpen, onClose } = useDisclosure();
 
   const {
@@ -94,52 +95,64 @@ const AddBaseCurrency = ({ baseCurrency }) => {
   }, [deleteResp]);
 
   return (
-    <Box rounded="md" bg="white" py="12" px="6" shadow="md">
-      <LargeHeading color="app.primary.700" fontSize="20px">
-        Update Base Currency
-      </LargeHeading>
+    <Box display="flex" rounded="md" bg="white" py="12" px="6" shadow="md">
+      {loading ? (
+        <Spinner size="lg" mx="auto" />
+      ) : (
+        <Box w="full">
+          <LargeHeading color="app.primary.700" fontSize="20px">
+            Update Base Currency
+          </LargeHeading>
 
-      <form onSubmit={handleSubmit(handleUpdate)}>
-        <Stack mt="4">
-          <Text fontSize="14px">Name</Text>
+          <form onSubmit={handleSubmit(handleUpdate)}>
+            <Stack mt="4">
+              <Text fontSize="14px">Name</Text>
 
-          <Input {...register("name")} />
-          <InputError msg={errors?.name?.message} />
-        </Stack>
-        <Stack mt="4">
-          <Text fontSize="14px">Code</Text>
+              <Input {...register("name")} />
+              <InputError msg={errors?.name?.message} />
+            </Stack>
+            <Stack mt="4">
+              <Text fontSize="14px">Code</Text>
 
-          <Input {...register("code")} />
-          <InputError msg={errors?.code?.message} />
-        </Stack>
-        <Stack mt="4">
-          <Text fontSize="14px">Currency ID</Text>
+              <Input {...register("code")} />
+              <InputError msg={errors?.code?.message} />
+            </Stack>
+            <Stack mt="4">
+              <Text fontSize="14px">Currency ID</Text>
 
-          <Input {...register("currency_id")} />
-          <InputError msg={errors?.currency_id?.message} />
-        </Stack>
+              <Input {...register("currency_id")} />
+              <InputError msg={errors?.currency_id?.message} />
+            </Stack>
 
-        <Button mt="4" h="48px" type="submit" isLoading={isLoading}>
-          Update
-        </Button>
-      </form>
-      {!!baseCurrency?.code && (
-        <Button mt="4" h="48px" variant="link" color="red.400" onClick={onOpen}>
-          Delete
-        </Button>
+            <Button mt="4" h="48px" type="submit" isLoading={isLoading}>
+              Update
+            </Button>
+          </form>
+          {!!baseCurrency?.code && (
+            <Button
+              mt="4"
+              h="48px"
+              variant="link"
+              color="red.400"
+              onClick={onOpen}
+            >
+              Delete
+            </Button>
+          )}
+
+          <ConfirmModal
+            isLoading={deleting}
+            isOpen={isOpen}
+            message={"Are you sure you want to delete the base currency?"}
+            onClose={onClose}
+            primaryFunc={{
+              name: "Delete",
+              func: () => deleteBaseCurrency(baseCurrency?.code),
+            }}
+            secondaryFunc
+          />
+        </Box>
       )}
-
-      <ConfirmModal
-        isLoading={deleting}
-        isOpen={isOpen}
-        message={"Are you sure you want to delete the base currency?"}
-        onClose={onClose}
-        primaryFunc={{
-          name: "Delete",
-          func: () => deleteBaseCurrency(baseCurrency?.code),
-        }}
-        secondaryFunc
-      />
     </Box>
   );
 };

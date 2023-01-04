@@ -9,6 +9,7 @@ import {
   MenuItem,
   MenuList,
   Select,
+  Spinner,
   Stack,
   Text,
   useDisclosure,
@@ -25,7 +26,7 @@ import { handleRequestError, underscoreToSpace } from "utils/helpers";
 import { updateUtilitySchema } from "utils/schema";
 import { customScrollBar3 } from "utils/styles";
 
-const UpdateUtility = ({ options }) => {
+const UpdateUtility = ({ options, loading }) => {
   const [selectedOption, setSelectedOption] = useState(null);
   const [utilityError, setUtilityError] = useState(null);
 
@@ -124,87 +125,93 @@ const UpdateUtility = ({ options }) => {
   }, [deleteError]);
 
   return (
-    <Box rounded="md" bg="white" py="12" px="6" shadow="md">
-      <LargeHeading color="app.primary.700" fontSize="20px">
-        Update Utility
-      </LargeHeading>
+    <Box display="flex" rounded="md" bg="white" py="12" px="6" shadow="md">
+      {loading ? (
+        <Spinner size="lg" mx="auto" />
+      ) : (
+        <Box w="full">
+          <LargeHeading color="app.primary.700" fontSize="20px">
+            Update Utility
+          </LargeHeading>
 
-      <form onSubmit={handleSubmit(handleUpdate)}>
-        <Text fontSize="14px" mt="12px" mb="-8px">
-          Select Utility
-        </Text>
-        <Menu>
-          <MenuButton
-            size="sm"
-            color="app.primary.500"
-            bg="white"
-            boxShadow="md"
-            w="full"
-            h="48px"
-            my="4"
-            borderWidth="1px"
-            borderColor="app.primary.500"
-            _hover={{
-              bg: "app.primaryTrans",
-            }}
-            as={Button}
-            sx={{
-              boxShadow: " rgba(99, 99, 99, 0.1) 0px 2px 8px 0px;",
-            }}
-          >
-            {underscoreToSpace(selectedOption?.utility_name) ||
-              "Select utility to update"}
-          </MenuButton>
-
-          <MenuList
-            pos="relative"
-            zIndex="docked"
-            maxH="200px"
-            overflowY="auto"
-            sx={customScrollBar3}
-          >
-            {options?.map((option, i) => (
-              <MenuItem
-                key={i}
-                fontWeight={500}
-                fontSize="14px"
-                onClick={() => handleSelect(option)}
+          <form onSubmit={handleSubmit(handleUpdate)}>
+            <Text fontSize="14px" mt="12px" mb="-8px">
+              Select Utility
+            </Text>
+            <Menu>
+              <MenuButton
+                size="sm"
+                color="app.primary.500"
+                bg="white"
+                boxShadow="md"
+                w="full"
+                h="48px"
+                my="4"
+                borderWidth="1px"
+                borderColor="app.primary.500"
+                _hover={{
+                  bg: "app.primaryTrans",
+                }}
+                as={Button}
+                sx={{
+                  boxShadow: " rgba(99, 99, 99, 0.1) 0px 2px 8px 0px;",
+                }}
               >
-                {underscoreToSpace(option?.utility_name)}
-              </MenuItem>
-            ))}
-          </MenuList>
-        </Menu>
-        <InputError msg={utilityError} />
+                {underscoreToSpace(selectedOption?.utility_name) ||
+                  "Select utility to update"}
+              </MenuButton>
 
-        <Stack mt="4">
-          <Text fontSize="14px">Utility Status</Text>
+              <MenuList
+                pos="relative"
+                zIndex="docked"
+                maxH="200px"
+                overflowY="auto"
+                sx={customScrollBar3}
+              >
+                {options?.map((option, i) => (
+                  <MenuItem
+                    key={i}
+                    fontWeight={500}
+                    fontSize="14px"
+                    onClick={() => handleSelect(option)}
+                  >
+                    {underscoreToSpace(option?.utility_name)}
+                  </MenuItem>
+                ))}
+              </MenuList>
+            </Menu>
+            <InputError msg={utilityError} />
 
-          <Select {...register("utility_status")} placeholder="">
-            <option value="enabled">Enabled</option>
-            <option value="disabled">Disabled</option>
-          </Select>
-          <InputError msg={errors?.utility_status?.message} />
-        </Stack>
+            <Stack mt="4">
+              <Text fontSize="14px">Utility Status</Text>
 
-        <Button mt="4" h="48px" type="submit" isLoading={isLoading}>
-          Update
-        </Button>
+              <Select {...register("utility_status")} placeholder="">
+                <option value="enabled">Enabled</option>
+                <option value="disabled">Disabled</option>
+              </Select>
+              <InputError msg={errors?.utility_status?.message} />
+            </Stack>
 
-        {!!selectedOption?.utility_name && (
-          <Button mt="4" h="48px" variant="outline" onClick={onOpen}>
-            Delete
-          </Button>
-        )}
-      </form>
+            <Button mt="4" h="48px" type="submit" isLoading={isLoading}>
+              Update
+            </Button>
 
-      <ConfirmModal
-        message={"Are you sure you want to delete this utility?"}
-        isLoading={deleting}
-        primaryFunc={{ name: "Delete", func: handleDelete }}
-        isOpen={isOpen}
-        onClose={onClose}
-      />
+            {!!selectedOption?.utility_name && (
+              <Button mt="4" h="48px" variant="outline" onClick={onOpen}>
+                Delete
+              </Button>
+            )}
+          </form>
+
+          <ConfirmModal
+            message={"Are you sure you want to delete this utility?"}
+            isLoading={deleting}
+            primaryFunc={{ name: "Delete", func: handleDelete }}
+            isOpen={isOpen}
+            onClose={onClose}
+          />
+        </Box>
+      )}
     </Box>
   );
 };

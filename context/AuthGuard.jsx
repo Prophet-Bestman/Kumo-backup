@@ -1,37 +1,3 @@
-// import { useRouter } from "next/router";
-// import React, { useEffect, useState } from "react";
-// import { useAuthContext } from "./AuthProvider";
-
-// const AuthGuard = ({ children }) => {
-//   const { user, loading, setRedirect } = useAuthContext();
-//   const [loggedIn, setLoggedIn] = useState(false);
-//   const router = useRouter();
-
-//   useEffect(() => {
-//     if (!loading) {
-//       if (!user || Object?.keys(user)?.length === 0) {
-//         setLoggedIn(false);
-//         setRedirect(router.route);
-//         router.push("/auth/login");
-//       } else if (!!user && Object?.keys(user)?.length > 0) {
-//         setLoggedIn(true);
-//       }
-//     }
-//   }, [user, loading]);
-
-//   if (loading) {
-//     return <div>Loading...</div>;
-//   }
-
-//   if (loggedIn) {
-//     return <div>{children}</div>;
-//   }
-
-//   return null;
-// };
-
-// export default AuthGuard;
-
 import { Box, Button, Text } from "@chakra-ui/react";
 import { useGetOverallStats } from "api/stats";
 import { useRouter } from "next/router";
@@ -67,7 +33,7 @@ const AuthGuard = ({ children }) => {
         setRedirect(router.route);
         router.push("/auth/login");
         setAuthError(true);
-      } else if (error?.code === "ERR_BAD_RESPONSE") {
+      } else if (error?.code === "ERR_NETWORK") {
         setNetworkError(true);
       } else if (error?.code === "ERR_BAD_RESPONSE") {
         setServerError(true);

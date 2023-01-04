@@ -19,6 +19,13 @@ export const useGetAllFees = () => {
   );
 };
 
+export const useGetPaypal = () => {
+  const headers = configOptions();
+  return useQuery("paypal", () =>
+    request.get(`/get-paypal`, { headers: headers }).then((res) => res.data)
+  );
+};
+
 export const useGetBaseCurrency = () => {
   const headers = configOptions();
   return useQuery("base-currency", () =>

@@ -8,6 +8,7 @@ import {
   MenuButton,
   MenuItem,
   MenuList,
+  Spinner,
   Stack,
   Text,
   useToast,
@@ -22,7 +23,7 @@ import { handleRequestError, underscoreToSpace } from "utils/helpers";
 import { updateSendCryptoFeeSchema } from "utils/schema";
 import { customScrollBar3 } from "utils/styles";
 
-const UpdateFundWalletFee = ({ options }) => {
+const UpdateFundWalletFee = ({ options, loading }) => {
   const [selectedOption, setSelectedOption] = useState(null);
   const [feeError, setFeeError] = useState(null);
 
@@ -89,71 +90,82 @@ const UpdateFundWalletFee = ({ options }) => {
 
   return (
     <Box rounded="md" bg="white" py="12" px="6" shadow="md">
-      <LargeHeading color="app.primary.700" fontSize="20px">
-        Update Fund Wallet Fees
-      </LargeHeading>
+      {loading ? (
+        <Spinner size="lg" mx="auto" />
+      ) : (
+        <Box w="full">
+          <LargeHeading color="app.primary.700" fontSize="20px">
+            Update Fund Wallet Fees
+          </LargeHeading>
 
-      <form onSubmit={handleSubmit(handleUpdate)}>
-        <Menu>
-          <MenuButton
-            size="sm"
-            color="app.primary.500"
-            bg="white"
-            boxShadow="md"
-            w="full"
-            h="48px"
-            my="4"
-            borderWidth="1px"
-            borderColor="app.primary.500"
-            _hover={{
-              bg: "app.primaryTrans",
-            }}
-            as={Button}
-            sx={{
-              boxShadow: " rgba(99, 99, 99, 0.1) 0px 2px 8px 0px;",
-            }}
-          >
-            {underscoreToSpace(selectedOption?.name) || "Select fee to update"}
-          </MenuButton>
-
-          <MenuList
-            pos="relative"
-            zIndex="docked"
-            maxH="200px"
-            overflowY="auto"
-            sx={customScrollBar3}
-          >
-            {options?.map((option, i) => (
-              <MenuItem
-                key={i}
-                fontWeight={500}
-                fontSize="14px"
-                onClick={() => handleSelect(option)}
+          <form onSubmit={handleSubmit(handleUpdate)}>
+            <Menu>
+              <MenuButton
+                size="sm"
+                color="app.primary.500"
+                bg="white"
+                boxShadow="md"
+                w="full"
+                h="48px"
+                my="4"
+                borderWidth="1px"
+                borderColor="app.primary.500"
+                _hover={{
+                  bg: "app.primaryTrans",
+                }}
+                as={Button}
+                sx={{
+                  boxShadow: " rgba(99, 99, 99, 0.1) 0px 2px 8px 0px;",
+                }}
               >
-                {underscoreToSpace(option?.name)}
-              </MenuItem>
-            ))}
-          </MenuList>
-        </Menu>
-        <InputError msg={feeError} />
+                {underscoreToSpace(selectedOption?.name) ||
+                  "Select fee to update"}
+              </MenuButton>
 
-        <Stack mt="4">
-          <Text fontSize="14px">Cost</Text>
-          <InputGroup>
-            <InputLeftElement px="0">
-              <Text fontSize="20" color={"app.primary.700"} fontWeight={700}>
-                N
-              </Text>
-            </InputLeftElement>
-            <Input {...register("cost")} type="number" placeholder="" />
-          </InputGroup>
-          <InputError msg={errors?.cost?.message} />
-        </Stack>
+              <MenuList
+                pos="relative"
+                zIndex="docked"
+                maxH="200px"
+                overflowY="auto"
+                sx={customScrollBar3}
+              >
+                {options?.map((option, i) => (
+                  <MenuItem
+                    key={i}
+                    fontWeight={500}
+                    fontSize="14px"
+                    onClick={() => handleSelect(option)}
+                  >
+                    {underscoreToSpace(option?.name)}
+                  </MenuItem>
+                ))}
+              </MenuList>
+            </Menu>
+            <InputError msg={feeError} />
 
-        <Button mt="4" h="48px" type="submit" isLoading={isLoading}>
-          Update
-        </Button>
-      </form>
+            <Stack mt="4">
+              <Text fontSize="14px">Cost</Text>
+              <InputGroup>
+                <InputLeftElement px="0">
+                  <Text
+                    fontSize="20"
+                    color={"app.primary.700"}
+                    fontWeight={700}
+                  >
+                    N
+                  </Text>
+                </InputLeftElement>
+                <Input {...register("cost")} type="number" placeholder="" />
+              </InputGroup>
+              <InputError msg={errors?.cost?.message} />
+            </Stack>
+
+            <Button mt="4" h="48px" type="submit" isLoading={isLoading}>
+              Update
+            </Button>
+          </form>
+        </Box>
+      )}
     </Box>
   );
 };

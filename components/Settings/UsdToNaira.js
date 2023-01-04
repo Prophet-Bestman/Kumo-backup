@@ -4,6 +4,7 @@ import {
   Input,
   InputGroup,
   InputLeftElement,
+  Spinner,
   Stack,
   Text,
   useToast,
@@ -17,7 +18,7 @@ import { useForm } from "react-hook-form";
 import { handleRequestError } from "utils/helpers";
 import { updateUsdToNairaSchema } from "utils/schema";
 
-const UsdToNaira = ({ data }) => {
+const UsdToNaira = ({ data, loading }) => {
   const {
     register,
     handleSubmit,
@@ -67,33 +68,42 @@ const UsdToNaira = ({ data }) => {
   }, [updateError]);
 
   return (
-    <Box rounded="md" bg="white" py="12" px="6" shadow="md">
-      <LargeHeading color="app.primary.700" fontSize="20px">
-        Naira to Dollar Rate
-      </LargeHeading>
+    <Box display="flex" rounded="md" bg="white" py="12" px="6" shadow="md">
+      {loading ? (
+        <Spinner mx="auto" size="lg" />
+      ) : (
+        <Box w={"full"}>
+          <LargeHeading color="app.primary.700" fontSize="20px">
+            Naira to Dollar Rate
+          </LargeHeading>
+          <form onSubmit={handleSubmit(handleUpdate)}>
+            <Stack mt="4">
+              <Text fontSize="14px">NGN To USD</Text>
+              <InputGroup>
+                <InputLeftElement px="0">
+                  <Text
+                    fontSize="20"
+                    color={"app.primary.700"}
+                    fontWeight={700}
+                  >
+                    N
+                  </Text>
+                </InputLeftElement>
+                <Input
+                  {...register("value")}
+                  type="number"
+                  defaultValue={data.value}
+                />
+              </InputGroup>
+              <InputError msg={errors?.value?.message} />
+            </Stack>
 
-      <form onSubmit={handleSubmit(handleUpdate)}>
-        <Stack mt="4">
-          <Text fontSize="14px">NGN To USD</Text>
-          <InputGroup>
-            <InputLeftElement px="0">
-              <Text fontSize="20" color={"app.primary.700"} fontWeight={700}>
-                N
-              </Text>
-            </InputLeftElement>
-            <Input
-              {...register("value")}
-              type="number"
-              defaultValue={data.value}
-            />
-          </InputGroup>
-          <InputError msg={errors?.value?.message} />
-        </Stack>
-
-        <Button mt="4" h="48px" type="submit" isLoading={isLoading}>
-          Update
-        </Button>
-      </form>
+            <Button mt="4" h="48px" type="submit" isLoading={isLoading}>
+              Update
+            </Button>
+          </form>
+        </Box>
+      )}
     </Box>
   );
 };

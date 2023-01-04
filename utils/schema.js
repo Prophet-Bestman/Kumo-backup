@@ -21,8 +21,6 @@ export const createAgentSchema = yup
       .required("Agent's Phone Number is required")
       .min(6, "Phone number must be at least 6 digits")
       .max(20, "Phone number must be at most 20 digits"),
-    account_name: yup.string().required("Agent's Account name is required"),
-    account_number: yup.string().required("Agent's Account Number is required"),
     bank_name: yup.string().required("Agent's Bank name is required"),
   })
   .required();
@@ -48,11 +46,8 @@ export const updateAgentSchema = yup
       .min(6, "Phone number must be at least 6 digits")
       .max(20, "Phone number must be at most 20 digits"),
     account_name: yup.string().required("Agent's Account name is required"),
-    account_number: yup
-      .string()
-      .required("Agent's Account Number is required")
-      .min(10, "Account number must be 10 digits")
-      .max(10, "Account number must be 10 digits"),
+    account_number: yup.string().required("Agent's Account Number is required"),
+
     bank_name: yup.string().required("Agent's Bank name is required"),
   })
   .required();
@@ -129,6 +124,7 @@ export const updatePaypalSchema = yup
       .string()
       .required("email address is required")
       .email("Enter a valid email"),
+    rate: yup.string().required("Paypal rate is required"),
   })
   .required();
 
@@ -152,6 +148,7 @@ export const updatePackageSchema = yup
     max_amount: yup.string().required("Max Amount  is required"),
     min_amount: yup.string().required("Min Amount  is required"),
     isFixed: yup.boolean().required("Min Amount  is required"),
+    info: yup.string().required("Token Info is required"),
   })
   .required();
 

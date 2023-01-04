@@ -12,6 +12,7 @@ import {
   useGetAllFees,
   useGetBaseCurrency,
   useGetCryptoAddresses,
+  useGetPaypal,
   useGetUtilities,
 } from "api/settings";
 import {
@@ -61,10 +62,7 @@ const Settings = () => {
   const [addFundWalletFeeOptions, setAddFundWalletFeeOptions] = useState([]);
   const [transactionFees, setTransactionFees] = useState([]);
   const [fundWalletFees, setFundWalletFees] = useState([]);
-  const [cryptoWallets, setCryptoWallets] = useState([]);
-  const [paypal, setPaypal] = useState(null);
   const [utilities, setUtitlities] = useState([]);
-  const [baseCurrency, setBaseCurrency] = useState(null);
 
   const { isOpen, onOpen, onClose } = useDisclosure();
 
@@ -108,9 +106,13 @@ const Settings = () => {
   }, []);
 
   const { data: feesResp, isLoading: loadingFees } = useGetAllFees();
-  const { data: cryptoResp, isRefetching: loadingCrypto } =
-    useGetCryptoAddresses();
-  const { data: utilityResp } = useGetUtilities();
+  useGetCryptoAddresses();
+  const { data: utilityResp, isLoading: loadingUtilities } = useGetUtilities();
+
+  const { data: paypalResp, isLoading: loadingPaypal } = useGetPaypal();
+
+  const { data: baseCurrencyResp, isLoading: loadingBaseCurrency } =
+    useGetBaseCurrency();
 
   //  ================ USEEFFECTS ==========
   useEffect(() => {
@@ -118,12 +120,6 @@ const Settings = () => {
       setUsdToNaira(
         feesResp?.data?.filter((item) => item?.name === "usdToNgn")[0]
       );
-
-      // setCryptoWallets(
-      //   feesResp?.data?.filter((item) => item?.name === "crypto_address")[0]
-      //     ?.addresses
-      // );
-      setPaypal(feesResp?.data?.filter((item) => item?.name === "paypal")[0]);
 
       let allFees = feesResp?.data?.filter(
         (item) =>
@@ -139,12 +135,6 @@ const Settings = () => {
       );
     }
   }, [feesResp]);
-
-  useEffect(() => {
-    if (!!cryptoResp && cryptoResp?.status === "success") {
-      setCryptoWallets(cryptoResp?.data?.addresses);
-    }
-  }, [cryptoResp]);
 
   useEffect(() => {
     if (!!utilityResp && utilityResp?.status === "success") {
@@ -183,39 +173,25 @@ const Settings = () => {
     } else setAddFundWalletFeeOptions(initialFundWalletFeeOptions);
   }, [transactionFees, fundWalletFees]);
 
-  const {
-    data: baseCurrencyResp,
-    isLoading: loadingBaseCurrency,
-    isFetched,
-  } = useGetBaseCurrency();
-
-  useEffect(() => {
-    if (!!baseCurrencyResp && baseCurrencyResp.status === "success") {
-      setBaseCurrency(baseCurrencyResp?.data[0]);
-    } else setBaseCurrency(null);
-  }, [baseCurrencyResp]);
-
   return (
     <Box p="6">
       <Grid templateColumns={"repeat(3, 1fr)"} gap="4" my="5">
-        {!loadingBaseCurrency && (
-          <AddBaseCurrency baseCurrency={baseCurrencyResp?.data[0] || null} />
-        )}
-        {!!usdToNaira?.value && <UsdToNaira data={usdToNaira} />}
-        {!usdToNaira && <UsdToNaira data={usdToNaira} />}
-        {!!paypal?.email && <UpdatePaypal data={paypal} />}
-        {!!transactionFees && transactionFees?.length > 0 && (
-          <UpdateTransactionFees options={transactionFees} />
-        )}
-        {!!fundWalletFees && fundWalletFees?.length > 0 && (
-          <UpdateFundWalletFee options={fundWalletFees} />
-        )}
+        <AddBaseCurrency
+          baseCurrency={baseCurrencyResp?.data[0] || null}
+          loading={loadingBaseCurrency}
+        />
+        <UsdToNaira data={usdToNaira} loading={loadingFees} />
 
-        {!!utilities && utilities?.length > 0 && (
-          <UpdateUtility options={utilities} />
-        )}
+        <UpdateTransactionFees
+          loading={loadingFees}
+          options={transactionFees}
+        />
 
-        {/* <Currencies /> */}
+        <UpdateFundWalletFee loading={loadingFees} options={fundWalletFees} />
+
+        <UpdatePaypal loading={loadingPaypal} data={paypalResp?.data} />
+        <UpdateUtility loading={loadingUtilities} options={utilities} />
+
         <CryptoTokens />
         <CoinListings />
         <AllListedTokens />
