@@ -135,7 +135,7 @@ export const updatePaypalSchema = yup
 export const createPackageSchema = yup
   .object({
     package_name: yup.string().required("Package name is required"),
-    token_name: yup.string().required("Token Name is required"),
+    info: yup.string().required("Token Info is required"),
     token_code: yup.string().required("Token Code is required"),
     package_duration: yup.string().required("Package duration is required"),
     package_apr: yup.string().required("Package Apr is required"),
