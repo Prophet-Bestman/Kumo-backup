@@ -173,6 +173,12 @@ export const fundWalletSchema = yup
   })
   .required();
 
+export const updateFundWalletFeeSchema = yup
+  .object({
+    cost: yup.string().required("Cost is required"),
+  })
+  .required();
+
 export const resetPinSchema = yup
   .object({
     pin: yup.string().required("Pin is required").min(4).max(4),

@@ -4,17 +4,19 @@ import {
   Input,
   InputGroup,
   InputLeftElement,
+  InputRightElement,
   Menu,
   MenuButton,
   MenuItem,
   MenuList,
+  Select,
   Spinner,
   Stack,
   Text,
   useToast,
 } from "@chakra-ui/react";
 import { yupResolver } from "@hookform/resolvers/yup";
-import { useUpdateFundWalletFee } from "api/settings";
+import { useUpdateGeneralFee } from "api/settings";
 import InputError from "components/InputError";
 import LargeHeading from "components/LargeHeading";
 import React, { useEffect, useState } from "react";
@@ -26,6 +28,11 @@ import { customScrollBar3 } from "utils/styles";
 const UpdateFundWalletFee = ({ options, loading }) => {
   const [selectedOption, setSelectedOption] = useState(null);
   const [feeError, setFeeError] = useState(null);
+  const [selectedType, setSelectedType] = useState(null);
+
+  const handleChange = (e) => {
+    setSelectedType(e.target.value);
+  };
 
   const {
     register,
@@ -34,6 +41,7 @@ const UpdateFundWalletFee = ({ options, loading }) => {
     setValue,
   } = useForm({
     resolver: yupResolver(updateSendCryptoFeeSchema),
+    defaultValues: selectedOption,
   });
 
   // ====== TOASTS ======
@@ -68,12 +76,17 @@ const UpdateFundWalletFee = ({ options, loading }) => {
     isLoading,
     error: updateError,
     reset,
-  } = useUpdateFundWalletFee();
+  } = useUpdateGeneralFee();
 
   const handleUpdate = (data) => {
     if (!selectedOption) {
       setFeeError("Select a fee name to continue");
-    } else updateRate({ ...data, fee_name: selectedOption?.name });
+    } else {
+      if (selectedType === "VALUE") {
+        delete data.cap_value;
+      }
+      updateRate({ ...data, fee_name: selectedOption?.name });
+    }
   };
 
   useEffect(() => {
@@ -89,7 +102,7 @@ const UpdateFundWalletFee = ({ options, loading }) => {
   }, [updateError]);
 
   return (
-    <Box rounded="md" bg="white" py="12" px="6" shadow="md">
+    <Box display="flex" rounded="md" bg="white" py="12" px="6" shadow="md">
       {loading ? (
         <Spinner size="lg" mx="auto" />
       ) : (
@@ -98,72 +111,135 @@ const UpdateFundWalletFee = ({ options, loading }) => {
             Update Fund Wallet Fees
           </LargeHeading>
 
-          <form onSubmit={handleSubmit(handleUpdate)}>
-            <Menu>
-              <MenuButton
-                size="sm"
-                color="app.primary.500"
-                bg="white"
-                boxShadow="md"
-                w="full"
-                h="48px"
-                my="4"
-                borderWidth="1px"
-                borderColor="app.primary.500"
-                _hover={{
-                  bg: "app.primaryTrans",
-                }}
-                as={Button}
-                sx={{
-                  boxShadow: " rgba(99, 99, 99, 0.1) 0px 2px 8px 0px;",
-                }}
-              >
-                {underscoreToSpace(selectedOption?.name) ||
-                  "Select fee to update"}
-              </MenuButton>
+          <Text fontSize="14px" mt="6">
+            Select Fee Type
+          </Text>
 
-              <MenuList
-                pos="relative"
-                zIndex="docked"
-                maxH="200px"
-                overflowY="auto"
-                sx={customScrollBar3}
-              >
-                {options?.map((option, i) => (
-                  <MenuItem
-                    key={i}
-                    fontWeight={500}
-                    fontSize="14px"
-                    onClick={() => handleSelect(option)}
-                  >
-                    {underscoreToSpace(option?.name)}
-                  </MenuItem>
-                ))}
-              </MenuList>
-            </Menu>
-            <InputError msg={feeError} />
+          <Menu>
+            <MenuButton
+              size="sm"
+              color="app.primary.500"
+              bg="white"
+              boxShadow="md"
+              w="full"
+              h="48px"
+              my="2"
+              borderWidth="1px"
+              borderColor="app.primary.500"
+              _hover={{
+                bg: "app.primaryTrans",
+              }}
+              as={Button}
+              sx={{
+                boxShadow: " rgba(99, 99, 99, 0.1) 0px 2px 8px 0px;",
+              }}
+            >
+              {underscoreToSpace(selectedOption?.name) || "Select fee to add"}
+            </MenuButton>
 
-            <Stack mt="4">
-              <Text fontSize="14px">Cost</Text>
-              <InputGroup>
-                <InputLeftElement px="0">
-                  <Text
-                    fontSize="20"
-                    color={"app.primary.700"}
-                    fontWeight={700}
-                  >
-                    N
-                  </Text>
-                </InputLeftElement>
-                <Input {...register("cost")} type="number" placeholder="" />
-              </InputGroup>
-              <InputError msg={errors?.cost?.message} />
-            </Stack>
+            <MenuList
+              pos="relative"
+              zIndex="docked"
+              maxH="200px"
+              overflowY="auto"
+              sx={customScrollBar3}
+            >
+              {options?.map((option, i) => (
+                <MenuItem
+                  key={i}
+                  fontWeight={500}
+                  fontSize="14px"
+                  onClick={() => handleSelect(option)}
+                >
+                  {underscoreToSpace(option.name)}
+                </MenuItem>
+              ))}
+            </MenuList>
+          </Menu>
+          <InputError msg={feeError} />
+          {!!selectedOption && (
+            <form onSubmit={handleSubmit(handleUpdate)}>
+              <Stack mt="4">
+                <Text fontSize="14px">Cost Type</Text>
+                <Select
+                  {...register("cost_type")}
+                  placeholder="Select Cost Type"
+                  onChange={handleChange}
+                  value={selectedType || selectedOption?.cost_type}
+                >
+                  <option value="PERCENTAGE">PERCENTAGE</option>
+                  <option value="VALUE">VALUE</option>
+                </Select>
+                <InputError msg={errors?.cost_type?.message} />
+              </Stack>
 
-            <Button mt="4" h="48px" type="submit" isLoading={isLoading}>
-              Update
-            </Button>
-          </form>
+              <Stack mt="4">
+                <Text fontSize="14px">Cost</Text>
+                <InputGroup>
+                  {((!selectedType && selectedOption.cost_type === "VALUE") ||
+                    selectedType === "VALUE") && (
+                    <InputLeftElement px="0">
+                      <Text
+                        fontSize="20"
+                        color={"app.primary.700"}
+                        fontWeight={700}
+                      >
+                        N
+                      </Text>
+                    </InputLeftElement>
+                  )}
+                  <Input {...register("cost")} type="number" placeholder="" />
+
+                  {((!selectedType &&
+                    selectedOption.cost_type === "PERCENTAGE") ||
+                    selectedType === "PERCENTAGE") && (
+                    <InputRightElement px="0">
+                      <Text
+                        fontSize="20"
+                        color={"app.primary.700"}
+                        fontWeight={700}
+                      >
+                        %
+                      </Text>
+                    </InputRightElement>
+                  )}
+                </InputGroup>
+                <InputError msg={errors?.cost?.message} />
+              </Stack>
+
+              {(selectedType === "VALUE"
+                ? null
+                : selectedType === "PERCENTAGE" ||
+                  selectedOption.cost_type === "PERCENTAGE") && (
+                <Stack mt="4">
+                  <Text fontSize="14px">Cap Value</Text>
+                  <InputGroup>
+                    <InputLeftElement px="0">
+                      <Text
+                        fontSize="20"
+                        color={"app.primary.700"}
+                        fontWeight={700}
+                      >
+                        N
+                      </Text>
+                    </InputLeftElement>
+                    <Input
+                      {...register("cap_value")}
+                      type="number"
+                      placeholder=""
+                      defaultValue={selectedOption.cap_value}
+                    />
+                  </InputGroup>
+
+                  <InputError msg={errors?.cap_value?.message} />
+                </Stack>
+              )}
+
+              <Button mt="4" h="48px" type="submit" isLoading={isLoading}>
+                Update Fee
+              </Button>
+            </form>
+          )}
         </Box>
       )}
     </Box>
