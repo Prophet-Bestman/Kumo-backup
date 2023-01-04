@@ -3,29 +3,27 @@ import {
   Button,
   Grid,
   Input,
-  InputGroup,
-  InputLeftElement,
   Spinner,
   Stack,
   Text,
   useToast,
 } from "@chakra-ui/react";
 import { yupResolver } from "@hookform/resolvers/yup";
-import { useUpdatePaypal } from "api/settings";
+import { useSetTokenRate } from "api/settings";
 import InputError from "components/InputError";
 import LargeHeading from "components/LargeHeading";
 import React, { useEffect } from "react";
 import { useForm } from "react-hook-form";
 import { handleRequestError } from "utils/helpers";
-import { updatePaypalSchema } from "utils/schema";
+import { updateCoinRateSchema } from "utils/schema";
 
-const UpdatePaypal = ({ data, loading }) => {
+const TokenRate = ({ data, loading }) => {
   const {
     register,
     handleSubmit,
     formState: { errors },
   } = useForm({
-    resolver: yupResolver(updatePaypalSchema),
+    resolver: yupResolver(updateCoinRateSchema),
     defaultValues: data,
   });
 
@@ -35,7 +33,7 @@ const UpdatePaypal = ({ data, loading }) => {
   const successToast = (msg) => {
     toast({
       title: "Action Successful",
-      description: "Updated Paypal Email",
+      description: "Updated Token Rate",
       status: "success",
       duration: 3000,
       isClosable: true,
@@ -45,15 +43,15 @@ const UpdatePaypal = ({ data, loading }) => {
   };
 
   const {
-    mutate: updatePaypalEmail,
+    mutate: updateTokenRate,
     data: updateResp,
     isLoading,
     error: updateError,
     reset,
-  } = useUpdatePaypal();
+  } = useSetTokenRate();
 
   const handleUpdate = (data) => {
-    updatePaypalEmail(data);
+    updateTokenRate(data);
   };
 
   useEffect(() => {
@@ -75,19 +73,20 @@ const UpdatePaypal = ({ data, loading }) => {
       ) : (
         <Box w="full" mx="auto">
           <LargeHeading color="app.primary.700" fontSize="20px">
-            Update Paypal
+            Update Token Rate
           </LargeHeading>
+
           <form onSubmit={handleSubmit(handleUpdate)}>
             <Grid gap="4" my="4">
               <Stack>
-                <Text fontSize="14px">Email</Text>
-                <Input {...register("email")} />
-                <InputError msg={errors?.email?.message} />
+                <Text fontSize="14px">Buy Rate</Text>
+                <Input {...register("buy_rate")} type="tel" />
+                <InputError msg={errors?.buy_rate?.message} />
               </Stack>
               <Stack>
-                <Text fontSize="14px">Rate</Text>
-                <Input {...register("rate")} type="tel" />
-                <InputError msg={errors?.rate?.message} />
+                <Text fontSize="14px">Sell Rate</Text>
+                <Input {...register("sell_rate")} type="tel" />
+                <InputError msg={errors?.sell_rate?.message} />
               </Stack>
             </Grid>
 
@@ -101,4 +100,4 @@ const UpdatePaypal = ({ data, loading }) => {
   );
 };
 
-export default UpdatePaypal;
+export default TokenRate;

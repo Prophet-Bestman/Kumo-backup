@@ -494,3 +494,53 @@ export const useDeleteBaseCurrency = () => {
     }
   );
 };
+
+export const useGetCoinRate = () => {
+  const headers = configOptions();
+  return useQuery(["coin-rate"], () =>
+    request.get(`/get-coin-rate`, { headers: headers }).then((res) => res.data)
+  );
+};
+
+export const useSetCoinRate = () => {
+  const queryClient = useQueryClient();
+  const headers = configOptions();
+  return useMutation(
+    (values) =>
+      request2
+        .post(`/set-coin-rate`, values, {
+          headers: headers,
+        })
+        .then((res) => res.data),
+    {
+      onSuccess: () => {
+        queryClient.invalidateQueries("coin-rate");
+      },
+    }
+  );
+};
+
+export const useGetTokenRate = () => {
+  const headers = configOptions();
+  return useQuery(["token-rate"], () =>
+    request.get(`/get-token-rate`, { headers: headers }).then((res) => res.data)
+  );
+};
+
+export const useSetTokenRate = () => {
+  const queryClient = useQueryClient();
+  const headers = configOptions();
+  return useMutation(
+    (values) =>
+      request2
+        .post(`/set-token-rate`, values, {
+          headers: headers,
+        })
+        .then((res) => res.data),
+    {
+      onSuccess: () => {
+        queryClient.invalidateQueries("token-rate");
+      },
+    }
+  );
+};

@@ -33,8 +33,6 @@ const CreatePackage = ({ isOpen, onClose }) => {
 
   const { data: listedTokens } = useGetAllListedTokens();
 
-  // console.log(listedTokens);
-
   const {
     register,
     handleSubmit,
@@ -73,7 +71,6 @@ const CreatePackage = ({ isOpen, onClose }) => {
       isFixed: data?.isFixed ? "true" : "false",
     };
     createPackage(payload);
-    console.log(payload);
   };
 
   useEffect(() => {

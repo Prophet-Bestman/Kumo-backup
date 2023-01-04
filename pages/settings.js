@@ -11,8 +11,10 @@ import {
 import {
   useGetAllFees,
   useGetBaseCurrency,
+  useGetCoinRate,
   useGetCryptoAddresses,
   useGetPaypal,
+  useGetTokenRate,
   useGetUtilities,
 } from "api/settings";
 import {
@@ -37,6 +39,8 @@ import UpdateUtility from "components/Settings/UpdateUtitlity";
 import CreateToken from "components/Settings/CreateToken";
 import CryptoTokens from "components/Settings/CryptoTokens";
 import AllListedTokens from "components/Settings/AllListedTokens";
+import CoinRate from "components/Settings/CoinRate";
+import TokenRate from "components/Settings/TokenRate";
 
 const initialTransactionFeeOptions = [
   "BUY_CRYPTO_FEE",
@@ -114,6 +118,10 @@ const Settings = () => {
   const { data: baseCurrencyResp, isLoading: loadingBaseCurrency } =
     useGetBaseCurrency();
 
+  const { data: tokenRateResp, isLoading: loadingTokenRate } =
+    useGetTokenRate();
+  const { data: coinRateResp, isLoading: loadingCoinRate } = useGetCoinRate();
+
   //  ================ USEEFFECTS ==========
   useEffect(() => {
     if (!!feesResp && feesResp?.status === "success") {
@@ -176,22 +184,37 @@ const Settings = () => {
   return (
     <Box p="6">
       <Grid templateColumns={"repeat(3, 1fr)"} gap="4" my="5">
-        <AddBaseCurrency
-          baseCurrency={baseCurrencyResp?.data[0] || null}
-          loading={loadingBaseCurrency}
-        />
-        <UsdToNaira data={usdToNaira} loading={loadingFees} />
-
-        <UpdateTransactionFees
-          loading={loadingFees}
-          options={transactionFees}
-        />
-
-        <UpdateFundWalletFee loading={loadingFees} options={fundWalletFees} />
-
-        <UpdatePaypal loading={loadingPaypal} data={paypalResp?.data} />
-        <UpdateUtility loading={loadingUtilities} options={utilities} />
-
+        {!loadingBaseCurrency && (
+          <AddBaseCurrency
+            baseCurrency={baseCurrencyResp?.data[0] || null}
+            loading={loadingBaseCurrency}
+          />
+        )}
+        {!loadingCoinRate && (
+          <CoinRate data={coinRateResp?.data} loading={loadingCoinRate} />
+        )}
+        {!loadingTokenRate && (
+          <TokenRate data={tokenRateResp?.data} loading={loadingTokenRate} />
+        )}
+        {!loadingFees && (
+          <>
+            <UsdToNaira data={usdToNaira} loading={loadingFees} />
+            <UpdateTransactionFees
+              loading={loadingFees}
+              options={transactionFees}
+            />
+            <UpdateFundWalletFee
+              loading={loadingFees}
+              options={fundWalletFees}
+            />
+          </>
+        )}
+        {!loadingPaypal && (
+          <UpdatePaypal loading={loadingPaypal} data={paypalResp?.data} />
+        )}
+        {!loadingUtilities && (
+          <UpdateUtility loading={loadingUtilities} options={utilities} />
+        )}
         <CryptoTokens />
         <CoinListings />
         <AllListedTokens />

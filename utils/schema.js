@@ -128,6 +128,13 @@ export const updatePaypalSchema = yup
   })
   .required();
 
+export const updateCoinRateSchema = yup
+  .object({
+    sell_rate: yup.string().required("Sell rate is required"),
+    buy_rate: yup.string().required("Buy rate is required"),
+  })
+  .required();
+
 export const createPackageSchema = yup
   .object({
     package_name: yup.string().required("Package name is required"),
