@@ -164,14 +164,20 @@ const CreatePackage = ({ isOpen, onClose }) => {
               <InputError msg={errors?.package_apr?.message} />
             </Stack>
             <Stack>
-              <Text fontSize="12px">Max Amount</Text>
-              <Input {...register("max_amount")} type="tel" />
-              <InputError msg={errors?.max_amount?.message} />
+              <Text fontSize="12px">Referral Percentage</Text>
+              <Input {...register("referral_percentage")} type="number" />
+              <InputError msg={errors?.referral_percentage?.message} />
             </Stack>
+
             <Stack>
               <Text fontSize="12px">Min Amount</Text>
               <Input {...register("min_amount")} type="tel" />
               <InputError msg={errors?.min_amount?.message} />
+            </Stack>
+            <Stack>
+              <Text fontSize="12px">Max Amount</Text>
+              <Input {...register("max_amount")} type="tel" />
+              <InputError msg={errors?.max_amount?.message} />
             </Stack>
             <Stack>
               <Text fontSize="12px">Info</Text>

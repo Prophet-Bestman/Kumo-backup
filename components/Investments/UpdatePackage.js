@@ -146,11 +146,16 @@ const UpdatePackage = ({ isOpen, onClose, singlePackage }) => {
                   <InputError msg={errors?.package_name?.message} />
                 </Stack>
 
-                <Grid templateColumns={"repeat(3, 1fr)"} gap="2" my="4">
+                <Grid templateColumns={"repeat(2, 1fr)"} gap="2" my="4">
                   <Stack>
                     <Text fontSize="12px">Package Apr</Text>
                     <Input {...register("package_apr")} />
                     <InputError msg={errors?.package_apr?.message} />
+                  </Stack>
+                  <Stack>
+                    <Text fontSize="12px">Referral Percentage</Text>
+                    <Input {...register("referral_percentage")} type="number" />
+                    <InputError msg={errors?.referral_percentage?.message} />
                   </Stack>
 
                   <Stack>
