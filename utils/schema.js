@@ -19,9 +19,11 @@ export const createAgentSchema = yup
     agent_phone: yup
       .string()
       .required("Agent's Phone Number is required")
-      .min(6, "Phone number must be at least 6 digits")
+      .min(4, "Phone number must be at least 6 digits")
       .max(20, "Phone number must be at most 20 digits"),
     bank_name: yup.string().required("Agent's Bank name is required"),
+    account_name: yup.string().required("Agent's Account name is required"),
+    account_number: yup.string().required("Agent's Account Number is required"),
   })
   .required();
 
@@ -43,8 +45,9 @@ export const updateAgentSchema = yup
     agent_phone: yup
       .string()
       .required("Agent's Phone Number is required")
-      .min(6, "Phone number must be at least 6 digits")
+      .min(4, "Phone number must be at least 6 digits")
       .max(20, "Phone number must be at most 20 digits"),
+    bank_name: yup.string().required("Agent's Bank name is required"),
     account_name: yup.string().required("Agent's Account name is required"),
     account_number: yup.string().required("Agent's Account Number is required"),
 

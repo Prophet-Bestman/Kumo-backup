@@ -69,6 +69,28 @@ export const useAddToken = () => {
   );
 };
 
+export const useTerminateInvestment = () => {
+  const queryClient = useQueryClient();
+  const headers = configOptions();
+  return useMutation(
+    (values) =>
+      request
+        .put(
+          `/terminate-investment?_id=${values?.id}&user_id=${values.user_id}&admin_reply_id=${values.admin_reply_id}`,
+          values?.data,
+          {
+            headers: headers,
+          }
+        )
+        .then((res) => res.data),
+    {
+      onSuccess: () => {
+        queryClient.invalidateQueries("packages");
+      },
+    }
+  );
+};
+
 export const useRemoveToken = () => {
   const queryClient = useQueryClient();
   const headers = configOptions();

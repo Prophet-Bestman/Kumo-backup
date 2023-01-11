@@ -70,6 +70,8 @@ const AddAgent = ({ isOpen, onClose }) => {
     reset();
   }, [createError]);
 
+  console.log(errors);
+
   return (
     <ModalCard isOpen={isOpen} onClose={onClose}>
       <Box p="4" h="80vh" overflowY="auto" sx={customScrollBar3}>

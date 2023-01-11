@@ -104,6 +104,8 @@ const UpdateAgent = ({ isOpen, onClose, agent }) => {
     resetDelete();
   }, [deleteError]);
 
+  console.log(errors);
+
   return (
     <ModalCard isOpen={isOpen} onClose={onClose}>
       <Box p="4" h="80vh" overflowY="auto" sx={customScrollBar3}>

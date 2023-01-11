@@ -45,6 +45,7 @@ const InvestmentDetails = ({ isOpen, onClose, investment }) => {
     terminated_info,
   } = investment;
 
+  console.log(investment);
   return (
     <ModalCard isOpen={isOpen} onClose={onClose} size="2xl">
       <LargeHeading my="4">Investment Details</LargeHeading>
