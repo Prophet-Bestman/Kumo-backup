@@ -69,14 +69,14 @@ export const useAddToken = () => {
   );
 };
 
-export const useTerminateInvestment = () => {
+export const useAdminTerminateInvestment = () => {
   const queryClient = useQueryClient();
   const headers = configOptions();
   return useMutation(
     (values) =>
       request
         .put(
-          `/terminate-investment?_id=${values?.id}&user_id=${values.user_id}&admin_reply_id=${values.admin_reply_id}`,
+          `/admin-terminate-investment?_id=${values?.id}&user_id=${values.user_id}`,
           values?.data,
           {
             headers: headers,

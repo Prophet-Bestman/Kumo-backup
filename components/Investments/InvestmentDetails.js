@@ -1,36 +1,23 @@
 import {
   Box,
   Button,
-  Circle,
   Flex,
   Grid,
-  GridItem,
-  Input,
-  Stack,
-  Switch,
   Text,
   useDisclosure,
   useToast,
 } from "@chakra-ui/react";
-import { yupResolver } from "@hookform/resolvers/yup";
-import { useDeletePackage, useUpdatePackage } from "api/investment";
-import { ModalCard, LargeHeading, InputError, ConfirmModal } from "components";
+import { useAdminTerminateInvestment } from "api/investment";
+import { ModalCard, LargeHeading, ConfirmModal } from "components";
 import { format } from "date-fns";
-import React, { useEffect, useState } from "react";
-import { useForm } from "react-hook-form";
+import React, { useEffect } from "react";
 import {
   getStatusColor,
   handleRequestError,
   numberWithCommas,
 } from "utils/helpers";
-import { updatePackageSchema } from "utils/schema";
-import { customScrollBar3 } from "utils/styles";
-import AddToken from "./AddToken";
-import TokenTag from "./TokenTag";
 
 const InvestmentDetails = ({ isOpen, onClose, investment }) => {
-  const [status, setStatus] = useState(investment?.investment_status);
-
   const {
     investment_name,
     investment_amount,
@@ -43,7 +30,51 @@ const InvestmentDetails = ({ isOpen, onClose, investment }) => {
     investment_redemption_date,
     user_name,
     terminated_info,
+    _id,
+    user_id,
   } = investment;
+
+  const {
+    isOpen: isConfirmOopen,
+    onClose: onConfirmClose,
+    onOpen: onConfirmOpen,
+  } = useDisclosure();
+
+  // ====== TOASTS ======
+  const toast = useToast();
+
+  const successToast = () => {
+    toast({
+      title: "Action Successful",
+      description: "Succesfully Terminated Investment",
+      status: "success",
+      duration: 3000,
+      isClosable: true,
+      variant: "top-accent",
+      position: "top",
+    });
+  };
+
+  const {
+    mutate: terminate,
+    isLoading,
+    data: terminateResp,
+    error: terminateError,
+    reset,
+  } = useAdminTerminateInvestment();
+
+  useEffect(() => {
+    if (!!terminateResp && terminateResp?.status === "success") {
+      successToast();
+      reset();
+      onClose();
+    }
+  }, [terminateResp]);
+
+  useEffect(() => {
+    handleRequestError(terminateError);
+    reset();
+  }, [terminateError]);
 
   return (
     <ModalCard isOpen={isOpen} onClose={onClose} size="2xl">
@@ -112,6 +143,26 @@ const InvestmentDetails = ({ isOpen, onClose, investment }) => {
             />
           </Grid>
         </Box>
+      )}
+      <Button size="sm" my="4" p="5" onClick={onConfirmOpen}>
+        Terminate Investment
+      </Button>
+
+      {isConfirmOopen && (
+        <ConfirmModal
+          isLoading={isLoading}
+          isOpen={isConfirmOopen}
+          onClose={onConfirmClose}
+          message="Are you sure you want to terminate this investment?"
+          primaryFunc={{
+            func: () =>
+              terminate({
+                id: _id,
+                user_id: user_id,
+              }),
+            name: "Terminate",
+          }}
+        />
       )}
     </ModalCard>
   );
