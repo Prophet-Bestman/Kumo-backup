@@ -3,14 +3,16 @@ import {
   Button,
   Flex,
   Grid,
+  GridItem,
   Input,
   InputGroup,
   Stack,
   Text,
   useDisclosure,
 } from "@chakra-ui/react";
+import LargeHeading from "components/LargeHeading";
 import React from "react";
-import { numberWithCommas } from "utils/helpers";
+import { cryptoNumberWithCommas, numberWithCommas } from "utils/helpers";
 import DebitWallet from "./DebitWallet";
 import FundWallet from "./FundWallet";
 
@@ -46,6 +48,9 @@ const UserWallets = ({ user }) => {
           rowGap="10"
           alignItems="flex-end"
         >
+          <GridItem colSpan={2}>
+            <LargeHeading> Wallet Addresses</LargeHeading>
+          </GridItem>
           {wallet_addresses?.length > 0 &&
             wallet_addresses?.map((wallet) => (
               <Stack mb="5" key={wallet?.walletAddress}>
@@ -62,14 +67,14 @@ const UserWallets = ({ user }) => {
                     {wallet.name}
                   </Text>
 
-                  <Flex gap="1">
+                  {/* <Flex gap="1">
                     <Text fontWeight={500} fontSize="12px">
                       {wallet.code}:
                     </Text>
                     <Text fontSize="12px" fontWeight={600}>
                       {getWalletBalance(wallet.name, wallet_balance)}
                     </Text>
-                  </Flex>
+                  </Flex> */}
                 </Flex>
 
                 <Text fontWeight={500} fontSize="12px">
@@ -83,6 +88,26 @@ const UserWallets = ({ user }) => {
                 <Input value={wallet.cryptoAddress} disabled />
               </Stack>
             ))}
+
+          <GridItem colSpan={2}>
+            <LargeHeading> Wallet Balances</LargeHeading>
+          </GridItem>
+
+          {wallet_balance?.length > 0 &&
+            wallet_balance?.map((wallet) => (
+              <Stack mb="5" key={wallet?.code}>
+                <Text
+                  fontWeight={500}
+                  fontSize="14px"
+                  textTransform="capitalize"
+                >
+                  {wallet.name}
+                </Text>
+
+                <Input value={cryptoNumberWithCommas(wallet?.value)} disabled />
+              </Stack>
+            ))}
+
           <Stack mb="5">
             <Text
               fontWeight={500}
@@ -95,7 +120,10 @@ const UserWallets = ({ user }) => {
 
             <InputGroup>
               <Input
-                value={`NGN: ${getWalletBalance("naira", wallet_balance)}`}
+                value={`NGN: ${getWalletBalance(
+                  "naira tether",
+                  wallet_balance
+                )}`}
                 disabled
               />
             </InputGroup>

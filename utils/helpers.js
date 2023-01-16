@@ -37,8 +37,18 @@ export const handleRequestError = (error) => {
 };
 
 export function numberWithCommas(number = 0) {
-  let approx = parseInt(number).toFixed(2);
+  let approx = parseFloat(number).toFixed(2);
   return approx.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+}
+
+export function cryptoNumberWithCommas(number = 0) {
+  let approx = parseInt(number);
+  let floatNumber = parseFloat(number);
+  const decimal = floatNumber - approx;
+
+  const formattedInt = approx.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+
+  return formattedInt + decimal;
 }
 
 export function numberWithCommasNoDecimal(number = 0) {
