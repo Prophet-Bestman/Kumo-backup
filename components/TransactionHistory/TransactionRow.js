@@ -2,7 +2,7 @@ import { Circle, Flex, Td, Text, Tr } from "@chakra-ui/react";
 import { format } from "date-fns";
 import Link from "next/link";
 import React from "react";
-import { numberWithCommas } from "utils/helpers";
+import { cryptoNumberWithCommas, numberWithCommas } from "utils/helpers";
 
 const TransactionRow = ({ transaction, number }) => {
   const {
@@ -58,7 +58,7 @@ const TransactionRow = ({ transaction, number }) => {
           fontSize={"13px"}
           // color={type === "credit" ? "app.success" : "app.red"}
         >
-          N{numberWithCommas(amount_paid_in_naira || 0)}
+          {cryptoNumberWithCommas(amount_paid_in_naira || 0)}
         </Td>
 
         <Td fontWeight={700} fontSize={"13px"} textTransform="capitalize">
@@ -68,7 +68,9 @@ const TransactionRow = ({ transaction, number }) => {
           {status}
         </Td>
         <Td fontSize={"13px"} textTransform="capitalize">
-          {format(new Date(created_at), "dd-MM-yyyy")}
+          {/* {format(new Date(created_at), "dd-MM-yyyy")} */}
+          {new Date(created_at).toDateString()},{" "}
+          {new Date(created_at).toLocaleTimeString()}
         </Td>
       </Tr>
     </Link>

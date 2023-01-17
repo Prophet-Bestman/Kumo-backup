@@ -44,9 +44,9 @@ export function numberWithCommas(number = 0) {
 export function cryptoNumberWithCommas(number = 0) {
   let approx = parseInt(number);
   let floatNumber = parseFloat(number);
-  const decimal = floatNumber - approx;
-
-  const formattedInt = approx.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+  let decimal = floatNumber - approx;
+  let formattedInt = approx.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+  formattedInt = formattedInt.slice(0, 1);
 
   return formattedInt + decimal;
 }
