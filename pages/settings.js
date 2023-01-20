@@ -126,7 +126,9 @@ const Settings = () => {
   useEffect(() => {
     if (!!feesResp && feesResp?.status === "success") {
       setUsdToNaira(
-        feesResp?.data?.filter((item) => item?.name === "usdToNgn")[0]
+        feesResp?.data?.filter(
+          (item) => item?.name?.toLowerCase() === "usdtongn"
+        )[0]
       );
 
       let allFees = feesResp?.data?.filter(

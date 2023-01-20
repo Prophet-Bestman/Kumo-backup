@@ -1,5 +1,5 @@
 import { Box, Button, Text } from "@chakra-ui/react";
-import { useGetOverallStats } from "api/stats";
+import { useGetAdmin } from "api/admin";
 import { useRouter } from "next/router";
 import React, { useEffect, useState } from "react";
 import { useAuthContext } from "./AuthProvider";
@@ -12,20 +12,19 @@ const AuthGuard = ({ children }) => {
   const router = useRouter();
 
   const {
-    data: statsResp,
+    data: adminResp,
     error,
     isLoading,
-    isFetchedAfterMount,
-  } = useGetOverallStats({
+  } = useGetAdmin({
     retry: false,
     refetchOnWindowFocus: false,
   });
 
   useEffect(() => {
-    if (!!statsResp && statsResp?.status === "success") {
+    if (!!adminResp && adminResp?.status === "success") {
       setAuthError(false);
     }
-  }, [statsResp]);
+  }, [adminResp]);
 
   useEffect(() => {
     if (!!error) {
