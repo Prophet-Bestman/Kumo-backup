@@ -198,7 +198,7 @@ const Settings = () => {
         {!loadingTokenRate && (
           <TokenRate data={tokenRateResp?.data} loading={loadingTokenRate} />
         )}
-        {!loadingFees && (
+        {/* {!loadingFees && (
           <>
             <UsdToNaira data={usdToNaira} loading={loadingFees} />
             <UpdateTransactionFees
@@ -210,7 +210,7 @@ const Settings = () => {
               options={fundWalletFees}
             />
           </>
-        )}
+        )} */}
         {!loadingPaypal && (
           <UpdatePaypal loading={loadingPaypal} data={paypalResp?.data} />
         )}

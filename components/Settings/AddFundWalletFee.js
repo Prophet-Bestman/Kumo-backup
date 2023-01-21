@@ -31,7 +31,7 @@ const AddWalletFee = ({ options, isOpen, onClose }) => {
   const [selectedType, setSelectedType] = useState(null);
 
   const handleChange = (e) => {
-    setSelectedType(e.target.value);
+    setSelectedType(e?.target?.value);
   };
 
   const {

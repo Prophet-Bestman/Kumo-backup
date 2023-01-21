@@ -31,7 +31,7 @@ const UpdateFundWalletFee = ({ options, loading }) => {
   const [selectedType, setSelectedType] = useState(null);
 
   const handleChange = (e) => {
-    setSelectedType(e.target.value);
+    setSelectedType(e?.target?.value);
   };
 
   const {
