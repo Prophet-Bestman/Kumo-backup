@@ -6,6 +6,7 @@ import {
   MenuButton,
   MenuItem,
   MenuList,
+  Progress,
   useDisclosure,
 } from "@chakra-ui/react";
 import {
@@ -24,10 +25,10 @@ import {
   AddFundWalletFee,
   AddTransactionFee,
   CoinListings,
-  // UpdateFundWalletFee,
+  UpdateFundWalletFee,
   UpdatePaypal,
-  // UpdateTransactionFees,
-  // UsdToNaira,
+  UpdateTransactionFees,
+  UsdToNaira,
 } from "components/Settings";
 import { navStates, useNavContext } from "context/NavProvider";
 import React, { useEffect, useState } from "react";
@@ -61,7 +62,7 @@ const initialFundWalletFeeOptions = [
 ];
 
 const Settings = () => {
-  // const [usdToNaira, setUsdToNaira] = useState([]);
+  const [usdToNaira, setUsdToNaira] = useState([]);
   const [addTransactionFeeOptions, setAddTransactionFeeOptions] = useState([]);
   const [addFundWalletFeeOptions, setAddFundWalletFeeOptions] = useState([]);
   const [transactionFees, setTransactionFees] = useState([]);
@@ -84,7 +85,7 @@ const Settings = () => {
 
   const {
     isOpen: isAddCurrencyOpen,
-    onOpen: onAddCurrencyOpen,
+    // onOpen: onAddCurrencyOpen,
     onClose: onAddCurrencyClose,
   } = useDisclosure();
 
@@ -100,16 +101,16 @@ const Settings = () => {
   } = useDisclosure();
   const {
     isOpen: isAddCryptoOpen,
-    onOpen: onAddCryptoOpen,
+    // onOpen: onAddCryptoOpen,
     onClose: onAddCryptoClose,
   } = useDisclosure();
 
   const { setActiveNav } = useNavContext();
   useEffect(() => {
     setActiveNav(navStates.settings);
-  }, [setActiveNav, navStates]);
+  }, []);
 
-  const { data: feesResp } = useGetAllFees();
+  const { data: feesResp, isLoading: loadingFees } = useGetAllFees();
   useGetCryptoAddresses();
   const { data: utilityResp, isLoading: loadingUtilities } = useGetUtilities();
 
@@ -125,11 +126,11 @@ const Settings = () => {
   //  ================ USEEFFECTS ==========
   useEffect(() => {
     if (!!feesResp && feesResp?.status === "success") {
-      // setUsdToNaira(
-      //   feesResp?.data?.filter(
-      //     (item) => item?.name?.toLowerCase() === "usdtongn"
-      //   )[0]
-      // );
+      setUsdToNaira(
+        feesResp?.data?.filter(
+          (item) => item?.name?.toLowerCase() === "usdtongn"
+        )[0]
+      );
 
       let allFees = feesResp?.data?.filter(
         (item) =>
@@ -185,6 +186,14 @@ const Settings = () => {
 
   return (
     <Box p="12">
+      {(loadingBaseCurrency ||
+        loadingCoinRate ||
+        loadingFees ||
+        loadingPaypal ||
+        loadingTokenRate ||
+        loadingUtilities) && (
+        <Progress size="xs" isIndeterminate colorScheme="gray" />
+      )}
       <Grid templateColumns={"repeat(3, 1fr)"} gap="12" my="5">
         {!loadingBaseCurrency && (
           <AddBaseCurrency
@@ -198,7 +207,7 @@ const Settings = () => {
         {!loadingTokenRate && (
           <TokenRate data={tokenRateResp?.data} loading={loadingTokenRate} />
         )}
-        {/* {!loadingFees && (
+        {!loadingFees && (
           <>
             <UsdToNaira data={usdToNaira} loading={loadingFees} />
             <UpdateTransactionFees
@@ -210,7 +219,7 @@ const Settings = () => {
               options={fundWalletFees}
             />
           </>
-        )} */}
+        )}
         {!loadingPaypal && (
           <UpdatePaypal loading={loadingPaypal} data={paypalResp?.data} />
         )}
