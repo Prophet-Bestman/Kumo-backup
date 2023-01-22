@@ -108,7 +108,7 @@ const UserWallets = ({ user }) => {
               </Stack>
             ))}
 
-          <Stack mb="5">
+          {/* <Stack mb="5">
             <Text
               fontWeight={500}
               fontSize="14px"
@@ -127,7 +127,7 @@ const UserWallets = ({ user }) => {
                 disabled
               />
             </InputGroup>
-          </Stack>
+          </Stack> */}
         </Grid>
 
         <Flex gap="6">
