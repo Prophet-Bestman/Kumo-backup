@@ -14,7 +14,7 @@ const AgentsPage = () => {
 
   useEffect(() => {
     setActiveNav(navStates?.agents);
-  }, []);
+  }, [setActiveNav, navStates]);
 
   const { isOpen, onClose, onOpen } = useDisclosure();
 
@@ -37,7 +37,7 @@ const AgentsPage = () => {
 
   useEffect(() => {
     refetch();
-  }, [page]);
+  }, [page, refetch]);
 
   return (
     <Box p="6">

@@ -20,7 +20,7 @@ const Home = () => {
 
   useEffect(() => {
     setActiveNav(navStates?.dashboard);
-  }, []);
+  }, [setActiveNav, navStates]);
 
   const { data: overallStatsResp } = useGetOverallStats();
 

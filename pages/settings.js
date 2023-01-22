@@ -107,7 +107,7 @@ const Settings = () => {
   const { setActiveNav } = useNavContext();
   useEffect(() => {
     setActiveNav(navStates.settings);
-  }, []);
+  }, [setActiveNav, navStates]);
 
   const { data: feesResp, isLoading: loadingFees } = useGetAllFees();
   useGetCryptoAddresses();

@@ -9,7 +9,7 @@ const ReferralsPage = () => {
   const { setActiveNav } = useNavContext();
   useEffect(() => {
     setActiveNav(navStates.referrals);
-  }, []);
+  }, [setActiveNav, navStates]);
   return (
     <Box p="6">
       <Grid templateColumns="repeat(2, 1fr)">

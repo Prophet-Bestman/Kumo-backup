@@ -44,8 +44,7 @@ const TransactionDetails = () => {
 
   const { isOpen, onClose, onOpen } = useDisclosure();
 
-  const { data: transactionResp, isLoading } =
-    useGetSingleTransaction(transactionDetails);
+  const { data: transactionResp } = useGetSingleTransaction(transactionDetails);
 
   const { data: userResp, refetch: getUser } = useSingleGetUser(userId, {
     enabled: false,
@@ -62,7 +61,7 @@ const TransactionDetails = () => {
 
   const {
     mutate: updateTransaction,
-    data: updateResp,
+    // data: updateResp,
     isLoading: updating,
     error,
   } = useUpdateTransaction();
@@ -79,13 +78,13 @@ const TransactionDetails = () => {
 
   useEffect(() => {
     if (!!userId) getUser();
-  }, [userId]);
+  }, [userId, getUser]);
 
   useEffect(() => {
     if (!!userResp && userResp?.data) {
       setUser(userResp?.data);
     }
-  }, [userResp]);
+  }, [userResp, setUser]);
 
   return (
     <Box p="6" px="10">
@@ -288,7 +287,7 @@ const AdminDescriptionUpdate = ({ isOpen, onClose, transaction }) => {
   useEffect(() => {
     handleRequestError(updateError);
     reset();
-  }, [updateError]);
+  }, [updateError, reset]);
 
   return (
     <ModalCard isOpen={isOpen} onClose={onClose}>

@@ -8,7 +8,7 @@ const AccountSettings = () => {
 
   useEffect(() => {
     setActiveNav(navStates?.account);
-  }, []);
+  }, [navStates, setActiveNav]);
 
   return (
     <Box p="6">

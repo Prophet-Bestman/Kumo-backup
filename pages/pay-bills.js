@@ -8,7 +8,7 @@ const PayBills = () => {
   const { setActiveNav } = useNavContext();
   useEffect(() => {
     setActiveNav(navStates?.pay_bills);
-  }, []);
+  }, [setActiveNav, navStates]);
 
   const [option, setOption] = useState(null);
   const [showConfirm, setShowConfirm] = useState(false);

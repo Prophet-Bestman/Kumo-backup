@@ -27,7 +27,7 @@ const Investments = () => {
   const { setActiveNav } = useNavContext();
   useEffect(() => {
     setActiveNav(navStates.investments);
-  }, []);
+  }, [setActiveNav, navStates]);
 
   const { isOpen, onClose, onOpen } = useDisclosure();
 

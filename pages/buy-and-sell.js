@@ -11,7 +11,7 @@ const BuyAndSell = () => {
   const { setActiveNav } = useNavContext();
   useEffect(() => {
     setActiveNav(navStates?.buy_and_sell);
-  }, []);
+  }, [setActiveNav, navStates]);
 
   const [option, setOption] = useState(null);
   const [showConfirm, setShowConfirm] = useState(false);

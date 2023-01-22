@@ -12,7 +12,7 @@ const AirtimeAndData = () => {
   const { setActiveNav } = useNavContext();
   useEffect(() => {
     setActiveNav(navStates?.airtime_and_data);
-  }, []);
+  }, [setActiveNav, navStates]);
 
   const [option, setOption] = useState(null);
   const [showConfirm, setShowConfirm] = useState(false);
