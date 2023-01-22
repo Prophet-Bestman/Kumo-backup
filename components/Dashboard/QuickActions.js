@@ -1,4 +1,4 @@
-import { Box, Circle, Grid, Text } from "@chakra-ui/react";
+import { Box, Grid, Text } from "@chakra-ui/react";
 import React from "react";
 import { FaStoreAlt } from "react-icons/fa";
 import { AiFillWallet } from "react-icons/ai";

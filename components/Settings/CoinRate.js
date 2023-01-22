@@ -30,7 +30,7 @@ const CoinRate = ({ data, loading }) => {
   // ====== TOASTS ======
   const toast = useToast();
 
-  const successToast = (msg) => {
+  const successToast = () => {
     toast({
       title: "Action Successful",
       description: "Updated Coin Rate",

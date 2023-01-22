@@ -24,7 +24,6 @@ const SearchSelect = ({
   handleSelect,
   placeholder,
   defaultValue,
-  width,
 }) => {
   const { ref, show, setShow } = useDropdownVisible("none");
   const [text, setText] = useState("");

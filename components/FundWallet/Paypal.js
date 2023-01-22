@@ -1,7 +1,6 @@
 import {
   Box,
   Flex,
-  Img,
   Input,
   InputGroup,
   InputRightElement,
@@ -9,12 +8,10 @@ import {
   Text,
   useToast,
 } from "@chakra-ui/react";
-import React, { useRef, useState } from "react";
+import React, { useRef } from "react";
 import { AiOutlineCopy } from "react-icons/ai";
 
-const PaypalOption = ({ completeTransaction }) => {
-  const [step, setStep] = useState(1);
-
+const PaypalOption = ({}) => {
   const toast = useToast();
 
   const successToast = () => {
@@ -28,9 +25,9 @@ const PaypalOption = ({ completeTransaction }) => {
     });
   };
 
-  const ussdRef = useRef(null);
+  // const ussdRef = useRef(null)
   const acctNameRef = useRef(null);
-  const acctNumberRef = useRef(null);
+  // const acctNumberRef = useRef(null);
 
   function copyToAcctName(e) {
     acctNameRef.current.select();
@@ -39,19 +36,19 @@ const PaypalOption = ({ completeTransaction }) => {
     successToast();
   }
 
-  function copyAcctNumber(e) {
-    acctNumberRef.current.select();
-    document.execCommand("copy");
-    e.target.focus();
-    successToast();
-  }
+  // function copyAcctNumber(e) {
+  //   acctNumberRef.current.select();
+  //   document.execCommand("copy");
+  //   e.target.focus();
+  //   successToast();
+  // }
 
-  function copyUssd(e) {
-    ussdRef.current.select();
-    document.execCommand("copy");
-    e.target.focus();
-    successToast();
-  }
+  // function copyUssd(e) {
+  //   ussdRef.current.select();
+  //   document.execCommand("copy");
+  //   e.target.focus();
+  //   successToast();
+  // }
 
   return (
     <Box bg="white" px="6" py="9" rounded="md">

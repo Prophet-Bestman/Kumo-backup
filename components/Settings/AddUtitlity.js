@@ -1,12 +1,4 @@
-import {
-  Box,
-  Button,
-  Input,
-  Select,
-  Stack,
-  Text,
-  useToast,
-} from "@chakra-ui/react";
+import { Box, Button, Select, Stack, Text, useToast } from "@chakra-ui/react";
 import { yupResolver } from "@hookform/resolvers/yup";
 import { useUpdateUtility } from "api/settings";
 import InputError from "components/InputError";

@@ -1,4 +1,4 @@
-import { Box, Circle, Grid, GridItem, Img, Text } from "@chakra-ui/react";
+import { Circle, Grid, GridItem, Img, Text } from "@chakra-ui/react";
 import React from "react";
 import { RiShareForwardLine } from "react-icons/ri";
 

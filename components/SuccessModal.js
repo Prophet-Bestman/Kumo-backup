@@ -3,7 +3,6 @@ import {
   Circle,
   Flex,
   Modal,
-  ModalBody,
   ModalContent,
   ModalOverlay,
   Text,

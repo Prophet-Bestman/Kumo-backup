@@ -1,6 +1,5 @@
 import { Box, Flex, Grid, Img, Text } from "@chakra-ui/react";
 import React from "react";
-import GetLoans from "./GetLoans";
 import ReferAndWin from "./ReferAndWin";
 
 const PayWithKumo = () => {

@@ -10,7 +10,7 @@ import {
 import referrals from "data/referrals";
 
 import React from "react";
-import { customScrollBar2, customScrollBar3 } from "utils/styles";
+import { customScrollBar3 } from "utils/styles";
 
 const ReferralsTable = () => {
   return (

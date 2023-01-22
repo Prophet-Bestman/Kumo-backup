@@ -7,7 +7,6 @@ import {
   MenuButton,
   MenuItem,
   MenuList,
-  Select,
   Stack,
   Switch,
   Text,

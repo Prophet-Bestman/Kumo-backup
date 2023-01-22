@@ -11,7 +11,6 @@ import ConfirmModal from "components/ConfirmModal";
 import LargeHeading from "components/LargeHeading";
 import React, { useEffect, useState } from "react";
 import { AiFillEdit, AiOutlineDelete } from "react-icons/ai";
-import { FaEdit } from "react-icons/fa";
 import { handleRequestError } from "utils/helpers";
 import { customScrollBar3 } from "utils/styles";
 import UpdateCryptoToken from "./UpdateCryptoToken";

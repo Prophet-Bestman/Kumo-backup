@@ -93,11 +93,6 @@ const UpdateCryptoToken = ({ isOpen, onClose, token }) => {
           Create Token
         </LargeHeading>
         <form onSubmit={handleSubmit(handleUpdate)}>
-          {/* <Stack mt="4">
-            <Text fontSize="14px"> Token ID</Text>
-            <Input {...register("token_id")} />
-            <InputError msg={errors?.token_id?.message} />
-          </Stack> */}
           <Grid gap="4" mb="5">
             <Stack>
               <Text fontSize="14px"> Name</Text>

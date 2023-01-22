@@ -1,14 +1,5 @@
 import React from "react";
-import {
-  Box,
-  Flex,
-  Tab,
-  TabList,
-  TabPanel,
-  TabPanels,
-  Tabs,
-  Text,
-} from "@chakra-ui/react";
+import { Box, Flex, TabPanel, TabPanels, Tabs, Text } from "@chakra-ui/react";
 
 import { TbCurrencyNaira } from "react-icons/tb";
 import { FaBtc, FaEthereum } from "react-icons/fa";

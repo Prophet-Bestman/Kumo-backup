@@ -9,12 +9,10 @@ import {
   Text,
   useToast,
 } from "@chakra-ui/react";
-import React, { useRef, useState } from "react";
+import React, { useRef } from "react";
 import { AiOutlineCopy } from "react-icons/ai";
 
-const BankTransfer = ({ completeTransaction }) => {
-  const [step, setStep] = useState(1);
-
+const BankTransfer = () => {
   const toast = useToast();
 
   const successToast = () => {

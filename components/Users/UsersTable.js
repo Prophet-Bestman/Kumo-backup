@@ -1,5 +1,4 @@
 import {
-  Box,
   Button,
   Flex,
   Spinner,
@@ -29,7 +28,6 @@ const UsersTable = ({ users, isLoading }) => {
       p="4"
     >
       {isLoading ? (
-        // <Spinner size="xl" color="app.primary.900" />
         <Loader />
       ) : (
         <Table w="full" variant="unstyled">

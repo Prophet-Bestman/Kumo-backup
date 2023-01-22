@@ -1,4 +1,4 @@
-import { Box, Circle, Flex, Grid, GridItem, Text } from "@chakra-ui/react";
+import { Circle, Flex, Grid, GridItem, Text } from "@chakra-ui/react";
 import React from "react";
 import {
   BsFillArrowDownLeftCircleFill,

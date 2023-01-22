@@ -1,11 +1,4 @@
-import {
-  Box,
-  Button,
-  Flex,
-  Grid,
-  useDisclosure,
-  useToast,
-} from "@chakra-ui/react";
+import { Box, Button, Grid, useDisclosure, useToast } from "@chakra-ui/react";
 import {
   useApproveBvn,
   useLookupBvn,

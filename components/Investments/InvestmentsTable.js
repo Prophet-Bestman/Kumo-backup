@@ -1,22 +1,8 @@
-import {
-  Box,
-  Button,
-  Flex,
-  Spinner,
-  Table,
-  TableContainer,
-  Tag,
-  Tbody,
-  Td,
-  Th,
-  Thead,
-  Tr,
-} from "@chakra-ui/react";
+import { Table, TableContainer, Tbody, Th, Thead, Tr } from "@chakra-ui/react";
 import Loader from "components/Loader";
 import React from "react";
 import { customScrollBar3 } from "utils/styles";
 import InvestmentRow from "./InvestmentRow";
-import PackageRow from "./PackageRow";
 
 const InvestmentsTable = ({ investments, isLoading }) => {
   return (
@@ -31,7 +17,6 @@ const InvestmentsTable = ({ investments, isLoading }) => {
       p="4"
     >
       {isLoading ? (
-        // <Spinner size="xl" color="app.primary.900" />
         <Loader />
       ) : (
         <Table w="full" variant="unstyled" size="sm">

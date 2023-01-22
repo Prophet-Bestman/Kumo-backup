@@ -15,7 +15,6 @@ import LargeHeading from "components/LargeHeading";
 import ModalCard from "components/ModalCard";
 import React, { useEffect } from "react";
 import { useForm } from "react-hook-form";
-import { currencies } from "utils/constants";
 import { handleRequestError } from "utils/helpers";
 import { fundWalletSchema } from "utils/schema";
 

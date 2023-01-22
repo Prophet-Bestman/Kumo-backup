@@ -3,8 +3,6 @@ import {
   Button,
   Grid,
   Input,
-  InputGroup,
-  InputLeftElement,
   Spinner,
   Stack,
   Text,
@@ -32,7 +30,7 @@ const UpdatePaypal = ({ data, loading }) => {
   // ====== TOASTS ======
   const toast = useToast();
 
-  const successToast = (msg) => {
+  const successToast = () => {
     toast({
       title: "Action Successful",
       description: "Updated Paypal Email",

@@ -24,10 +24,10 @@ import {
   AddFundWalletFee,
   AddTransactionFee,
   CoinListings,
-  UpdateFundWalletFee,
+  // UpdateFundWalletFee,
   UpdatePaypal,
-  UpdateTransactionFees,
-  UsdToNaira,
+  // UpdateTransactionFees,
+  // UsdToNaira,
 } from "components/Settings";
 import { navStates, useNavContext } from "context/NavProvider";
 import React, { useEffect, useState } from "react";
@@ -61,7 +61,7 @@ const initialFundWalletFeeOptions = [
 ];
 
 const Settings = () => {
-  const [usdToNaira, setUsdToNaira] = useState([]);
+  // const [usdToNaira, setUsdToNaira] = useState([]);
   const [addTransactionFeeOptions, setAddTransactionFeeOptions] = useState([]);
   const [addFundWalletFeeOptions, setAddFundWalletFeeOptions] = useState([]);
   const [transactionFees, setTransactionFees] = useState([]);
@@ -109,7 +109,7 @@ const Settings = () => {
     setActiveNav(navStates.settings);
   }, [setActiveNav, navStates]);
 
-  const { data: feesResp, isLoading: loadingFees } = useGetAllFees();
+  const { data: feesResp } = useGetAllFees();
   useGetCryptoAddresses();
   const { data: utilityResp, isLoading: loadingUtilities } = useGetUtilities();
 
@@ -125,11 +125,11 @@ const Settings = () => {
   //  ================ USEEFFECTS ==========
   useEffect(() => {
     if (!!feesResp && feesResp?.status === "success") {
-      setUsdToNaira(
-        feesResp?.data?.filter(
-          (item) => item?.name?.toLowerCase() === "usdtongn"
-        )[0]
-      );
+      // setUsdToNaira(
+      //   feesResp?.data?.filter(
+      //     (item) => item?.name?.toLowerCase() === "usdtongn"
+      //   )[0]
+      // );
 
       let allFees = feesResp?.data?.filter(
         (item) =>

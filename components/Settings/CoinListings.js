@@ -1,9 +1,5 @@
 import { Box, Flex, Text, useDisclosure, useToast } from "@chakra-ui/react";
-import {
-  useDeleteCryptotToken,
-  useGetAllCoinListing,
-  useRemoveCoinFromListing,
-} from "api/settings";
+import { useGetAllCoinListing, useRemoveCoinFromListing } from "api/settings";
 import ConfirmModal from "components/ConfirmModal";
 import LargeHeading from "components/LargeHeading";
 import React, { useEffect, useState } from "react";

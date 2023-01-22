@@ -1,6 +1,5 @@
 import { Table, TableContainer, Tbody, Th, Thead, Tr } from "@chakra-ui/react";
 import Loader from "components/Loader";
-// import transactions from "data/transactions";
 import React from "react";
 import { customScrollBar3 } from "utils/styles";
 import TransactionRow from "./TransactionRow";

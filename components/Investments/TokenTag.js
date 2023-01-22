@@ -1,4 +1,4 @@
-import { Box, Flex, Spinner, Text, useToast } from "@chakra-ui/react";
+import { Flex, Spinner, Text, useToast } from "@chakra-ui/react";
 import { useRemoveToken } from "api/investment";
 import React, { useEffect } from "react";
 import { AiOutlineClose } from "react-icons/ai";

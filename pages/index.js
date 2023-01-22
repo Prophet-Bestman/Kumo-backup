@@ -1,8 +1,7 @@
-import { Box, Flex, Grid, GridItem, Text } from "@chakra-ui/react";
+import { Box, Flex, Grid, GridItem } from "@chakra-ui/react";
 import { useGetOverallStats } from "api/stats";
 import {
   DashboardTransactions,
-  GetLoans,
   PayWithKumo,
   QuickActions,
   RecentTransactions,

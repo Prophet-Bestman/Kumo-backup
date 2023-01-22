@@ -1,12 +1,9 @@
 import { Button, Tag, Td, Tr, useDisclosure } from "@chakra-ui/react";
 import { format } from "date-fns";
-import Link from "next/link";
 import React from "react";
 import { getStatusColor } from "utils/helpers";
-import UpdatePackage from "./UpdatePackage";
 import { numberWithCommas } from "utils/helpers";
 import InvestmentDetails from "./InvestmentDetails";
-// import UpdateAgent from "./UpdateAgent";
 
 const InvestmentRow = ({ investment, number }) => {
   const {
@@ -24,7 +21,6 @@ const InvestmentRow = ({ investment, number }) => {
 
   const { isOpen, onOpen, onClose } = useDisclosure();
   return (
-    //   <TransactionRow  transaction={transaction} />
     <Tr key={investment?._id} textAlign="center">
       <Td>{number}</Td>
       <Td>{investment_name}</Td>

@@ -1,6 +1,6 @@
 import { Box, Grid, TabPanel, TabPanels, Tabs } from "@chakra-ui/react";
 import { useGetTransactions, useGetTransactionsSize } from "api/transactions";
-import { CustomTabList, Pagination } from "components";
+import { Pagination } from "components";
 import {
   DebitAndCredit,
   TransactionsTable,
@@ -18,7 +18,7 @@ const TransactionsPage = () => {
     setActiveNav(navStates?.transactions);
   }, []);
 
-  const tabs = [{ title: "All" }, { title: "Debits" }, { title: "Credits" }];
+  // const tabs = [{ title: "All" }, { title: "Debits" }, { title: "Credits" }];
 
   const {
     data: transactionsResp,

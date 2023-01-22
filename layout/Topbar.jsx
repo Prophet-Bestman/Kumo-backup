@@ -4,7 +4,6 @@ import {
   Button,
   Circle,
   Flex,
-  Img,
   Menu,
   MenuButton,
   MenuItem,

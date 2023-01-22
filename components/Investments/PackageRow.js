@@ -1,9 +1,7 @@
 import { Button, Tag, Td, Tr, useDisclosure } from "@chakra-ui/react";
-import Link from "next/link";
 import React from "react";
 import { getStatusColor } from "utils/helpers";
 import UpdatePackage from "./UpdatePackage";
-// import UpdateAgent from "./UpdateAgent";
 
 const PackageRow = ({ singlePackage, number }) => {
   const {
@@ -16,7 +14,6 @@ const PackageRow = ({ singlePackage, number }) => {
 
   const { isOpen, onOpen, onClose } = useDisclosure();
   return (
-    //   <TransactionRow  transaction={transaction} />
     <Tr key={singlePackage?._id} textAlign="center">
       <Td>{number}</Td>
       <Td>{package_name}</Td>

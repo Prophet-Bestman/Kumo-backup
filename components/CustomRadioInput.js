@@ -1,4 +1,4 @@
-import { Box, Circle } from "@chakra-ui/react";
+import { Box } from "@chakra-ui/react";
 import React, { useState } from "react";
 
 const CustomRadioInput = (props) => {

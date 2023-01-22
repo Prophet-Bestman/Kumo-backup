@@ -1,4 +1,4 @@
-import { Box, Grid, GridItem } from "@chakra-ui/react";
+import { Box, Grid } from "@chakra-ui/react";
 import { MoreInfo, ProfileCard, ProfileInfo } from "components/profile";
 import { navStates, useNavContext } from "context/NavProvider";
 import React, { useEffect } from "react";

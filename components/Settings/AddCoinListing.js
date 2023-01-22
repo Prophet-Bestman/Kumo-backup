@@ -1,18 +1,11 @@
-import { Box, Button, Input, Stack, Text, useToast } from "@chakra-ui/react";
-import { yupResolver } from "@hookform/resolvers/yup";
-import {
-  useAddCoinToListing,
-  useGetExternalCoins,
-  useUpdateCurrency,
-} from "api/settings";
+import { Box, Button, Stack, Text, useToast } from "@chakra-ui/react";
+import { useAddCoinToListing, useGetExternalCoins } from "api/settings";
 import InputError from "components/InputError";
 import LargeHeading from "components/LargeHeading";
 import ModalCard from "components/ModalCard";
 import SearchSelect from "components/SearchSelect";
 import React, { useEffect, useState } from "react";
-import { useForm } from "react-hook-form";
 import { handleRequestError } from "utils/helpers";
-import { addCurrencySchema } from "utils/schema";
 import debounce from "lodash.debounce";
 
 const AddCoinListing = ({ isOpen, onClose }) => {

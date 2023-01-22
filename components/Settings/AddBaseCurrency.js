@@ -2,8 +2,6 @@ import {
   Box,
   Button,
   Input,
-  InputGroup,
-  InputLeftElement,
   Spinner,
   Stack,
   Text,
@@ -14,7 +12,7 @@ import { yupResolver } from "@hookform/resolvers/yup";
 import {
   useDeleteBaseCurrency,
   useUpdateBaseCurrency,
-  useUpdateUsdToDollar,
+  // useUpdateUsdToDollar,
 } from "api/settings";
 import ConfirmModal from "components/ConfirmModal";
 import InputError from "components/InputError";
