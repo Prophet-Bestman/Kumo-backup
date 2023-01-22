@@ -170,7 +170,7 @@ const AddTransactionFee = ({ options, isOpen, onClose }) => {
                   </Text>
                 </InputLeftElement>
               )}
-              <Input {...register("cost")} type="number" placeholder="" />
+              <Input {...register("cost")} placeholder="" />
 
               {selectedType === "PERCENTAGE" && (
                 <InputRightElement px="0">
@@ -200,11 +200,7 @@ const AddTransactionFee = ({ options, isOpen, onClose }) => {
                     N
                   </Text>
                 </InputLeftElement>
-                <Input
-                  {...register("cap_value")}
-                  type="number"
-                  placeholder=""
-                />
+                <Input {...register("cap_value")} placeholder="" />
               </InputGroup>
 
               <InputError msg={errors?.cap_value?.message} />
