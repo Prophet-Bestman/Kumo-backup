@@ -465,6 +465,24 @@ export const useUpdateBaseCurrency = () => {
   return useMutation(
     (values) =>
       request2
+        .put(`/update-base-currency?currency_id=${values.id}`, values.data, {
+          headers: headers,
+        })
+        .then((res) => res.data),
+    {
+      onSuccess: () => {
+        queryClient.invalidateQueries("base-currency");
+      },
+    }
+  );
+};
+
+export const useAddBaseCurrency = () => {
+  const queryClient = useQueryClient();
+  const headers = configOptions();
+  return useMutation(
+    (values) =>
+      request2
         .put(`/add-base-currency`, values, {
           headers: headers,
         })

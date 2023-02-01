@@ -10,7 +10,7 @@ import {
   useToast,
 } from "@chakra-ui/react";
 import { yupResolver } from "@hookform/resolvers/yup";
-import { useAddBaseCurrency } from "api/settings";
+import { useUpdateBaseCurrency } from "api/settings";
 import InputError from "components/InputError";
 import LargeHeading from "components/LargeHeading";
 import React, { useEffect } from "react";
@@ -18,13 +18,14 @@ import { useForm } from "react-hook-form";
 import { handleRequestError } from "utils/helpers";
 import { updateBaseCurrencySchema } from "utils/schema";
 
-const AddBaseCurrency = ({ isOpen, onClose }) => {
+const UpdateBaseCurrency = ({ baseCurrency, isOpen, onClose }) => {
   const {
     register,
     handleSubmit,
     formState: { errors },
   } = useForm({
     resolver: yupResolver(updateBaseCurrencySchema),
+    defaultValues: baseCurrency,
   });
 
   // ====== TOASTS ======
@@ -43,29 +44,31 @@ const AddBaseCurrency = ({ isOpen, onClose }) => {
   };
 
   const {
-    mutate: addBaseCurrency,
-    data: addResp,
+    mutate: updateRate,
+    data: updateResp,
     isLoading,
-    error: addError,
+    error: updateError,
     reset,
-  } = useAddBaseCurrency();
+  } = useUpdateBaseCurrency();
 
   const handleUpdate = (data) => {
-    addBaseCurrency(data);
+    updateRate({
+      data,
+      id: baseCurrency?.currency_id,
+    });
   };
 
   useEffect(() => {
-    if (!!addResp && addResp?.status === "success") {
-      successToast("Added Kumo base currency");
+    if (!!updateResp && updateResp?.status === "success") {
+      successToast("Updated Kumo base currency");
       reset();
-      onClose();
     }
-  }, [addResp]);
+  }, [updateResp]);
 
   useEffect(() => {
-    handleRequestError(addError);
+    handleRequestError(updateError);
     reset();
-  }, [addError]);
+  }, [updateError]);
 
   return (
     <Modal isOpen={isOpen} onClose={onClose}>
@@ -74,7 +77,7 @@ const AddBaseCurrency = ({ isOpen, onClose }) => {
         <Box display="flex" rounded="md" bg="white" py="12" px="6" shadow="md">
           <Box w="full">
             <LargeHeading color="app.primary.700" fontSize="20px">
-              Add Base Currency
+              Update Base Currency
             </LargeHeading>
 
             <form onSubmit={handleSubmit(handleUpdate)}>
@@ -105,9 +108,32 @@ const AddBaseCurrency = ({ isOpen, onClose }) => {
               </Stack>
 
               <Button mt="4" h="48px" type="submit" isLoading={isLoading}>
-                Add Base Currency
+                Update
               </Button>
             </form>
+            {/* {!!baseCurrency?.code && (
+              <Button
+                mt="4"
+                h="48px"
+                variant="link"
+                color="red.400"
+                onClick={onOpen}
+              >
+                Delete
+              </Button>
+            )} */}
+
+            {/* <ConfirmModal
+              isLoading={deleting}
+              isOpen={isOpen}
+              message={"Are you sure you want to delete the base currency?"}
+              onClose={onClose}
+              primaryFunc={{
+                name: "Delete",
+                func: () => deleteBaseCurrency(baseCurrency?.code),
+              }}
+              secondaryFunc
+            /> */}
           </Box>
         </Box>
       </ModalContent>
@@ -115,4 +141,4 @@ const AddBaseCurrency = ({ isOpen, onClose }) => {
   );
 };
 
-export default AddBaseCurrency;
+export default UpdateBaseCurrency;

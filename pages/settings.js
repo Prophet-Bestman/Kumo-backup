@@ -42,6 +42,7 @@ import CryptoTokens from "components/Settings/CryptoTokens";
 import AllListedTokens from "components/Settings/AllListedTokens";
 import CoinRate from "components/Settings/CoinRate";
 import TokenRate from "components/Settings/TokenRate";
+import BaseCurrencies from "components/Settings/BaseCurrencies";
 
 const initialTransactionFeeOptions = [
   "BUY_CRYPTO_FEE",
@@ -75,6 +76,11 @@ const Settings = () => {
     isOpen: isUtilityOpen,
     onOpen: onUtilityOpen,
     onClose: onUtilityClose,
+  } = useDisclosure();
+  const {
+    isOpen: isAddBaseOpen,
+    onOpen: onAddBaseOpen,
+    onClose: onAddBaseClose,
   } = useDisclosure();
 
   const {
@@ -195,6 +201,7 @@ const Settings = () => {
         <Progress size="xs" isIndeterminate colorScheme="gray" />
       )}
       <Grid templateColumns={"repeat(3, 1fr)"} gap="12" my="5">
+        <BaseCurrencies />
         {!loadingBaseCurrency && (
           <AddBaseCurrency
             baseCurrency={baseCurrencyResp?.data[0] || null}
@@ -247,9 +254,7 @@ const Settings = () => {
           >
             <MenuItem onClick={onOpen}>Add Transaction Fee</MenuItem>
             <MenuItem onClick={onWalletFeeOpen}>Add Fund Wallet Fee</MenuItem>
-            {/* <MenuItem onClick={onAddCryptoOpen}>
-              Add Crypto Wallet Address
-            </MenuItem> */}
+            <MenuItem onClick={onAddBaseOpen}>Add Base Currency</MenuItem>
             {/* <MenuItem onClick={onAddCurrencyOpen}>Add Currency</MenuItem> */}
             <MenuItem onClick={onCreateTokenOpen}>Create Token</MenuItem>
             <MenuItem onClick={onAddCoinOpen}>Add Coin to listing </MenuItem>
@@ -287,6 +292,9 @@ const Settings = () => {
       )}
       {isUtilityOpen && (
         <AddUtility isOpen={isUtilityOpen} onClose={onUtilityClose} />
+      )}
+      {isAddBaseOpen && (
+        <AddBaseCurrency isOpen={isAddBaseOpen} onClose={onAddBaseClose} />
       )}
     </Box>
   );
