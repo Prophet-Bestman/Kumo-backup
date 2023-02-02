@@ -138,3 +138,14 @@ export const useGetInvestments = (page) => {
       .then((res) => res.data)
   );
 };
+
+export const useGetUserInvestments = (user_id, page) => {
+  const headers = configOptions();
+  return useQuery(["user-investments", page, user_id], () =>
+    request
+      .get(`/get-investments?item_per_page=20&page=${page}&q=${user_id}`, {
+        headers: headers,
+      })
+      .then((res) => res.data)
+  );
+};

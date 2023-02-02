@@ -9,19 +9,24 @@ import { useGetTransactions, useGetTransactionsSize } from "api/transactions";
 import { TransactionsTable } from "components/TransactionHistory";
 import { CustomTabList, LargeHeading, Pagination } from "components";
 import UserActions from "components/Users/UserActions";
+import InvestmentsTable from "components/Investments/InvestmentsTable";
+import { useGetUserInvestments } from "api/investment";
 
 const tabList = [
   { title: "Detail" },
   { title: "Verification" },
   { title: "Wallet" },
+  { title: "Investment History" },
   { title: "Settings" },
 ];
 
 const UserDetailsPage = () => {
   const router = useRouter();
+
   const [user, setUser] = useState(null);
   const [page, setPage] = useState(1);
   const [pages, setPages] = useState(1);
+  const [investments, setInvestments] = useState([]);
 
   const { userDetails } = router.query;
 
@@ -48,13 +53,21 @@ const UserDetailsPage = () => {
     }
   }, [countResp]);
 
+  const { data: investmentsResp } = useGetUserInvestments(userDetails);
+
+  useEffect(() => {
+    if (!!investmentsResp && investmentsResp?.status === "success") {
+      setInvestments(investmentsResp?.data);
+    }
+  }, [investmentsResp]);
+
   useEffect(() => {
     refetch();
   }, [page]);
 
   return (
     <Box p="6">
-      <Box mb="4">
+      <Box mb="12">
         <Tabs>
           <CustomTabList tabList={tabList} />
 
@@ -73,6 +86,14 @@ const UserDetailsPage = () => {
                   <UserWallets user={user} />
                 </TabPanel>
                 <TabPanel>
+                  {
+                    <InvestmentsTable
+                      isLoading={isLoading}
+                      investments={investments}
+                    />
+                  }
+                </TabPanel>
+                <TabPanel>
                   {!!user && <UserActions user_id={userDetails} user={user} />}
                 </TabPanel>
               </TabPanels>
@@ -81,7 +102,7 @@ const UserDetailsPage = () => {
         </Tabs>
       </Box>
 
-      <LargeHeading>Transaction History</LargeHeading>
+      <LargeHeading mb="4">Transaction History</LargeHeading>
       <TransactionsTable transactions={transactionsData?.data} />
       <Pagination page={page} pages={pages} setPage={setPage} />
     </Box>
