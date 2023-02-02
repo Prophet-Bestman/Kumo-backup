@@ -1,5 +1,4 @@
 import { Flex, Td, Text, Tr } from "@chakra-ui/react";
-import Link from "next/link";
 import React from "react";
 import { cryptoNumberWithCommas } from "utils/helpers";
 
