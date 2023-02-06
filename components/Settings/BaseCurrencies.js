@@ -98,6 +98,7 @@ const BaseCurrencies = () => {
                   color="app.primary"
                   cursor="pointer"
                   onClick={() => {
+                    setSelectedCurrency(baseCurrency);
                     onUpdateOpen();
                   }}
                 />
@@ -105,7 +106,7 @@ const BaseCurrencies = () => {
                   color="red"
                   cursor="pointer"
                   onClick={() => {
-                    setSelectedCurrency(baseCurrency?.currency_id);
+                    setSelectedCurrency(baseCurrency);
                     onDeleteOpen();
                   }}
                 />
@@ -114,7 +115,7 @@ const BaseCurrencies = () => {
                 <UpdateBaseCurrency
                   onClose={onUpdateClose}
                   isOpen={isUpdateOpen}
-                  baseCurrency={baseCurrency}
+                  baseCurrency={selectedCurrency}
                 />
               )}
             </Flex>
@@ -126,7 +127,7 @@ const BaseCurrencies = () => {
         onClose={onDeleteClose}
         primaryFunc={{
           name: "Delete",
-          func: () => deleteBaseCurrency(selectedCurrency),
+          func: () => deleteBaseCurrency(selectedCurrency.id),
         }}
         message={"Are you sure you want to delete this token"}
         isLoading={deleting}
