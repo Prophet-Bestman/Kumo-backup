@@ -16,7 +16,7 @@ import {
   useToast,
 } from "@chakra-ui/react";
 import { yupResolver } from "@hookform/resolvers/yup";
-import { useUpdateGeneralFee } from "api/settings";
+import { useUpdateFundWalletFee, useUpdateGeneralFee } from "api/settings";
 import InputError from "components/InputError";
 import LargeHeading from "components/LargeHeading";
 import React, { useEffect, useState } from "react";
@@ -76,7 +76,7 @@ const UpdateFundWalletFee = ({ options, loading }) => {
     isLoading,
     error: updateError,
     reset,
-  } = useUpdateGeneralFee();
+  } = useUpdateFundWalletFee();
 
   const handleUpdate = (data) => {
     if (!selectedOption) {
