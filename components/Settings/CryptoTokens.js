@@ -62,7 +62,7 @@ const CryptoTokens = () => {
   } = useDeleteCryptotToken();
 
   const handleDelete = () => {
-    deleteToken(selectedToken);
+    deleteToken(selectedToken.token_id);
   };
 
   useEffect(() => {
@@ -104,6 +104,7 @@ const CryptoTokens = () => {
                   color="app.primary"
                   cursor="pointer"
                   onClick={() => {
+                    setSelectedToken(token);
                     onUpdateOpen();
                   }}
                 />
@@ -111,7 +112,7 @@ const CryptoTokens = () => {
                   color="red"
                   cursor="pointer"
                   onClick={() => {
-                    setSelectedToken(token?.token_id);
+                    setSelectedToken(token);
                     onDeleteOpen();
                   }}
                 />
@@ -125,7 +126,7 @@ const CryptoTokens = () => {
                 <UpdateCryptoToken
                   onClose={onUpdateClose}
                   isOpen={isUpdateOpen}
-                  token={token}
+                  token={selectedToken}
                 />
               )}
             </Flex>
