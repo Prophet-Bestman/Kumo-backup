@@ -219,7 +219,7 @@ export const createCryptoTokenSchema = yup
     name: yup.string().required("Token Name is required"),
     // code: yup.string().required("Token code is required"),
     token_to_usd: yup.string().required("Token Dollar rate is required"),
-    token_to_naira: yup.string().required("Token Naira rate is required"),
+    // token_to_naira: yup.string().required("Token Naira rate is required"),
   })
   .required();
 
@@ -229,7 +229,7 @@ export const updateCryptoTokenSchema = yup
     name: yup.string().required("Token Name is required"),
     code: yup.string().required("Token code is required"),
     token_to_usd: yup.string().required("Token Dollar rate is required"),
-    token_to_naira: yup.string().required("Token Naira rate is required"),
+    // token_to_naira: yup.string().required("Token Naira rate is required"),
     // is_listed: yup.string().required("Is listed is required"),
   })
   .required();

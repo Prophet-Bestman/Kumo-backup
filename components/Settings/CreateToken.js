@@ -79,11 +79,11 @@ const CreateToken = ({ isOpen, onClose }) => {
             <Input {...register("token_to_usd")} type="tel" />
             <InputError msg={errors?.token_to_usd?.message} />
           </Stack>
-          <Stack mt="4">
+          {/* <Stack mt="4">
             <Text fontSize="14px">Price in Naira</Text>
             <Input {...register("token_to_naira")} type="tel" />
             <InputError msg={errors?.token_to_naira?.message} />
-          </Stack>
+          </Stack> */}
           <Button mt="4" h="48px" type="submit" isLoading={isLoading}>
             Create Token
           </Button>

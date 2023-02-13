@@ -109,11 +109,11 @@ const UpdateCryptoToken = ({ isOpen, onClose, token }) => {
               <Input {...register("token_to_usd")} type="tel" />
               <InputError msg={errors?.token_to_usd?.message} />
             </Stack>
-            <Stack>
+            {/* <Stack>
               <Text fontSize="14px">Token to Naira</Text>
               <Input {...register("token_to_naira")} type="tel" />
               <InputError msg={errors?.token_to_naira?.message} />
-            </Stack>
+            </Stack> */}
 
             <Box>
               {token.is_listed ? (
