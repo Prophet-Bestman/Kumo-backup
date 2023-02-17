@@ -4,6 +4,7 @@ import UserWallets from "./UserWallets";
 import UserCards from "./UserCards";
 import UserDetails from "./UserDetails";
 import UserVerifications from "./UserVerifications";
+import UserTransactions from "./UserTransactions";
 
 export {
   UsersTable,
@@ -12,4 +13,5 @@ export {
   UserCards,
   UserDetails,
   UserVerifications,
+  UserTransactions,
 };

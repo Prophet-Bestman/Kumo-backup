@@ -3,11 +3,14 @@ import { useSingleGetUser } from "api/users";
 import { useRouter } from "next/router";
 import React, { useEffect, useState } from "react";
 import { SkeletonCircle, SkeletonText } from "@chakra-ui/react";
-import { UserDetails, UserVerifications, UserWallets } from "components/Users";
+import {
+  UserDetails,
+  UserTransactions,
+  UserVerifications,
+  UserWallets,
+} from "components/Users";
 
-import { useGetTransactions, useGetTransactionsSize } from "api/transactions";
-import { TransactionsTable } from "components/TransactionHistory";
-import { CustomTabList, LargeHeading, Pagination } from "components";
+import { CustomTabList } from "components";
 import UserActions from "components/Users/UserActions";
 import InvestmentsTable from "components/Investments/InvestmentsTable";
 import { useGetUserInvestments } from "api/investment";
@@ -24,8 +27,6 @@ const UserDetailsPage = () => {
   const router = useRouter();
 
   const [user, setUser] = useState(null);
-  const [page, setPage] = useState(1);
-  const [pages, setPages] = useState(1);
   const [investments, setInvestments] = useState([]);
 
   const { userDetails } = router.query;
@@ -33,25 +34,12 @@ const UserDetailsPage = () => {
   const { data: userResp, isLoading } = useSingleGetUser(userDetails, {
     refetchInterval: 5000,
   });
-  const { data: transactionsData, refetch } = useGetTransactions(
-    page,
-    userDetails
-  );
 
   useEffect(() => {
     if (!!userResp && userResp?.status == "success") {
       setUser(userResp?.data);
     }
   }, [userResp]);
-
-  //  ============= PAGINATION LOGIC ===============
-  const { data: countResp } = useGetTransactionsSize(userDetails);
-
-  useEffect(() => {
-    if (!!countResp && countResp?.status === "success") {
-      setPages(Math.ceil(countResp?.data?.total / 30));
-    }
-  }, [countResp]);
 
   const { data: investmentsResp } = useGetUserInvestments(userDetails);
 
@@ -60,10 +48,6 @@ const UserDetailsPage = () => {
       setInvestments(investmentsResp?.data);
     }
   }, [investmentsResp]);
-
-  useEffect(() => {
-    refetch();
-  }, [page]);
 
   return (
     <Box p="6">
@@ -75,36 +59,37 @@ const UserDetailsPage = () => {
             <UserSkeleton />
           ) : (
             !!user && (
-              <TabPanels>
-                <TabPanel>
-                  <UserDetails user={user} />
-                </TabPanel>
-                <TabPanel>
-                  <UserVerifications user={user} />
-                </TabPanel>
-                <TabPanel>
-                  <UserWallets user={user} />
-                </TabPanel>
-                <TabPanel>
-                  {
-                    <InvestmentsTable
-                      isLoading={isLoading}
-                      investments={investments}
-                    />
-                  }
-                </TabPanel>
-                <TabPanel>
-                  {!!user && <UserActions user_id={userDetails} user={user} />}
-                </TabPanel>
-              </TabPanels>
+              <>
+                <TabPanels>
+                  <TabPanel>
+                    <UserDetails user={user} />
+                  </TabPanel>
+                  <TabPanel>
+                    <UserVerifications user={user} />
+                  </TabPanel>
+                  <TabPanel>
+                    <UserWallets user={user} />
+                  </TabPanel>
+                  <TabPanel>
+                    {
+                      <InvestmentsTable
+                        isLoading={isLoading}
+                        investments={investments}
+                      />
+                    }
+                  </TabPanel>
+                  <TabPanel>
+                    {!!user && (
+                      <UserActions user_id={userDetails} user={user} />
+                    )}
+                  </TabPanel>
+                </TabPanels>
+                <UserTransactions user={user} />
+              </>
             )
           )}
         </Tabs>
       </Box>
-
-      <LargeHeading mb="4">Transaction History</LargeHeading>
-      <TransactionsTable transactions={transactionsData?.data} />
-      <Pagination page={page} pages={pages} setPage={setPage} />
     </Box>
   );
 };
