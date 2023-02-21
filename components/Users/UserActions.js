@@ -149,7 +149,13 @@ const UserActions = ({ user_id, user }) => {
     isLoading: lookingUp,
     error: bvnError,
     remove: bvnReset,
-  } = useLookupBvn(user?.bvn?.bvn_number);
+  } = useLookupBvn(user?.bvn?.bvn);
+
+  const handleBvnLookup = () => {
+    if (!user?.bvn?.bvn) {
+      errorToast("This user has not registered a BVN");
+    } else lookupBvn();
+  };
 
   useEffect(() => {
     if (!!bvnResp && bvnResp?.status === "success") {
@@ -174,7 +180,10 @@ const UserActions = ({ user_id, user }) => {
         verified: option === "activate" ? true : "false",
       },
     };
-    approveBvn(payload);
+
+    if (!user?.bvn?.bvn) {
+      errorToast("This user has not registered a BVN");
+    } else approveBvn(payload);
   };
 
   const openActivateKyc = (option) => {
@@ -241,7 +250,7 @@ const UserActions = ({ user_id, user }) => {
 
         {!user?.bvn?.verified && (
           <>
-            <Button onClick={lookupBvn} maxW="full" isLoading={lookingUp}>
+            <Button onClick={handleBvnLookup} maxW="full" isLoading={lookingUp}>
               Lookup Bvn Validity
             </Button>
             <Button

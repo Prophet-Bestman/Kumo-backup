@@ -7,7 +7,10 @@ import {
   useDisclosure,
   useToast,
 } from "@chakra-ui/react";
-import { useAdminTerminateInvestment } from "api/investment";
+import {
+  useAdminActivateInvestment,
+  useAdminTerminateInvestment,
+} from "api/investment";
 import { ModalCard, LargeHeading, ConfirmModal } from "components";
 import { format } from "date-fns";
 import React, { useEffect } from "react";
@@ -46,7 +49,7 @@ const InvestmentDetails = ({ isOpen, onClose, investment }) => {
   const successToast = () => {
     toast({
       title: "Action Successful",
-      description: "Succesfully Terminated Investment",
+      description: "Succesfully Updated Investment",
       status: "success",
       duration: 3000,
       isClosable: true,
@@ -63,6 +66,22 @@ const InvestmentDetails = ({ isOpen, onClose, investment }) => {
     reset,
   } = useAdminTerminateInvestment();
 
+  const {
+    mutate: activate,
+    isLoading: activating,
+    data: activateResp,
+    error: activateError,
+    reset: resetActivate,
+  } = useAdminActivateInvestment();
+
+  useEffect(() => {
+    if (!!activateResp && activateResp?.status === "success") {
+      successToast();
+      resetActivate();
+      onClose();
+    }
+  }, [activateResp]);
+
   useEffect(() => {
     if (!!terminateResp && terminateResp?.status === "success") {
       successToast();
@@ -74,7 +93,9 @@ const InvestmentDetails = ({ isOpen, onClose, investment }) => {
   useEffect(() => {
     handleRequestError(terminateError);
     reset();
-  }, [terminateError]);
+    handleRequestError(activateError);
+    resetActivate();
+  }, [terminateError, activateError]);
 
   return (
     <ModalCard isOpen={isOpen} onClose={onClose} size="2xl">
@@ -144,9 +165,21 @@ const InvestmentDetails = ({ isOpen, onClose, investment }) => {
           </Grid>
         </Box>
       )}
-      <Button size="sm" my="4" p="5" onClick={onConfirmOpen}>
-        Terminate Investment
-      </Button>
+      {investment_status === "ongoing" ? (
+        <Button size="sm" my="4" p="5" onClick={onConfirmOpen}>
+          Terminate Investment
+        </Button>
+      ) : (
+        <Button
+          size="sm"
+          my="4"
+          p="5"
+          onClick={() => activate({ id: _id })}
+          isLoading={activating}
+        >
+          Activate Investment
+        </Button>
+      )}
 
       {isConfirmOopen && (
         <ConfirmModal

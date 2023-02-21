@@ -22,7 +22,7 @@ const NewPin = ({ isOpen, onClose, user_id }) => {
   const [randomPin, setRandomPin] = useState(1);
 
   const generateRandomPin = () => {
-    setRandomPin(Math.ceil(Math.random() * 10000));
+    setRandomPin(Math.floor(1000 + Math.random() * 9000));
   };
 
   useEffect(() => {

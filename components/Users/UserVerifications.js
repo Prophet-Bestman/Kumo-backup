@@ -39,6 +39,15 @@ const UserVerifications = ({ user }) => {
           </Stack>
           <Stack>
             <Text ml="2" fontSize="12px" fontWeight={600}>
+              User BVN
+            </Text>
+            <Input
+              disabled
+              value={user?.bvn?.bvn_number || "No BVN registered"}
+            />
+          </Stack>
+          <Stack>
+            <Text ml="2" fontSize="12px" fontWeight={600}>
               Kyc Status
             </Text>
             <Input

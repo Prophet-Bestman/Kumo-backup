@@ -203,7 +203,7 @@ export const resetPasswordSchema = yup.object({
     .string()
     .required()
     .matches(
-      /((?=.*\d)(?=.*[A-Z])(?=.*[a-z])(?=.*\W)\w.{8,18}\w)/,
+      /((?=.*\d)(?=.*[A-Z])(?=.*[a-z])(?=.*\W)\w.{6,18}\w)/,
       "Password should have at least one upper and lowercase, a number and a special character"
     )
     .min(7),
