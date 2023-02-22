@@ -1,5 +1,9 @@
 import { Box, Grid, TabPanel, TabPanels, Tabs } from "@chakra-ui/react";
-import { useSingleGetUser } from "api/users";
+import {
+  // useGetReferrals,
+  useGetUserReferrals,
+  useSingleGetUser,
+} from "api/users";
 import { useRouter } from "next/router";
 import React, { useEffect, useState } from "react";
 import { SkeletonCircle, SkeletonText } from "@chakra-ui/react";
@@ -14,12 +18,14 @@ import { CustomTabList } from "components";
 import UserActions from "components/Users/UserActions";
 import InvestmentsTable from "components/Investments/InvestmentsTable";
 import { useGetUserInvestments } from "api/investment";
+import { ReferralsTable } from "components/Referrals";
 
 const tabList = [
   { title: "Detail" },
   { title: "Verification" },
   { title: "Wallet" },
   { title: "Investment History" },
+  { title: "Referals" },
   { title: "Settings" },
 ];
 
@@ -34,6 +40,9 @@ const UserDetailsPage = () => {
   const { data: userResp, isLoading } = useSingleGetUser(userDetails, {
     refetchInterval: 5000,
   });
+
+  const { data: referralsResp, isLoading: loadingReferrals } =
+    useGetUserReferrals(userDetails);
 
   useEffect(() => {
     if (!!userResp && userResp?.status == "success") {
@@ -71,12 +80,16 @@ const UserDetailsPage = () => {
                     <UserWallets user={user} />
                   </TabPanel>
                   <TabPanel>
-                    {
-                      <InvestmentsTable
-                        isLoading={isLoading}
-                        investments={investments}
-                      />
-                    }
+                    <InvestmentsTable
+                      isLoading={isLoading}
+                      investments={investments}
+                    />
+                  </TabPanel>
+                  <TabPanel>
+                    <ReferralsTable
+                      referrals={referralsResp?.data}
+                      isLoading={loadingReferrals}
+                    />
                   </TabPanel>
                   <TabPanel>
                     {!!user && (
