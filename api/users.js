@@ -67,7 +67,7 @@ export const useGetUserReferrals = (user_id) => {
   const headers = configOptions();
   return useQuery(["user-referrals", user_id], () =>
     request
-      .get(`/get-users-referral-list?_id=${user_id}&item_per_page=20`, {
+      .get(`/get-user-referral-list?user_id=${user_id}`, {
         headers: headers,
       })
       .then((res) => res.data)
