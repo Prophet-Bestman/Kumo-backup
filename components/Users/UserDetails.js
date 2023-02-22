@@ -3,7 +3,6 @@ import { format } from "date-fns";
 import React from "react";
 
 const UserDetails = ({ user }) => {
-  // console.log(user);
   return (
     <Box py="14" px="10" bg="white" boxShadow="sm">
       <Avatar

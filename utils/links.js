@@ -67,11 +67,11 @@ export const navs = [
     link: "/investments",
     icon: <GiPayMoney />,
   },
-  // {
-  //   name: "My Referrals",
-  //   link: "/referrals",
-  //   icon: <IoPeople />,
-  // },
+  {
+    name: "Referrals",
+    link: "/referrals",
+    icon: <IoPeople />,
+  },
   // {
   //   name: "Take Loans",
   //   link: "/loans",

@@ -1,4 +1,5 @@
-import { Box, Flex, Grid, Text } from "@chakra-ui/react";
+import { Box, Flex, Grid, Progress, Text } from "@chakra-ui/react";
+import { useGetReferrals } from "api/users";
 import ReferAndWin from "components/Dashboard/ReferAndWin";
 import { ReferralsTable } from "components/Referrals";
 import { navStates, useNavContext } from "context/NavProvider";
@@ -10,9 +11,12 @@ const ReferralsPage = () => {
   useEffect(() => {
     setActiveNav(navStates.referrals);
   }, [setActiveNav, navStates]);
+
+  const { data: referralsResp, isLoading } = useGetReferrals();
+
   return (
     <Box p="6">
-      <Grid templateColumns="repeat(2, 1fr)">
+      {/* <Grid templateColumns="repeat(2, 1fr)">
         <ReferAndWin />
 
         <Flex alignItems="center">
@@ -29,8 +33,9 @@ const ReferralsPage = () => {
             </Flex>
           </Box>
         </Flex>
-      </Grid>
-      <ReferralsTable />
+      </Grid> */}
+
+      <ReferralsTable referrals={referralsResp?.data} isLoading={isLoading} />
     </Box>
   );
 };

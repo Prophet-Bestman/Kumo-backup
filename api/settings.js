@@ -501,7 +501,7 @@ export const useDeleteBaseCurrency = () => {
   return useMutation(
     (values) =>
       request2
-        .delete(`/delete-base-currency?code=${values}`, {
+        .delete(`/delete-base-currency?currency_id=${values}`, {
           headers: headers,
         })
         .then((res) => res.data),

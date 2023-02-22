@@ -12,7 +12,7 @@ export const navStates = {
   pay_bills: "Pay Bills",
   airtime_and_data: "Airtime and Data",
   transactions: "Transactions",
-  referrals: "My Referrals",
+  referrals: "Referrals",
   loans: "Take Loans",
   account: "Account Settings",
   users: "Users",

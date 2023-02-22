@@ -55,6 +55,25 @@ export const useSingleGetUser = (id, options) => {
   );
 };
 
+export const useGetReferrals = () => {
+  const headers = configOptions();
+  return useQuery(["referrals"], () =>
+    request
+      .get(`/get-all-referrals?item_per_page=20`, { headers: headers })
+      .then((res) => res.data)
+  );
+};
+export const useGetUserReferrals = (user_id) => {
+  const headers = configOptions();
+  return useQuery(["user-referrals", user_id], () =>
+    request
+      .get(`/get-users-referral-list?_id=${user_id}&item_per_page=20`, {
+        headers: headers,
+      })
+      .then((res) => res.data)
+  );
+};
+
 export const useDeleteUser = () => {
   const queryClient = useQueryClient();
   const headers = configOptions();

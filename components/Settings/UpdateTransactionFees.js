@@ -188,7 +188,7 @@ const UpdateTransactionFees = ({ options, loading }) => {
                       </Text>
                     </InputLeftElement>
                   )}
-                  <Input {...register("cost")} type="number" placeholder="" />
+                  <Input {...register("cost")} placeholder="" />
 
                   {((!selectedType &&
                     selectedOption.cost_type === "PERCENTAGE") ||

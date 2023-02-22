@@ -1,13 +1,11 @@
 import { Flex, Td, Text, Tr } from "@chakra-ui/react";
 import Link from "next/link";
 import React from "react";
-import { cryptoNumberWithCommas } from "utils/helpers";
+// import { cryptoNumberWithCommas } from "utils/helpers";
 
 const TransactionRow = ({ transaction, number }) => {
   const { type, amount_paid_in_naira, from, to, currency, status, created_at } =
     transaction;
-
-  console.log(transaction);
 
   return (
     <Link href={`/transactions/${transaction?._id}`}>

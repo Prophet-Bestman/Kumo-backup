@@ -127,7 +127,7 @@ const BaseCurrencies = () => {
         onClose={onDeleteClose}
         primaryFunc={{
           name: "Delete",
-          func: () => deleteBaseCurrency(selectedCurrency.id),
+          func: () => deleteBaseCurrency(selectedCurrency.currency_id),
         }}
         message={"Are you sure you want to delete this token"}
         isLoading={deleting}

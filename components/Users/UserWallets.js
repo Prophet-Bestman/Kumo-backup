@@ -5,22 +5,22 @@ import {
   Grid,
   GridItem,
   Input,
-  InputGroup,
+  // InputGroup,
   Stack,
   Text,
   useDisclosure,
 } from "@chakra-ui/react";
 import LargeHeading from "components/LargeHeading";
 import React from "react";
-import { cryptoNumberWithCommas, numberWithCommas } from "utils/helpers";
+import { cryptoNumberWithCommas } from "utils/helpers";
 import DebitWallet from "./DebitWallet";
 import FundWallet from "./FundWallet";
 
-const getWalletBalance = (name, wallets) => {
-  const filteredWallet = wallets?.filter((wallet) => wallet?.name === name);
+// const getWalletBalance = (name, wallets) => {
+//   const filteredWallet = wallets?.filter((wallet) => wallet?.name === name);
 
-  return numberWithCommas(parseInt(filteredWallet[0]?.value));
-};
+//   return numberWithCommas(parseInt(filteredWallet[0]?.value));
+// };
 
 const UserWallets = ({ user }) => {
   const { wallet_addresses, wallet_balance } = user;
