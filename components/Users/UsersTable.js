@@ -13,6 +13,7 @@ import {
 } from "@chakra-ui/react";
 import Link from "next/link";
 import React from "react";
+import { getWalletBalanceFromUser } from "utils/helpers";
 import { customScrollBar3 } from "utils/styles";
 
 const UsersTable = ({ users, isLoading }) => {
@@ -34,15 +35,25 @@ const UsersTable = ({ users, isLoading }) => {
           <Thead fontSize="12px">
             <Tr>
               <Th>S/N</Th>
-              <Th>Name</Th>
+              <Th>First Name</Th>
+              <Th>LastName</Th>
               <Th>Email</Th>
               {/* <Th>Username</Th> */}
               <Th>Phone Number</Th>
-              <Th>Verification</Th>
+              <Th>KYC Status</Th>
+              <Th>Verification Status</Th>
+              <Th>ETH</Th>
+              <Th>BTC</Th>
+              <Th>DASH</Th>
+              <Th>FORGE</Th>
+              <Th>KUMO USD</Th>
+              <Th>SHIB</Th>
+              <Th>BEST TOKEN</Th>
+
               <Th>Action</Th>
             </Tr>
           </Thead>
-          <Tbody>
+          <Tbody fontSize="12px">
             {users?.length > 0 &&
               users.map((user, i) => {
                 const {
@@ -53,6 +64,7 @@ const UsersTable = ({ users, isLoading }) => {
                   phone_number,
                   is_verified,
                   _id,
+                  bvn: { verified },
                 } = user;
                 return (
                   //   <TransactionRow  transaction={transaction} />
@@ -60,12 +72,19 @@ const UsersTable = ({ users, isLoading }) => {
                     <Td fontWeight={700} w="50px">
                       {i + 1}
                     </Td>
-                    <Td>
-                      {first_name} {last_name}
-                    </Td>
+                    <Td>{first_name}</Td>
+                    <Td>{last_name}</Td>
                     <Td>{email}</Td>
                     {/* <Td>{username}</Td> */}
                     <Td>{phone_number}</Td>
+                    <Tag
+                      w="100px"
+                      textAlign="center"
+                      colorScheme={verified ? "green" : "red"}
+                      justifyContent="center"
+                    >
+                      {verified ? "Verified" : "Unverified"}
+                    </Tag>
                     <Td>
                       <Tag
                         w="100px"
@@ -76,6 +95,15 @@ const UsersTable = ({ users, isLoading }) => {
                         {is_verified ? "Verified" : "Unverified"}
                       </Tag>
                     </Td>
+
+                    <Td>{getWalletBalanceFromUser(user, "ethereum")}</Td>
+                    <Td>{getWalletBalanceFromUser(user, "bitcoin")}</Td>
+                    <Td>{getWalletBalanceFromUser(user, "dash")}</Td>
+                    <Td>{getWalletBalanceFromUser(user, "forge")}</Td>
+                    <Td>{getWalletBalanceFromUser(user, "kumo usd")}</Td>
+                    <Td>{getWalletBalanceFromUser(user, "shib")}</Td>
+                    <Td>{getWalletBalanceFromUser(user, "best token")}</Td>
+
                     <Td>
                       <Link href={`/users/${_id}`}>
                         <Button size="sm" variant="link">

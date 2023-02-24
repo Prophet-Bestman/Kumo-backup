@@ -77,3 +77,10 @@ export const getStatusColor = (status) => {
       return statusColors?.fulfilled;
   }
 };
+
+export function getWalletBalanceFromUser(user, wallet_name) {
+  return (
+    user?.wallet_balance?.find((balance) => balance?.name === wallet_name)
+      ?.value || 0
+  );
+}
