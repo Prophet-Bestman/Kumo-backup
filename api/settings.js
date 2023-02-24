@@ -18,6 +18,14 @@ export const useGetAllFees = () => {
       .then((res) => res.data)
   );
 };
+export const useGetAllMinMax = () => {
+  const headers = configOptions();
+  return useQuery("all-min-max", () =>
+    request2
+      .get(`/get-all-transaction-minmax`, { headers: headers })
+      .then((res) => res.data)
+  );
+};
 
 export const useGetPaypal = () => {
   const headers = configOptions();
@@ -558,6 +566,24 @@ export const useSetTokenRate = () => {
     {
       onSuccess: () => {
         queryClient.invalidateQueries("token-rate");
+      },
+    }
+  );
+};
+
+export const useUpdateMinMax = () => {
+  const queryClient = useQueryClient();
+  const headers = configOptions();
+  return useMutation(
+    (values) =>
+      request2
+        .put(`/update-transaction-minmax`, values, {
+          headers: headers,
+        })
+        .then((res) => res.data),
+    {
+      onSuccess: () => {
+        queryClient.invalidateQueries("all-min-max");
       },
     }
   );

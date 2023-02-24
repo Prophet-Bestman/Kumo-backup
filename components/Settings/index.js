@@ -7,6 +7,7 @@ import SendCryptoFee from "./SendCryptoFee";
 import UpdateFundWalletFee from "./UpdateFundWalletFees";
 import UpdatePaypal from "./UpdatePaypal";
 import UpdateTransactionFees from "./UpdateTransactionFees";
+import UpdateMinMax from "./UpdateMinMax";
 
 import UsdToNaira from "./UsdToNaira";
 import Currencies from "./Currencies";
@@ -31,4 +32,5 @@ export {
   AddCoinListing,
   UpdateBaseCurrency,
   AddBaseCurrency,
+  UpdateMinMax,
 };

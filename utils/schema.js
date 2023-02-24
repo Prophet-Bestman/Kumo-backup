@@ -233,3 +233,10 @@ export const updateCryptoTokenSchema = yup
     // is_listed: yup.string().required("Is listed is required"),
   })
   .required();
+
+export const updateMinMaxSchema = yup
+  .object({
+    min: yup.string().required("Min is required"),
+    max: yup.string().required("Max  is required"),
+  })
+  .required();

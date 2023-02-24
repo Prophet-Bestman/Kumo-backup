@@ -11,6 +11,7 @@ import {
 } from "@chakra-ui/react";
 import {
   useGetAllFees,
+  useGetAllMinMax,
   useGetBaseCurrency,
   useGetCoinRate,
   useGetCryptoAddresses,
@@ -26,6 +27,7 @@ import {
   AddTransactionFee,
   CoinListings,
   UpdateFundWalletFee,
+  UpdateMinMax,
   UpdatePaypal,
   UpdateTransactionFees,
   UsdToNaira,
@@ -62,6 +64,39 @@ const initialFundWalletFeeOptions = [
   "FUND_WALLET_KUMO_AGENT_FEE",
 ];
 
+const initialMinMaxOptions = [
+  {
+    name: "BUY_MIN_MAX",
+    min: "",
+    max: "",
+  },
+  {
+    name: "SELL_MIN_MAX",
+    min: "",
+    max: "",
+  },
+  {
+    name: "SEND_MIN_MAX",
+    min: "",
+    max: "",
+  },
+  {
+    name: "FUND_WALLET_MIN_MAX",
+    min: "",
+    max: "",
+  },
+  {
+    name: "TRANSFER_TO_BANK_MIN_MAX",
+    min: "",
+    max: "",
+  },
+  {
+    name: "TRANSFER_TO_KUMO_MIN_MAX",
+    min: "",
+    max: "",
+  },
+];
+
 const Settings = () => {
   const [usdToNaira, setUsdToNaira] = useState([]);
   const [addTransactionFeeOptions, setAddTransactionFeeOptions] = useState([]);
@@ -69,6 +104,7 @@ const Settings = () => {
   const [transactionFees, setTransactionFees] = useState([]);
   const [fundWalletFees, setFundWalletFees] = useState([]);
   const [utilities, setUtitlities] = useState([]);
+  const [minMaxOptions, setMinMaxOptions] = useState(initialMinMaxOptions);
 
   const { isOpen, onOpen, onClose } = useDisclosure();
 
@@ -128,6 +164,7 @@ const Settings = () => {
   const { data: tokenRateResp, isLoading: loadingTokenRate } =
     useGetTokenRate();
   const { data: coinRateResp, isLoading: loadingCoinRate } = useGetCoinRate();
+  const { data: minMaxResp, isLoading: loadingMinMax } = useGetAllMinMax();
 
   //  ================ USEEFFECTS ==========
   useEffect(() => {
@@ -152,6 +189,23 @@ const Settings = () => {
       );
     }
   }, [feesResp]);
+
+  useEffect(() => {
+    if (
+      !!minMaxResp &&
+      minMaxResp?.status === "success" &&
+      minMaxResp?.data?.length > 0
+    ) {
+      const newMinMax = initialMinMaxOptions.map(
+        (initialMinMax) =>
+          minMaxResp?.data?.find(
+            (remoteMinMax) => remoteMinMax.name === initialMinMax.name
+          ) || initialMinMax
+      );
+
+      setMinMaxOptions(newMinMax);
+    }
+  }, [minMaxResp]);
 
   useEffect(() => {
     if (!!utilityResp && utilityResp?.status === "success") {
@@ -197,6 +251,7 @@ const Settings = () => {
         loadingFees ||
         loadingPaypal ||
         loadingTokenRate ||
+        loadingMinMax ||
         loadingUtilities) && (
         <Progress size="xs" isIndeterminate colorScheme="gray" />
       )}
@@ -221,6 +276,7 @@ const Settings = () => {
               loading={loadingFees}
               options={transactionFees}
             />
+            <UpdateMinMax loading={loadingFees} options={minMaxOptions} />
             <UpdateFundWalletFee
               loading={loadingFees}
               options={fundWalletFees}
