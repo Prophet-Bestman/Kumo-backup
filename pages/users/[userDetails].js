@@ -9,6 +9,7 @@ import React, { useEffect, useState } from "react";
 import { SkeletonCircle, SkeletonText } from "@chakra-ui/react";
 import {
   UserDetails,
+  UserInfo,
   UserTransactions,
   UserVerifications,
   UserWallets,

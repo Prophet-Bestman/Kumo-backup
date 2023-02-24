@@ -105,6 +105,7 @@ export const useFreezeUser = () => {
     {
       onSuccess: () => {
         queryClient.invalidateQueries("users");
+        queryClient.invalidateQueries("single-user");
       },
     }
   );
@@ -123,6 +124,7 @@ export const useUnfreezeUser = () => {
     {
       onSuccess: () => {
         queryClient.invalidateQueries("users");
+        queryClient.invalidateQueries("single-user");
       },
     }
   );

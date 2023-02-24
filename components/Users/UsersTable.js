@@ -77,14 +77,16 @@ const UsersTable = ({ users, isLoading }) => {
                     <Td>{email}</Td>
                     {/* <Td>{username}</Td> */}
                     <Td>{phone_number}</Td>
-                    <Tag
-                      w="100px"
-                      textAlign="center"
-                      colorScheme={verified ? "green" : "red"}
-                      justifyContent="center"
-                    >
-                      {verified ? "Verified" : "Unverified"}
-                    </Tag>
+                    <Td>
+                      <Tag
+                        w="100px"
+                        textAlign="center"
+                        colorScheme={verified ? "green" : "red"}
+                        justifyContent="center"
+                      >
+                        {verified ? "Verified" : "Unverified"}
+                      </Tag>
+                    </Td>
                     <Td>
                       <Tag
                         w="100px"

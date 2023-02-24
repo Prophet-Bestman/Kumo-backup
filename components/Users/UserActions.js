@@ -9,6 +9,7 @@ import ConfirmModal from "components/ConfirmModal";
 import React, { useEffect, useState } from "react";
 import { handleRequestError } from "utils/helpers";
 import AdminText from "./AdminText";
+import FreezeUser from "./FreezeUserModal";
 import NewPin from "./NewPin";
 import ResetUserPassword from "./ResetUserPassword";
 
@@ -32,6 +33,11 @@ const UserActions = ({ user_id, user }) => {
     isOpen: isBlockOpen,
     onOpen: onBlockOpen,
     onClose: onBlockClose,
+  } = useDisclosure();
+  const {
+    isOpen: isFreezeOpen,
+    onOpen: onFreezeOpen,
+    onClose: onFreezeClose,
   } = useDisclosure();
 
   // ====== TOASTS ======
@@ -241,6 +247,9 @@ const UserActions = ({ user_id, user }) => {
         <Button onClick={onPasswordOpen} w="full">
           Reset Password
         </Button>
+        <Button onClick={onFreezeOpen} w="full">
+          {user?.froozen ? "Unfreeze" : "Freeze"}
+        </Button>
         <Button onClick={onOpen} w="full">
           Initiate Reset Pin
         </Button>
@@ -278,6 +287,13 @@ const UserActions = ({ user_id, user }) => {
             onClose={onPasswordClose}
             isOpen={isPasswordOpen}
             user_id={user_id}
+          />
+        )}
+        {isFreezeOpen && (
+          <FreezeUser
+            onClose={onFreezeClose}
+            isOpen={isFreezeOpen}
+            user={user}
           />
         )}
         <AdminText

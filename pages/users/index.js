@@ -4,11 +4,15 @@ import {
   Input,
   InputGroup,
   InputLeftElement,
+  TabList,
+  TabPanel,
+  TabPanels,
+  Tabs,
   Tag,
   Text,
 } from "@chakra-ui/react";
 import { useGetUsers, useGetUsersSize } from "api/users";
-import { FilterMenu, Pagination } from "components";
+import { FilterMenu, Pagination, CustomTabList } from "components";
 import { UsersTable } from "components/Users";
 import { navStates, useNavContext } from "context/NavProvider";
 import React, { useEffect, useState } from "react";
@@ -25,9 +29,19 @@ const filterList = [
   },
 ];
 
+const usersTabs = [
+  { title: "All" },
+  { title: "Verified" },
+  { title: "Unverified" },
+  { title: "Frozen" },
+];
+
 const Users = () => {
   const { setActiveNav } = useNavContext();
-  const [users, setUsers] = useState();
+  const [users, setUsers] = useState([]);
+  const [verifiedUsers, setVerifiedUser] = useState([]);
+  const [unverifiedUsers, setUnverifiedUser] = useState([]);
+  const [frozenUsers, setFrozenUser] = useState([]);
   const [page, setPage] = useState(1);
   const [pages, setPages] = useState(1);
   const [filters, setFilters] = useState(filterList);
@@ -57,6 +71,9 @@ const Users = () => {
   useEffect(() => {
     if (!!usersResp && usersResp?.status === "success") {
       setUsers(usersResp?.data);
+      setFrozenUser(usersResp?.data?.filter((user) => user?.froozen));
+      setVerifiedUser(usersResp?.data?.filter((user) => user?.is_verified));
+      setUnverifiedUser(usersResp?.data?.filter((user) => !user?.is_verified));
     }
   }, [usersResp]);
 
@@ -105,7 +122,25 @@ const Users = () => {
             </Tag>
           ))}
       </Flex>
-      <UsersTable users={users} isLoading={isLoading} />
+
+      <Tabs>
+        <CustomTabList tabList={usersTabs} />
+        <TabPanels>
+          <TabPanel>
+            <UsersTable users={users} isLoading={isLoading} />
+          </TabPanel>
+          <TabPanel>
+            <UsersTable users={verifiedUsers} isLoading={isLoading} />
+          </TabPanel>
+          <TabPanel>
+            <UsersTable users={unverifiedUsers} isLoading={isLoading} />
+          </TabPanel>
+          <TabPanel>
+            <UsersTable users={frozenUsers} isLoading={isLoading} />
+          </TabPanel>
+        </TabPanels>
+      </Tabs>
+
       <Pagination page={page} pages={pages} setPage={setPage} />
     </Box>
   );
