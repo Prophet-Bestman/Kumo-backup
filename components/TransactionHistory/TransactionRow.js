@@ -18,7 +18,6 @@ const TransactionRow = ({ transaction, number }) => {
           borderWidth: "1px",
           borderColor: "#eeeeee",
         }}
-        // onClick={() => console.log(transaction)}
       >
         <Td fontWeight={700} w="50px">
           {number}
