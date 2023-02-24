@@ -34,6 +34,15 @@ export const useGetPaypal = () => {
   );
 };
 
+export const useGetPaypalRange = () => {
+  const headers = configOptions();
+  return useQuery("paypal-range", () =>
+    request
+      .get(`/get-paypal-fee-range`, { headers: headers })
+      .then((res) => res.data)
+  );
+};
+
 export const useGetBaseCurrency = () => {
   const headers = configOptions();
   return useQuery("base-currency", () =>
@@ -584,6 +593,24 @@ export const useUpdateMinMax = () => {
     {
       onSuccess: () => {
         queryClient.invalidateQueries("all-min-max");
+      },
+    }
+  );
+};
+
+export const useUpdatePaypalRange = () => {
+  const queryClient = useQueryClient();
+  const headers = configOptions();
+  return useMutation(
+    (values) =>
+      request2
+        .put(`set-paypal-fee-range`, values, {
+          headers: headers,
+        })
+        .then((res) => res.data),
+    {
+      onSuccess: () => {
+        queryClient.invalidateQueries("paypal-range");
       },
     }
   );

@@ -240,3 +240,16 @@ export const updateMinMaxSchema = yup
     max: yup.string().required("Max  is required"),
   })
   .required();
+
+export const updatePaypalRangeSchema = yup
+  .object({
+    start: yup.string().required("Start is required"),
+    end: yup.string().required("End  is required"),
+  })
+  .required();
+
+export const updateInvestmentSchema = yup
+  .object({
+    investment_amount: yup.string().required("Investment amount is required"),
+  })
+  .required();

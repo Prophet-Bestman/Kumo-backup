@@ -69,6 +69,24 @@ export const useAddToken = () => {
   );
 };
 
+export const useUpdateInvestment = () => {
+  const queryClient = useQueryClient();
+  const headers = configOptions();
+  return useMutation(
+    (values) =>
+      request
+        .put(`/update-investment?_id=${values?.id}`, values?.data, {
+          headers: headers,
+        })
+        .then((res) => res.data),
+    {
+      onSuccess: () => {
+        queryClient.invalidateQueries("investments");
+      },
+    }
+  );
+};
+
 export const useAdminActivateInvestment = () => {
   const queryClient = useQueryClient();
   const headers = configOptions();

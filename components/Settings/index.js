@@ -16,6 +16,7 @@ import AddCoinListing from "./AddCoinListing";
 
 import UpdateBaseCurrency from "./UpdateBaseCurrency";
 import AddBaseCurrency from "./AddBaseCurrency";
+import UpdatePaypalRange from "./UpdatePaypalRate";
 
 export {
   UsdToNaira,
@@ -33,4 +34,5 @@ export {
   UpdateBaseCurrency,
   AddBaseCurrency,
   UpdateMinMax,
+  UpdatePaypalRange,
 };

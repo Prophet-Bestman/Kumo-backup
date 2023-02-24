@@ -16,6 +16,7 @@ import {
   useGetCoinRate,
   useGetCryptoAddresses,
   useGetPaypal,
+  useGetPaypalRange,
   useGetTokenRate,
   useGetUtilities,
 } from "api/settings";
@@ -29,6 +30,7 @@ import {
   UpdateFundWalletFee,
   UpdateMinMax,
   UpdatePaypal,
+  UpdatePaypalRange,
   UpdateTransactionFees,
   UsdToNaira,
 } from "components/Settings";
@@ -141,6 +143,7 @@ const Settings = () => {
     onOpen: onCreateTokenOpen,
     onClose: onCreateTokenClose,
   } = useDisclosure();
+
   const {
     isOpen: isAddCryptoOpen,
     // onOpen: onAddCryptoOpen,
@@ -157,6 +160,8 @@ const Settings = () => {
   const { data: utilityResp, isLoading: loadingUtilities } = useGetUtilities();
 
   const { data: paypalResp, isLoading: loadingPaypal } = useGetPaypal();
+  const { data: paypalRangeResp, isLoading: loadingPaypalRange } =
+    useGetPaypalRange();
 
   const { data: baseCurrencyResp, isLoading: loadingBaseCurrency } =
     useGetBaseCurrency();
@@ -285,6 +290,12 @@ const Settings = () => {
         )}
         {!loadingPaypal && (
           <UpdatePaypal loading={loadingPaypal} data={paypalResp?.data} />
+        )}
+        {!loadingPaypalRange && (
+          <UpdatePaypalRange
+            loading={false}
+            paypalRange={paypalRangeResp?.data}
+          />
         )}
         {!loadingUtilities && (
           <UpdateUtility loading={loadingUtilities} options={utilities} />

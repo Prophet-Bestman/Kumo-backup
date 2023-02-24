@@ -3,22 +3,28 @@ import {
   Button,
   Flex,
   Grid,
+  Input,
+  Stack,
   Text,
   useDisclosure,
   useToast,
 } from "@chakra-ui/react";
+import { yupResolver } from "@hookform/resolvers/yup";
 import {
   useAdminActivateInvestment,
   useAdminTerminateInvestment,
+  useUpdateInvestment,
 } from "api/investment";
-import { ModalCard, LargeHeading, ConfirmModal } from "components";
+import { ModalCard, LargeHeading, ConfirmModal, InputError } from "components";
 import { format } from "date-fns";
 import React, { useEffect } from "react";
+import { useForm } from "react-hook-form";
 import {
   getStatusColor,
   handleRequestError,
   numberWithCommas,
 } from "utils/helpers";
+import { updateInvestmentSchema } from "utils/schema";
 
 const InvestmentDetails = ({ isOpen, onClose, investment }) => {
   const {
@@ -36,6 +42,12 @@ const InvestmentDetails = ({ isOpen, onClose, investment }) => {
     _id,
     user_id,
   } = investment;
+
+  const {
+    register,
+    handleSubmit,
+    formState: { errors },
+  } = useForm({ resolver: yupResolver(updateInvestmentSchema) });
 
   const {
     isOpen: isConfirmOopen,
@@ -67,6 +79,22 @@ const InvestmentDetails = ({ isOpen, onClose, investment }) => {
   } = useAdminTerminateInvestment();
 
   const {
+    mutate: update,
+    isLoading: updating,
+    data: updateResp,
+    error: updateError,
+    reset: resetUpdate,
+  } = useUpdateInvestment();
+
+  const handleUpdate = (data) => {
+    const payload = {
+      id: _id,
+      data,
+    };
+    update(payload);
+  };
+
+  const {
     mutate: activate,
     isLoading: activating,
     data: activateResp,
@@ -83,6 +111,14 @@ const InvestmentDetails = ({ isOpen, onClose, investment }) => {
   }, [activateResp]);
 
   useEffect(() => {
+    if (!!updateResp && updateResp?.status === "success") {
+      successToast();
+      resetUpdate();
+      onClose();
+    }
+  }, [updateResp]);
+
+  useEffect(() => {
     if (!!terminateResp && terminateResp?.status === "success") {
       successToast();
       reset();
@@ -95,7 +131,9 @@ const InvestmentDetails = ({ isOpen, onClose, investment }) => {
     reset();
     handleRequestError(activateError);
     resetActivate();
-  }, [terminateError, activateError]);
+    handleRequestError(updateError);
+    resetUpdate();
+  }, [terminateError, activateError, updateError]);
 
   return (
     <ModalCard isOpen={isOpen} onClose={onClose} size="2xl">
@@ -104,10 +142,10 @@ const InvestmentDetails = ({ isOpen, onClose, investment }) => {
       <Grid mb="30px" templateColumns={"repeat(3, 1fr)"} rowGap="8">
         <InvestmentItem title="User Name" value={user_name} />
         <InvestmentItem title="Name" value={investment_name} />
-        <InvestmentItem
+        {/* <InvestmentItem
           title="Amount"
           value={numberWithCommas(investment_amount)}
-        />
+        /> */}
         <InvestmentItem
           title="Token Name"
           value={investment_token?.split("(")[0]}
@@ -146,7 +184,7 @@ const InvestmentDetails = ({ isOpen, onClose, investment }) => {
           <Text size="20px" fontWeight={600} color="app.primary.700">
             Terminated Info
           </Text>
-          <Grid mb="30px" templateColumns={"repeat(1, 1fr)"} rowGap="8">
+          <Grid mb="30px" templateColumns={"repeat(3, 1fr)"} rowGap="8">
             <InvestmentItem
               title="Estimated ROI"
               value={numberWithCommas(terminated_info?.estimated_roi)}
@@ -165,6 +203,25 @@ const InvestmentDetails = ({ isOpen, onClose, investment }) => {
           </Grid>
         </Box>
       )}
+
+      <Box w="40%">
+        <form onSubmit={handleSubmit(handleUpdate)}>
+          <Text fontSize="14px" fontWeight="600" mb="3">
+            Amount
+          </Text>
+          <Stack mb="8">
+            <Input
+              {...register("investment_amount")}
+              defaultValue={investment_amount}
+            />
+
+            <InputError message={errors?.investment_amount?.message} />
+          </Stack>
+          <Button type="submit" size="sm" w="full" h="10" isLoading={updating}>
+            Update
+          </Button>
+        </form>
+      </Box>
       {investment_status === "ongoing" ? (
         <Button size="sm" my="4" p="5" onClick={onConfirmOpen}>
           Terminate Investment
