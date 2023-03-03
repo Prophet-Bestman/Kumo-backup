@@ -81,10 +81,16 @@ const UsersTable = ({ users, isLoading }) => {
                       <Tag
                         w="100px"
                         textAlign="center"
-                        colorScheme={verified ? "green" : "red"}
+                        colorScheme={
+                          verified !== "false" && verified !== false
+                            ? "green"
+                            : "red"
+                        }
                         justifyContent="center"
                       >
-                        {verified ? "Verified" : "Unverified"}
+                        {verified !== "false" && verified !== false
+                          ? "Verified"
+                          : "Unverified"}
                       </Tag>
                     </Td>
                     <Td>

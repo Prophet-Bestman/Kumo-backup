@@ -25,7 +25,7 @@ export const useGetTransactionsSize = (userID) => {
   const headers = configOptions();
   return useQuery(["users"], () =>
     request
-      .get(`/get-transactions?component=count&q${userID || ""}`, {
+      .get(`/get-transactions?component=count&q=${userID || ""}`, {
         headers: headers,
       })
       .then((res) => res.data)

@@ -9,6 +9,7 @@ import ConfirmModal from "components/ConfirmModal";
 import React, { useEffect, useState } from "react";
 import { handleRequestError } from "utils/helpers";
 import AdminText from "./AdminText";
+import BVNResponse from "./BVNResponse";
 import FreezeUser from "./FreezeUserModal";
 import NewPin from "./NewPin";
 import ResetUserPassword from "./ResetUserPassword";
@@ -16,6 +17,7 @@ import ResetUserPassword from "./ResetUserPassword";
 const UserActions = ({ user_id, user }) => {
   const [confirmModalData, setConfirmModalData] = useState(null);
   const { isOpen, onOpen, onClose } = useDisclosure();
+  const [bvnDetails, setBvnDetails] = useState(null);
 
   const {
     isOpen: isConfirmOpen,
@@ -38,6 +40,11 @@ const UserActions = ({ user_id, user }) => {
     isOpen: isFreezeOpen,
     onOpen: onFreezeOpen,
     onClose: onFreezeClose,
+  } = useDisclosure();
+  const {
+    isOpen: isBvnRespOpen,
+    onOpen: onBvnRespOpen,
+    onClose: onBvnRespClose,
   } = useDisclosure();
 
   // ====== TOASTS ======
@@ -166,6 +173,9 @@ const UserActions = ({ user_id, user }) => {
   useEffect(() => {
     if (!!bvnResp && bvnResp?.status === "success") {
       successToast("BVN is valid");
+      onBvnRespOpen();
+      setBvnDetails(bvnResp?.data);
+      bvnReset();
     }
   }, [bvnResp]);
 
@@ -206,6 +216,7 @@ const UserActions = ({ user_id, user }) => {
   useEffect(() => {
     if (!!approveResp && approveResp?.status === "success") {
       successToast(approveResp?.msg);
+      closeModal();
     }
     approveReset();
   }, [approveResp]);
@@ -257,7 +268,7 @@ const UserActions = ({ user_id, user }) => {
           Resend Activation Code
         </Button>
 
-        {!user?.bvn?.verified && (
+        {(user?.bvn?.verified == "false" || user?.bvn?.verified == false) && (
           <>
             <Button onClick={handleBvnLookup} maxW="full" isLoading={lookingUp}>
               Lookup Bvn Validity
@@ -294,6 +305,13 @@ const UserActions = ({ user_id, user }) => {
             onClose={onFreezeClose}
             isOpen={isFreezeOpen}
             user={user}
+          />
+        )}
+        {isBvnRespOpen && bvnDetails && (
+          <BVNResponse
+            onClose={onBvnRespClose}
+            isOpen={isBvnRespOpen}
+            BVNDetails={bvnDetails}
           />
         )}
         <AdminText
