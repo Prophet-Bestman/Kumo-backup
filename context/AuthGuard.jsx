@@ -5,7 +5,7 @@ import React, { useEffect, useState } from "react";
 import { useAuthContext } from "./AuthProvider";
 
 const AuthGuard = ({ children }) => {
-  const { user, loading, setRedirect } = useAuthContext();
+  const { user, loading, setRedirect, isLoggedIn } = useAuthContext();
   const [authError, setAuthError] = useState(true);
   const [networkError, setNetworkError] = useState(false);
   const [serverError, setServerError] = useState(false);
@@ -39,15 +39,16 @@ const AuthGuard = ({ children }) => {
       }
     } else if (!loading && !isLoading) {
       //auth is initialized and there is no user
-      if (!user || Object.keys(user).length === 0) {
+      if (!isLoggedIn) {
         // remember the page that user tried to access
         setRedirect(router.route);
 
         // redirect
+        // signOut();
         router.push("/auth/login");
       }
     }
-  }, [loading, router, user, setRedirect, error]);
+  }, [loading, router, user, setRedirect, error, isLoggedIn]);
 
   /* show loading indicator while the auth provider is still loading */
   if (loading || isLoading) {
@@ -67,7 +68,7 @@ const AuthGuard = ({ children }) => {
     !isLoading &&
     // isFetchedAfterMount &&
     !authError &&
-    Object.keys(user).length !== 0
+    isLoggedIn
   ) {
     return <>{children}</>;
   }
