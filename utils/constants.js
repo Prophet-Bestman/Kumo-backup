@@ -1,7 +1,9 @@
 export const statuses = {
   pending: "pending",
   failed: "failed",
+  unverified: "uverified",
   fulfilled: "fulfilled",
+  verified: "verified",
   active: "active",
   terminated: "terminated",
   ongoing: "ongoing",

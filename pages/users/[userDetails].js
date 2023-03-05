@@ -1,4 +1,14 @@
-import { Box, Grid, TabPanel, TabPanels, Tabs } from "@chakra-ui/react";
+import {
+  Box,
+  Button,
+  Circle,
+  Flex,
+  Grid,
+  TabPanel,
+  TabPanels,
+  Tabs,
+  useDisclosure,
+} from "@chakra-ui/react";
 import {
   // useGetReferrals,
   useGetUserReferrals,
@@ -8,6 +18,7 @@ import { useRouter } from "next/router";
 import React, { useEffect, useState } from "react";
 import { SkeletonCircle, SkeletonText } from "@chakra-ui/react";
 import {
+  CreateUserInvestment,
   UserDetails,
   UserInfo,
   UserTransactions,
@@ -37,6 +48,8 @@ const UserDetailsPage = () => {
   const [investments, setInvestments] = useState([]);
 
   const { userDetails } = router.query;
+
+  const { isOpen, onOpen, onClose } = useDisclosure();
 
   const { data: userResp, isLoading } = useSingleGetUser(userDetails, {
     refetchInterval: 5000,
@@ -81,10 +94,21 @@ const UserDetailsPage = () => {
                     <UserWallets user={user} />
                   </TabPanel>
                   <TabPanel>
-                    <InvestmentsTable
-                      isLoading={isLoading}
-                      investments={investments}
-                    />
+                    <Flex gap="8" flexDir="column">
+                      <Button
+                        ml="auto"
+                        size="sm"
+                        py="5"
+                        px="6"
+                        onClick={onOpen}
+                      >
+                        Create Investment
+                      </Button>
+                      <InvestmentsTable
+                        isLoading={isLoading}
+                        investments={investments}
+                      />
+                    </Flex>
                   </TabPanel>
                   <TabPanel>
                     <ReferralsTable
@@ -104,6 +128,13 @@ const UserDetailsPage = () => {
           )}
         </Tabs>
       </Box>
+      {userResp?.data && isOpen && (
+        <CreateUserInvestment
+          isOpen={isOpen}
+          onClose={onClose}
+          user={userResp?.data}
+        />
+      )}
     </Box>
   );
 };

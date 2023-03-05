@@ -1,6 +1,7 @@
 import { Flex, Td, Text, Tr } from "@chakra-ui/react";
 import Link from "next/link";
 import React from "react";
+import { cryptoNumberWithCommas } from "utils/helpers";
 // import { cryptoNumberWithCommas } from "utils/helpers";
 
 const TransactionRow = ({ transaction, number }) => {
@@ -32,13 +33,13 @@ const TransactionRow = ({ transaction, number }) => {
           <Flex>
             <Text>From:</Text>
             <Text fontSize={"13px"} color="app.primary.900">
-              {from}
+              {type?.includes("BUY") ? "KUMO" : from}
             </Text>
           </Flex>
           <Flex>
             <Text>To:</Text>
             <Text fontSize={"13px"} color="app.primary.900">
-              {to}
+              {type?.includes("SELL") ? "KUMO" : to}
             </Text>
           </Flex>
         </Td>
@@ -48,7 +49,8 @@ const TransactionRow = ({ transaction, number }) => {
           fontSize={"13px"}
           // color={type === "credit" ? "app.success" : "app.red"}
         >
-          N{amount_paid_in_naira?.toLocaleString() || 0}
+          {/* N{amount_paid_in_naira?.toLocaleString() || 0}N */}
+          {cryptoNumberWithCommas(amount_paid_in_naira) || 0}
         </Td>
 
         <Td fontWeight={700} fontSize={"13px"} textTransform="capitalize">

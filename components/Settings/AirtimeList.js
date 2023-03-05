@@ -7,7 +7,8 @@ import {
   useDisclosure,
   useToast,
 } from "@chakra-ui/react";
-import { useDeleteCryptotToken, useGetCryptoTokens } from "api/settings";
+import { useDeleteCryptotToken } from "api/settings";
+import { useGetAirtimeList } from "api/utilities";
 import ConfirmModal from "components/ConfirmModal";
 import LargeHeading from "components/LargeHeading";
 import React, { useEffect, useState } from "react";
@@ -16,10 +17,10 @@ import { handleRequestError } from "utils/helpers";
 import { customScrollBar3 } from "utils/styles";
 import UpdateCryptoToken from "./UpdateCryptoToken";
 
-const CryptoTokens = () => {
+const AirtimeList = () => {
   const [tokens, setTokens] = useState([]);
   const [selectedToken, setSelectedToken] = useState(null);
-  const { data, isLoading: loadingTokens } = useGetCryptoTokens();
+  const { data, isLoading: loadingTokens } = useGetAirtimeList();
 
   const {
     isOpen: isDeleteOpen,
@@ -82,7 +83,7 @@ const CryptoTokens = () => {
   return (
     <Box rounded="md" bg="white" py="12" px="6" shadow="md" h="full">
       <LargeHeading color="app.primary.700" fontSize="20px">
-        Crypto Tokens
+        Aitime List
       </LargeHeading>
 
       <Box overflowY="auto" h="280px" sx={customScrollBar3}>
@@ -149,4 +150,4 @@ const CryptoTokens = () => {
   );
 };
 
-export default CryptoTokens;
+export default AirtimeList;

@@ -26,6 +26,7 @@ import {
   AddCryptoAddress,
   AddFundWalletFee,
   AddTransactionFee,
+  AirtimeList,
   CoinListings,
   UpdateFundWalletFee,
   UpdateMinMax,
@@ -302,6 +303,7 @@ const Settings = () => {
         )}
         <CryptoTokens />
         <CoinListings />
+        <AirtimeList />
         <AllListedTokens />
       </Grid>
       <Box pos="fixed" bottom={8} right={8}>

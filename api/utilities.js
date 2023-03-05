@@ -1,10 +1,13 @@
 import axios from "axios";
-import { useMutation, useQueryClient } from "react-query";
+import { useMutation, useQuery, useQueryClient } from "react-query";
 import { baseUrl } from "./baseUrl";
 import configOptions from "./config";
 
 const request = axios.create({
   baseURL: baseUrl + "/admin/utilities",
+});
+const request1 = axios.create({
+  baseURL: baseUrl + "/app/utilities",
 });
 
 export const useFundWallet = () => {
@@ -42,5 +45,14 @@ export const useDebitWallet = () => {
         queryClient.invalidateQueries("single-user");
       },
     }
+  );
+};
+
+export const useGetAirtimeList = () => {
+  const headers = configOptions();
+  return useQuery("airtime-list", () =>
+    request1
+      .get(`/get-airtime-network-list`, { headers: headers })
+      .then((res) => res.data)
   );
 };

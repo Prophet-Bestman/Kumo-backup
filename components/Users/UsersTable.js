@@ -13,7 +13,7 @@ import {
 } from "@chakra-ui/react";
 import Link from "next/link";
 import React from "react";
-import { getWalletBalanceFromUser } from "utils/helpers";
+import { getStatusColor, getWalletBalanceFromUser } from "utils/helpers";
 import { customScrollBar3 } from "utils/styles";
 
 const UsersTable = ({ users, isLoading }) => {
@@ -64,7 +64,7 @@ const UsersTable = ({ users, isLoading }) => {
                   phone_number,
                   is_verified,
                   _id,
-                  bvn: { verified },
+                  bvn: { admin_reply },
                 } = user;
                 return (
                   //   <TransactionRow  transaction={transaction} />
@@ -81,16 +81,16 @@ const UsersTable = ({ users, isLoading }) => {
                       <Tag
                         w="100px"
                         textAlign="center"
-                        colorScheme={
-                          verified !== "false" && verified !== false
-                            ? "green"
-                            : "red"
-                        }
+                        textTransform="capitalize"
+                        // colorScheme={
+                        //   verified !== "false" && verified !== false
+                        //     ? "green"
+                        //     : "red"
+                        // }
                         justifyContent="center"
+                        color={getStatusColor(admin_reply)}
                       >
-                        {verified !== "false" && verified !== false
-                          ? "Verified"
-                          : "Unverified"}
+                        {admin_reply}
                       </Tag>
                     </Td>
                     <Td>

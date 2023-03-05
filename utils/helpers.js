@@ -42,7 +42,8 @@ export function numberWithCommas(number = 0) {
 }
 
 export function cryptoNumberWithCommas(number = 0) {
-  return number.toString().replace(/\B(?<!\.\d*)(?=(\d{3})+(?!\d))/g, ",");
+  if (typeof number === "number")
+    return number.toString().replace(/\B(?<!\.\d*)(?=(\d{3})+(?!\d))/g, ",");
 }
 
 export function numberWithCommasNoDecimal(number = 0) {
@@ -65,6 +66,7 @@ export const getStatusColor = (status) => {
       return statusColors?.pending;
     if (
       status?.toLocaleLowerCase() === statuses?.failed ||
+      status?.toLocaleLowerCase() === statuses?.unverified ||
       status?.toLocaleLowerCase() === statuses?.inactive ||
       status?.toLocaleLowerCase() === statuses?.terminated
     )
@@ -72,6 +74,7 @@ export const getStatusColor = (status) => {
     if (
       status?.toLocaleLowerCase() === statuses?.fulfilled ||
       status?.toLocaleLowerCase() === statuses?.ongoing ||
+      status?.toLocaleLowerCase() === statuses?.verified ||
       status?.toLocaleLowerCase() === statuses?.active
     )
       return statusColors?.fulfilled;

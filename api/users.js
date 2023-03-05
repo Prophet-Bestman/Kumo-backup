@@ -92,6 +92,28 @@ export const useDeleteUser = () => {
   );
 };
 
+export const useCreateUserInvestment = () => {
+  const queryClient = useQueryClient();
+  const headers = configOptions();
+  return useMutation(
+    (values) => {
+      return axios
+        .post(`${baseUrl}/app/investment/create-investment`, values, {
+          headers: headers,
+        })
+        .then((res) => res.data);
+    },
+    {
+      onSuccess: () => {
+        queryClient.invalidateQueries("users");
+        queryClient.invalidateQueries("single-user");
+        queryClient.invalidateQueries("user-investments");
+        queryClient.invalidateQueries("transactions");
+      },
+    }
+  );
+};
+
 export const useFreezeUser = () => {
   const queryClient = useQueryClient();
   const headers = configOptions();
