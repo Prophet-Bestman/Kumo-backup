@@ -1,9 +1,15 @@
 import { Box, Tag } from "@chakra-ui/react";
-import { Table } from "antd";
+import { Button, Table } from "antd";
+import Link from "next/link";
 import React from "react";
-import { getStatusColor } from "utils/helpers";
+import {
+  cryptoNumberWithCommas,
+  getStatusColor,
+  getWalletBalanceFromUser,
+} from "utils/helpers";
 
-const UserListTable = ({ users, isLoading }) => {
+const UserListTable = ({ users, isLoading, wallets }) => {
+  //   console.log(wallets);
   const columns = [
     {
       title: "Index",
@@ -44,7 +50,7 @@ const UserListTable = ({ users, isLoading }) => {
       sortDirections: ["descend", "ascend"],
     },
     {
-      title: "Admin Reply",
+      title: "KYC Verification",
       dataIndex: "bvn",
       render: (bvn) => (
         <Tag
@@ -57,7 +63,7 @@ const UserListTable = ({ users, isLoading }) => {
           {bvn?.admin_reply}
         </Tag>
       ),
-      filter: [
+      filters: [
         {
           text: "Unverified",
           value: "unverified",
@@ -75,23 +81,117 @@ const UserListTable = ({ users, isLoading }) => {
           value: "failed",
         },
       ],
-      onFilter: (value, record) => record.bvn?.admin_reply.indexOf(value) === 0,
+      onFilter: (value, record) => record.bvn?.admin_reply === value,
     },
     {
       title: "Verification Status",
       dataIndex: "is_verified",
-      render: (status) => {
-        return (
-          <Tag
-            w="100px"
-            textAlign="center"
-            colorScheme={status ? "green" : "red"}
-            justifyContent="center"
-          >
-            {status ? "Verified" : "Unverified"}
-          </Tag>
-        );
+      render: (status) => (
+        <Tag
+          w="100px"
+          textAlign="center"
+          colorScheme={status ? "green" : "red"}
+          justifyContent="center"
+        >
+          {status ? "Verified" : "Unverified"}
+        </Tag>
+      ),
+      filters: [
+        {
+          text: "Unverified",
+          value: false,
+        },
+        {
+          text: "Verified",
+          value: true,
+        },
+      ],
+      onFilter: (value, record) => record.is_verified === value,
+    },
+    {
+      title: "Frozen Status",
+      dataIndex: "froozen",
+      render: (status) => (
+        <Tag
+          w="100px"
+          textAlign="center"
+          colorScheme={status ? "red" : "green"}
+          justifyContent="center"
+        >
+          {status ? "Frozen" : "Not Frozen"}
+        </Tag>
+      ),
+      filters: [
+        {
+          text: "Not Frozen",
+          value: false,
+        },
+        {
+          text: "Frozen",
+          value: true,
+        },
+      ],
+      onFilter: (value, record) => record.froozen === value,
+    },
+
+    {
+      title: "Base Currency Name",
+      dataIndex: "current_base_currency",
+      render: (_, user) => (
+        <Box textTransform="capitalize">
+          {user?.current_base_currency?.name}
+        </Box>
+      ),
+      sorter: {
+        compare: (a, b) =>
+          a?.current_base_currency?.name.localeCompare(
+            b?.current_base_currency?.name
+          ),
+        multiple: 3,
       },
+      sortDirections: ["descend", "ascend"],
+    },
+    {
+      title: "Base Currency",
+      dataIndex: "current_base_currency",
+      render: (_, user) => (
+        <Box>
+          {user?.current_base_currency?.symbol}
+          {cryptoNumberWithCommas(getWalletBalanceFromUser(user, "base"))}
+        </Box>
+      ),
+    },
+
+    ...wallets?.map((wallet) => {
+      return {
+        title: wallet.name?.toUpperCase(),
+        dataIndex: wallet.code,
+        render: (_, user) => (
+          <Box>
+            {cryptoNumberWithCommas(
+              getWalletBalanceFromUser(user, wallet?.name)
+            )}
+          </Box>
+        ),
+        sorter: {
+          compare: (a, b) =>
+            getWalletBalanceFromUser(a, wallet?.name) -
+            getWalletBalanceFromUser(b, wallet?.name),
+          multiple: 3,
+        },
+        sortDirections: ["descend", "ascend"],
+      };
+    }),
+    {
+      title: "Action",
+      dataIndex: "_id",
+      render: (_id) => (
+        <Link href={`/users/${_id}`}>
+          <Button size="sm" variant="link">
+            View
+          </Button>
+        </Link>
+      ),
     },
   ];
   return (
@@ -105,9 +205,12 @@ const UserListTable = ({ users, isLoading }) => {
         //   total: metaData.totalNumberOfItems,
         //   pageSize: metaData.pageLimit,
         // }}
+
+        pagination={false}
         dataSource={users}
         columns={columns}
         loading={isLoading}
+        scroll={{ x: "100%" }}
       />
     </Box>
   );

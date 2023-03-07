@@ -1,24 +1,11 @@
-import {
-  Box,
-  Flex,
-  Input,
-  InputGroup,
-  InputLeftElement,
-  TabList,
-  TabPanel,
-  TabPanels,
-  Tabs,
-  Tag,
-  Text,
-} from "@chakra-ui/react";
+import { Box, Flex, Tag, Text } from "@chakra-ui/react";
+import { useGetAllCoinListing, useGetCryptoTokens } from "api/settings";
 import { useGetUsers, useGetUsersSize } from "api/users";
-import { FilterMenu, Pagination, CustomTabList } from "components";
-import { UsersTable } from "components/Users";
+import { Pagination } from "components";
 import UserListTable from "components/Users/UserListTable";
 import { navStates, useNavContext } from "context/NavProvider";
 import React, { useEffect, useState } from "react";
 import { AiOutlineClose } from "react-icons/ai";
-import { BsSearch } from "react-icons/bs";
 
 const filterList = [
   {
@@ -30,25 +17,26 @@ const filterList = [
   },
 ];
 
-const usersTabs = [
-  { title: "All" },
-  { title: "Verified" },
-  { title: "Unverified" },
-  { title: "Frozen" },
-];
-
 const Users = () => {
   const { setActiveNav } = useNavContext();
   const [users, setUsers] = useState([]);
-  const [verifiedUsers, setVerifiedUser] = useState([]);
-  const [unverifiedUsers, setUnverifiedUser] = useState([]);
-  const [frozenUsers, setFrozenUser] = useState([]);
   const [page, setPage] = useState(1);
   const [pages, setPages] = useState(1);
   const [filters, setFilters] = useState(filterList);
   const [filterObjs, setFilterObjs] = useState([]);
+  const [wallets, setWallets] = useState([]);
 
-  // const { data } = useGetAllAdminReplies();
+  const { data: tokensResp, isLoading: loadingCrypto } = useGetCryptoTokens();
+  const { data: coinsResp, isLoading: loadingCoins } = useGetAllCoinListing();
+
+  useEffect(() => {
+    if (!!tokensResp && tokensResp?.status === "success") {
+      setWallets([...wallets, ...tokensResp?.data]);
+    }
+    if (!!coinsResp && coinsResp?.status === "success") {
+      setWallets([...wallets, ...coinsResp?.data]);
+    }
+  }, [tokensResp, coinsResp]);
 
   const { data: usersResp, isLoading } = useGetUsers(page);
 
@@ -72,9 +60,6 @@ const Users = () => {
   useEffect(() => {
     if (!!usersResp && usersResp?.status === "success") {
       setUsers(usersResp?.data);
-      setFrozenUser(usersResp?.data?.filter((user) => user?.froozen));
-      setVerifiedUser(usersResp?.data?.filter((user) => user?.is_verified));
-      setUnverifiedUser(usersResp?.data?.filter((user) => !user?.is_verified));
     }
   }, [usersResp]);
 
@@ -90,7 +75,7 @@ const Users = () => {
 
   return (
     <Box p="6">
-      <Flex justify="space-between" alignItems="center" mb="8">
+      {/* <Flex justify="space-between" alignItems="center" mb="8">
         <InputGroup maxW="350px">
           <InputLeftElement>
             <BsSearch />
@@ -104,7 +89,7 @@ const Users = () => {
           filters={filters}
           setFilters={setFilters}
         />
-      </Flex>
+      </Flex> */}
       <Flex mb="6">
         {filterObjs?.length > 0 &&
           filterObjs?.map((filter, i) => (
@@ -124,25 +109,13 @@ const Users = () => {
           ))}
       </Flex>
 
-      <Tabs>
-        <CustomTabList tabList={usersTabs} />
-        <TabPanels>
-          <TabPanel>
-            <UsersTable users={users} isLoading={isLoading} />
-
-            {/* <UserListTable users={users} isLoading={isLoading} /> */}
-          </TabPanel>
-          <TabPanel>
-            <UsersTable users={verifiedUsers} isLoading={isLoading} />
-          </TabPanel>
-          <TabPanel>
-            <UsersTable users={unverifiedUsers} isLoading={isLoading} />
-          </TabPanel>
-          <TabPanel>
-            <UsersTable users={frozenUsers} isLoading={isLoading} />
-          </TabPanel>
-        </TabPanels>
-      </Tabs>
+      {wallets && (
+        <UserListTable
+          users={users}
+          isLoading={isLoading || loadingCrypto || loadingCoins}
+          wallets={wallets}
+        />
+      )}
 
       <Pagination page={page} pages={pages} setPage={setPage} />
     </Box>
