@@ -55,6 +55,18 @@ export const useSingleGetUser = (id, options) => {
   );
 };
 
+export const useSingleGetUserBalance = (id, options) => {
+  const headers = configOptions();
+  return useQuery(
+    ["single-user", id, options],
+    () =>
+      request
+        .get(`/get-user/${id || ""}`, { headers: headers })
+        .then((res) => res.data),
+    { ...options }
+  );
+};
+
 export const useGetReferrals = () => {
   const headers = configOptions();
   return useQuery(["referrals"], () =>
