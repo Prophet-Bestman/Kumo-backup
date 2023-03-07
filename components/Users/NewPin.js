@@ -1,40 +1,10 @@
-import {
-  Box,
-  Button,
-  Flex,
-  Input,
-  Stack,
-  Text,
-  useToast,
-} from "@chakra-ui/react";
-import { yupResolver } from "@hookform/resolvers/yup";
+import { Box, Button, Flex, Text, useToast } from "@chakra-ui/react";
 import { useResetUsersPin } from "api/users";
-import InputError from "components/InputError";
 import LargeHeading from "components/LargeHeading";
 import ModalCard from "components/ModalCard";
-import React, { useEffect, useState } from "react";
-import { useForm } from "react-hook-form";
-import { AiOutlineReload } from "react-icons/ai";
-import { handleRequestError } from "utils/helpers";
-import { resetPinSchema } from "utils/schema";
+import React, { useEffect } from "react";
 
 const NewPin = ({ isOpen, onClose, user_id }) => {
-  const [randomPin, setRandomPin] = useState(1);
-
-  const generateRandomPin = () => {
-    setRandomPin(Math.floor(1000 + Math.random() * 9000));
-  };
-
-  useEffect(() => {
-    generateRandomPin();
-  }, []);
-
-  const {
-    register,
-    handleSubmit,
-    formState: { errors },
-  } = useForm({ resolver: yupResolver(resetPinSchema) });
-
   // ====== TOASTS ======
   const toast = useToast();
 
@@ -53,17 +23,12 @@ const NewPin = ({ isOpen, onClose, user_id }) => {
   const {
     mutate: resetPin,
     data: resetResp,
-    error,
     isLoading,
     reset,
   } = useResetUsersPin();
 
-  const handleReset = (data) => {
-    const payload = {
-      id: user_id,
-      data: { ...data },
-    };
-    resetPin(payload);
+  const handleReset = () => {
+    resetPin(user_id);
   };
 
   useEffect(() => {
@@ -74,44 +39,22 @@ const NewPin = ({ isOpen, onClose, user_id }) => {
     }
   }, [resetResp]);
 
-  useEffect(() => {
-    handleRequestError(error);
-    reset();
-  }, [error]);
-
   return (
     <ModalCard isOpen={isOpen} onClose={onClose}>
-      <Box bg="white" py="12" px="6">
-        <LargeHeading color="app.primary.700" fontSize="20px">
-          Enter New Pin
-        </LargeHeading>
+      <Box bg="white" py="20" px="6">
+        <Text textAlign="center" fontWeight={500} mb="7" fontSize="24px">
+          {`Are you sure you want to initiate Reset User's Pin`}
+        </Text>
 
-        <form onSubmit={handleSubmit(handleReset)}>
-          <Stack mt="4">
-            <Text fontSize="14px">
-              New Pin (This default Pin Will be sent to the user)
-            </Text>
-
-            <Input
-              {...register("pin")}
-              placeholder=""
-              type="number"
-              value={randomPin}
-            />
-            <Flex justify="flex-end" px="8" mb="'200px" color="app.primary">
-              <AiOutlineReload
-                fontSize="20px"
-                onClick={generateRandomPin}
-                cursor="pointer"
-              />
-            </Flex>
-            <InputError msg={errors?.pin?.message} />
-          </Stack>
-
-          <Button mt="4" h="48px" type="submit" isLoading={isLoading}>
-            Initiate Reset Pin
+        <Flex alignItems="center" gap={8}>
+          <Button variant="ghost" onClick={onClose}>
+            No
           </Button>
-        </form>
+
+          <Button mt="4" h="48px" isLoading={isLoading} onClick={handleReset}>
+            Yes
+          </Button>
+        </Flex>
       </Box>
     </ModalCard>
   );

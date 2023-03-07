@@ -210,7 +210,7 @@ export const useResetUsersPin = () => {
   return useMutation(
     (values) =>
       request
-        .put(`admin-reset-users-pin?_id=${values?.id}`, values?.data, {
+        .post(`admin-initiate-user-reset-pin`, values, {
           headers: headers,
         })
         .then((res) => res.data),

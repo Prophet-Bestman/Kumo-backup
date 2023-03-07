@@ -95,14 +95,6 @@ const UserWallets = ({ user }) => {
             <LargeHeading> Base Currency</LargeHeading>
           </GridItem>
 
-          <Stack mb="5">
-            <Text fontWeight={500} fontSize="14px" textTransform="capitalize">
-              {user?.current_base_currency?.name}
-            </Text>
-
-            {/* <Input value={cryptoNumberWithCommas(wallet?.value)} disabled /> */}
-          </Stack>
-
           {wallet_balance?.length > 0 &&
             wallet_balance?.map((wallet) => (
               <Stack mb="5" key={wallet?.code}>

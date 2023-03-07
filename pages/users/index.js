@@ -14,6 +14,7 @@ import {
 import { useGetUsers, useGetUsersSize } from "api/users";
 import { FilterMenu, Pagination, CustomTabList } from "components";
 import { UsersTable } from "components/Users";
+import UserListTable from "components/Users/UserListTable";
 import { navStates, useNavContext } from "context/NavProvider";
 import React, { useEffect, useState } from "react";
 import { AiOutlineClose } from "react-icons/ai";
@@ -128,6 +129,8 @@ const Users = () => {
         <TabPanels>
           <TabPanel>
             <UsersTable users={users} isLoading={isLoading} />
+
+            {/* <UserListTable users={users} isLoading={isLoading} /> */}
           </TabPanel>
           <TabPanel>
             <UsersTable users={verifiedUsers} isLoading={isLoading} />
