@@ -9,6 +9,7 @@ import MainLayout from "layout/MainLayout";
 import theme from "theme";
 import AuthProvider from "context/AuthProvider";
 import AuthGuard from "context/AuthGuard";
+import Interceptor from "api/Interceptor";
 
 const { ToastContainer } = createStandaloneToast();
 
@@ -32,6 +33,7 @@ function MyApp({ Component, pageProps }) {
           )}
           <ToastContainer />
         </ChakraProvider>
+        <Interceptor />
       </AuthProvider>
       <ReactQueryDevtools />
     </QueryClientProvider>

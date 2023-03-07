@@ -87,6 +87,9 @@ const FundWallet = ({ isOpen, onClose, user }) => {
                 placeholder="Select Currency"
                 {...register("currency_name")}
               >
+                <option value={user?.current_base_currency?.name}>
+                  {user?.current_base_currency?.name}
+                </option>
                 {user?.wallet_balance?.map((currency) => (
                   <option key={currency?.cryptoAddress} value={currency?.name}>
                     {currency?.name}

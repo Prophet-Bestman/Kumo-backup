@@ -13,6 +13,7 @@ import { yupResolver } from "@hookform/resolvers/yup";
 import { useUpdateBaseCurrency } from "api/settings";
 import InputError from "components/InputError";
 import LargeHeading from "components/LargeHeading";
+import ModalCard from "components/ModalCard";
 import React, { useEffect } from "react";
 import { useForm } from "react-hook-form";
 import { handleRequestError } from "utils/helpers";
@@ -71,47 +72,51 @@ const UpdateBaseCurrency = ({ baseCurrency, isOpen, onClose }) => {
   }, [updateError]);
 
   return (
-    <Modal isOpen={isOpen} onClose={onClose}>
-      <ModalOverlay />
-      <ModalContent>
-        <Box display="flex" rounded="md" bg="white" py="12" px="6" shadow="md">
-          <Box w="full">
-            <LargeHeading color="app.primary.700" fontSize="20px">
-              Update Base Currency
-            </LargeHeading>
+    <ModalCard isOpen={isOpen} onClose={onClose}>
+      <Box display="flex" rounded="md" bg="white" py="12" px="6">
+        <Box w="full">
+          <LargeHeading color="app.primary.700" fontSize="20px">
+            Update Base Currency
+          </LargeHeading>
 
-            <form onSubmit={handleSubmit(handleUpdate)}>
-              <Stack mt="4">
-                <Text fontSize="14px">Name</Text>
+          <form onSubmit={handleSubmit(handleUpdate)}>
+            <Stack mt="4">
+              <Text fontSize="14px">Name</Text>
 
-                <Input {...register("name")} />
-                <InputError msg={errors?.name?.message} />
-              </Stack>
-              <Stack mt="4">
-                <Text fontSize="14px">Code</Text>
+              <Input {...register("name")} />
+              <InputError msg={errors?.name?.message} />
+            </Stack>
+            <Stack mt="4">
+              <Text fontSize="14px">Code</Text>
 
-                <Input {...register("code")} />
-                <InputError msg={errors?.code?.message} />
-              </Stack>
-              <Stack mt="4">
-                <Text fontSize="14px">Currency ID</Text>
+              <Input {...register("code")} />
+              <InputError msg={errors?.code?.message} />
+            </Stack>
+            <Stack mt="4">
+              <Text fontSize="14px">Currency ID</Text>
 
-                <Input {...register("currency_id")} />
-                <InputError msg={errors?.currency_id?.message} />
-              </Stack>
+              <Input {...register("currency_id")} />
+              <InputError msg={errors?.currency_id?.message} />
+            </Stack>
+            <Stack mt="4">
+              <Text fontSize="14px">Currency Symbol</Text>
 
-              <Stack mt="4">
-                <Text fontSize="14px">Rate</Text>
+              <Input {...register("symbol")} />
+              <InputError msg={errors?.symbol?.message} />
+            </Stack>
 
-                <Input {...register("rate")} />
-                <InputError msg={errors?.rate?.message} />
-              </Stack>
+            <Stack mt="4">
+              <Text fontSize="14px">Rate</Text>
 
-              <Button mt="4" h="48px" type="submit" isLoading={isLoading}>
-                Update
-              </Button>
-            </form>
-            {/* {!!baseCurrency?.code && (
+              <Input {...register("rate")} />
+              <InputError msg={errors?.rate?.message} />
+            </Stack>
+
+            <Button mt="4" h="48px" type="submit" isLoading={isLoading}>
+              Update
+            </Button>
+          </form>
+          {/* {!!baseCurrency?.code && (
               <Button
                 mt="4"
                 h="48px"
@@ -123,7 +128,7 @@ const UpdateBaseCurrency = ({ baseCurrency, isOpen, onClose }) => {
               </Button>
             )} */}
 
-            {/* <ConfirmModal
+          {/* <ConfirmModal
               isLoading={deleting}
               isOpen={isOpen}
               message={"Are you sure you want to delete the base currency?"}
@@ -134,10 +139,9 @@ const UpdateBaseCurrency = ({ baseCurrency, isOpen, onClose }) => {
               }}
               secondaryFunc
             /> */}
-          </Box>
         </Box>
-      </ModalContent>
-    </Modal>
+      </Box>
+    </ModalCard>
   );
 };
 

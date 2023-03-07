@@ -6,6 +6,7 @@ import {
   ModalOverlay,
 } from "@chakra-ui/react";
 import React from "react";
+import { AiOutlineClose } from "react-icons/ai";
 
 const ModalCard = ({ isOpen, onClose, size, children }) => {
   return (
@@ -14,7 +15,11 @@ const ModalCard = ({ isOpen, onClose, size, children }) => {
         // bg="blackAlpha.300"
         backdropFilter="blur(10px) hue-rotate(60deg)"
       />
-      <ModalContent px="">
+      <ModalContent px="" pos="relative">
+        <Box pos="absolute" right={8} top={8} onClick={onClose}>
+          <AiOutlineClose cursor="pointer" />
+        </Box>
+
         <ModalBody>{children}</ModalBody>
       </ModalContent>
     </Modal>

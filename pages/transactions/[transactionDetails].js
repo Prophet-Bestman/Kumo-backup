@@ -28,9 +28,12 @@ import React, { useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
 import { AiFillEdit } from "react-icons/ai";
 import {
+  cryptoNumberWithCommas,
+  flattenObject,
   getStatusColor,
   handleRequestError,
   numberWithCommas,
+  underscoreToSpace,
 } from "utils/helpers";
 import { updateTransactionSchema } from "utils/schema";
 
@@ -54,17 +57,15 @@ const TransactionDetails = () => {
 
   useEffect(() => {
     if (!!transactionResp && transactionResp?.status == "success") {
-      setTransaction(transactionResp?.data);
+      const transaction = flattenObject(transactionResp?.data);
+      console.log(transaction);
+      setTransaction(transaction);
       setUserId(transactionResp?.data?.user_id);
     }
   }, [transactionResp]);
 
-  const {
-    mutate: updateTransaction,
-    // data: updateResp,
-    isLoading: updating,
-    error,
-  } = useUpdateTransaction();
+  const { mutate: updateTransaction, isLoading: updating } =
+    useUpdateTransaction();
 
   const handleTranactionUpdate = (status) => {
     const payload = {
@@ -88,9 +89,39 @@ const TransactionDetails = () => {
 
   return (
     <Box p="6" px="10">
-      <Grid templateColumns={"repeat(2, 1fr)"} w={["100%", , , "75%"]} gap="4">
+      <Grid templateColumns={"repeat(1, 1fr)"} w={["100%", , , "75%"]} gap="4">
         <GridItem bg="white" px="8">
           <Box my="12" textTransform="capitalize">
+            <Link href={`/users/${userId}`}>
+              <Flex gap="2" fontSize="20px" my="2" cursor="pointer">
+                <strong>User: </strong>
+                <Text textDecor="underline" color="app.primary.700">
+                  {user?.first_name} {user?.last_name}
+                </Text>
+              </Flex>
+            </Link>
+
+            {!!transaction &&
+              Object?.keys(transaction)?.map((prop, i) => (
+                <Text display="flex" gap="2" my="2" key={i}>
+                  {typeof transaction[prop] !== "object" && (
+                    <>
+                      <strong strong> {underscoreToSpace(prop)}: </strong>
+
+                      {prop === "from"
+                        ? transaction?.type?.includes("BUY")
+                          ? "KUMO"
+                          : transaction[prop]
+                        : prop === "to" && transaction?.type?.includes("SELL")
+                        ? "KUMO"
+                        : transaction[prop]}
+                    </>
+                  )}
+                </Text>
+              ))}
+          </Box>
+
+          {/* <Box my="12" textTransform="capitalize">
             <Link href={`/users/${userId}`}>
               <Flex gap="2" fontSize="20px" my="2" cursor="pointer">
                 <strong>User: </strong>
@@ -117,21 +148,30 @@ const TransactionDetails = () => {
               <Flex gap="2" fontSize="" my="2" cursor="pointer">
                 <strong>From: </strong>
                 <Text textDecor="underline" color="app.primary.700">
-                  {transaction?.from}
+                  {transaction?.type?.includes("BUY")
+                    ? "KUMO"
+                    : transaction?.from}
                 </Text>
               </Flex>
             </Link>
 
             <Text fontSize="" my="2">
-              <strong>to: </strong> {transaction?.to}
+              <strong>to: </strong>{" "}
+              {transaction?.type?.includes("SELL") ? "KUMO" : transaction?.to}
             </Text>
             <Text fontSize="" my="2">
               <strong>Dollar to coin rate: </strong>{" "}
-              {numberWithCommas(transaction?.rate_per_dollar_to_coin)}
+              {cryptoNumberWithCommas(transaction?.rate_per_dollar_to_currency)}
             </Text>
             <Text fontSize="" my="2">
               <strong>Naira to dollar rate: </strong>{" "}
-              {numberWithCommas(transaction?.rate_per_naira_to_dollar)}
+              {cryptoNumberWithCommas(transaction?.rate_per_naira_to_dollar)}
+            </Text>
+            <Text fontSize="" my="2">
+              <strong>Fee: </strong> {cryptoNumberWithCommas(transaction?.fee)}
+            </Text>
+            <Text fontSize="" my="2">
+              <strong>Mode: </strong> {transaction?.mode}
             </Text>
             <Flex fontSize="" my="2" gap="1">
               <strong>Status: </strong>
@@ -178,9 +218,7 @@ const TransactionDetails = () => {
                 </MenuList>
               </Menu>
             </Flex>
-            {/* <Text textAlign="center" fontSize=" 32px" fontWeight={700}>
-              N {numberWithCommas(transaction?.amount_paid_in_naira)}
-            </Text> */}
+            
             <Box
               my="2"
               color="app.primary.500"
@@ -193,7 +231,7 @@ const TransactionDetails = () => {
 
               <Text>Fri Aug 07, 2020</Text>
             </Box>
-          </Box>
+          </Box> */}
         </GridItem>
 
         <GridItem px="6" py="12" rounded="md" bg="white">

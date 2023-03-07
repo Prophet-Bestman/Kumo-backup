@@ -10,7 +10,7 @@ import {
   MenuList,
   Text,
 } from "@chakra-ui/react";
-import { useAuthContext, userActions } from "context/AuthProvider";
+import { useAuthContext } from "context/AuthProvider";
 import { useNavContext } from "context/NavProvider";
 import Link from "next/link";
 import { useRouter } from "next/router";
@@ -22,7 +22,7 @@ import { MdNotifications } from "react-icons/md";
 const Topbar = () => {
   const { activeNav } = useNavContext();
   const router = useRouter();
-  const { user, dispatch: logout } = useAuthContext();
+  const { user, signOut } = useAuthContext();
 
   const menuList = [
     { name: "Profile Settings", link: "/profile" },
@@ -31,8 +31,8 @@ const Topbar = () => {
   ];
 
   const handleLogout = () => {
-    logout({ type: userActions.LOGOUT });
-    router.push("/auth/login");
+    signOut();
+    // router.push("/auth/login");
   };
 
   return (

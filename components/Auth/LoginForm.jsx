@@ -7,39 +7,28 @@ import {
   InputRightElement,
   Stack,
   Text,
-  useToast,
 } from "@chakra-ui/react";
 import React, { useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
 import { AiFillEye, AiFillEyeInvisible } from "react-icons/ai";
 import { yupResolver } from "@hookform/resolvers/yup";
-import { InputError } from "components";
+import { useRouter } from "next/router";
 
+import { InputError } from "components";
 import { loginSchema } from "utils/schema";
 import { useLogin } from "api/auth";
-import { handleRequestError } from "utils/helpers";
-import { useRouter } from "next/router";
-import { useAuthContext, userActions } from "context/AuthProvider";
+import { useAuthContext } from "context/AuthProvider";
 
 const LoginForm = () => {
   const [show, setShow] = useState(false);
   const router = useRouter();
-  const { dispatch } = useAuthContext();
+  const { isLoggedIn } = useAuthContext();
 
-  // ====== TOASTS ======
-  const toast = useToast();
-
-  const successToast = () => {
-    toast({
-      title: "Login Successful",
-      description: "Redirecting...",
-      status: "success",
-      duration: 3000,
-      isClosable: true,
-      variant: "top-accent",
-      position: "top",
-    });
-  };
+  useEffect(() => {
+    if (!!isLoggedIn) {
+      router.push("/");
+    }
+  }, [isLoggedIn]);
 
   // ======= FORM VALIDATION ======
   const {
@@ -48,30 +37,11 @@ const LoginForm = () => {
     formState: { errors },
   } = useForm({ resolver: yupResolver(loginSchema) });
 
-  const {
-    mutate: login,
-    data: loginResp,
-    error: loginError,
-    isLoading,
-    reset,
-  } = useLogin();
+  const { mutate: login, isLoading } = useLogin();
 
   const submitLogin = (data) => {
     login(data);
   };
-
-  useEffect(() => {
-    handleRequestError(loginError);
-    reset();
-  }, [loginError]);
-
-  useEffect(() => {
-    if (!!loginResp && loginResp?.status === "success") {
-      dispatch({ type: userActions.LOGIN, payload: loginResp?.data });
-      successToast();
-      router.push("/");
-    }
-  }, [loginResp]);
 
   return (
     <Box

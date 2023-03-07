@@ -6,6 +6,7 @@ import {
   Grid,
   GridItem,
   Input,
+  ModalOverlay,
   Stack,
   Switch,
   Text,
@@ -18,6 +19,7 @@ import { useDeletePackage, useUpdatePackage } from "api/investment";
 import { ModalCard, LargeHeading, InputError, ConfirmModal } from "components";
 import React, { useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
+import { AiOutlineClose } from "react-icons/ai";
 import { handleRequestError } from "utils/helpers";
 import { updatePackageSchema } from "utils/schema";
 import { customScrollBar3 } from "utils/styles";

@@ -1,5 +1,6 @@
+import { useGetAdmin } from "api/admin";
 import { getUserFromLocalStorage } from "api/config";
-import React, { useState, useReducer, useEffect, useContext } from "react";
+import React, { useState, useEffect, useContext } from "react";
 import config from "utils/config";
 
 export const AuthContext = React.createContext({});
@@ -7,15 +8,6 @@ export const AuthContext = React.createContext({});
 export const useAuthContext = () => {
   return useContext(AuthContext);
 };
-
-export const userActions = {
-  LOGIN: "LOGIN",
-  SAVE_SOCKET: "SAVE_SOCKET",
-  LOGOUT: "LOGOUT",
-  RESET_USER: "RESET_USER",
-};
-
-const initialUserState = {};
 
 function setRedirect(redirect) {
   window.sessionStorage.setItem(config.key.redirect, redirect);
@@ -29,56 +21,63 @@ function clearRedirect() {
   return window.sessionStorage.removeItem(config.key.redirect);
 }
 
-const reducer = (user, action) => {
-  switch (action.type) {
-    case userActions.LOGIN:
-      return (user = action.payload);
-    case userActions.LOGOUT:
-      localStorage.clear();
-      return (user = {});
-    case userActions.RESET_USER:
-      return (user = {});
-
-    default:
-      return user;
-  }
-};
-
 const AuthProvider = ({ children }) => {
   const [loading, setLoading] = useState(true);
-  const [user, dispatch] = useReducer(reducer, initialUserState);
+  const [user, setUser] = useState(null);
+  const [isLoggedIn, setIsLoggedIn] = useState(false);
   const [localUser, setLocalUser] = useState();
   const [hasChecked, setHasChecked] = useState(false);
+
+  const {
+    data: adminResp,
+    error,
+    isLoading,
+  } = useGetAdmin({
+    retry: false,
+    refetchOnWindowFocus: false,
+  });
+
+  const signIn = (data) => {
+    localStorage.setItem(config.key.user, JSON.stringify(data));
+    localStorage.setItem(config.key.token, data.token);
+    localStorage.setItem(config.key.userID, data.user_id);
+    localStorage.setItem(config.key.isLoggedIn, JSON.stringify(true));
+    setUser(data);
+    setIsLoggedIn(true);
+  };
+
+  const signOut = () => {
+    localStorage.setItem(config.key.isLoggedIn, JSON.stringify(false));
+    localStorage.removeItem(config.key.token);
+    setIsLoggedIn(false);
+  };
 
   useEffect(() => {
     setHasChecked(false);
     setTimeout(() => {
-      const localUser = getUserFromLocalStorage();
-      setLocalUser(localUser);
+      // const localUser = getUserFromLocalStorage();
+      // setLocalUser(localUser);
+      setIsLoggedIn(JSON.parse(localStorage.getItem(config.key.isLoggedIn)));
       setHasChecked(true);
     }, 100);
   }, []);
 
   useEffect(() => {
-    if (!hasChecked) {
+    if (!hasChecked || isLoading) {
       setLoading(true);
     } else {
-      if (!localUser || Object.keys(localUser).length === 0) {
-        localStorage.clear();
-        dispatch({ type: userActions.LOGOUT });
-        setLoading(false);
-      } else if (!!localUser && Object.keys(localUser).length !== 0) {
-        dispatch({ type: userActions.LOGIN, payload: localUser });
-        setLoading(false);
-      }
+      if (!isLoggedIn) signOut();
+      setLoading(false);
     }
-  }, [localUser, hasChecked]);
+  }, [hasChecked, isLoggedIn, isLoading]);
 
   const value = {
     user,
+    signIn,
+    signOut,
+    isLoggedIn,
     loading,
     setLoading,
-    dispatch,
     setRedirect,
     getRedirect,
     clearRedirect,

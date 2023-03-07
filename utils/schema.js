@@ -72,6 +72,7 @@ export const updateBaseCurrencySchema = yup
     name: yup.string().required("Name is required"),
     code: yup.string().required("Code is required"),
     currency_id: yup.string().required("Currency ID is required"),
+    symbol: yup.string().required("Symbol is required"),
   })
   .required();
 

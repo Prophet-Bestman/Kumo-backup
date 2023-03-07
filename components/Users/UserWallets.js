@@ -32,6 +32,8 @@ const UserWallets = ({ user }) => {
     onOpen: onDebitOpen,
   } = useDisclosure();
 
+  // console.log(user);
+
   return (
     <Box px="10" py="14" rounded="md" bg="white">
       <Grid
@@ -90,8 +92,16 @@ const UserWallets = ({ user }) => {
             ))}
 
           <GridItem colSpan={2}>
-            <LargeHeading> Wallet Balances</LargeHeading>
+            <LargeHeading> Base Currency</LargeHeading>
           </GridItem>
+
+          <Stack mb="5">
+            <Text fontWeight={500} fontSize="14px" textTransform="capitalize">
+              {user?.current_base_currency?.name}
+            </Text>
+
+            {/* <Input value={cryptoNumberWithCommas(wallet?.value)} disabled /> */}
+          </Stack>
 
           {wallet_balance?.length > 0 &&
             wallet_balance?.map((wallet) => (
