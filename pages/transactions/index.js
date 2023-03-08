@@ -4,9 +4,8 @@ import { useGetTransactions, useGetTransactionsSize } from "api/transactions";
 import { Pagination } from "components";
 import {
   DebitAndCredit,
-  TransactionsTable,
+  TransactionHistoryTable,
 } from "components/TransactionHistory";
-import TransactionHistoryTable from "components/TransactionHistory/TransactionHistoryTable";
 import { navStates, useNavContext } from "context/NavProvider";
 import React, { useEffect, useState } from "react";
 
