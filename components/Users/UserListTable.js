@@ -9,7 +9,6 @@ import {
 } from "utils/helpers";
 
 const UserListTable = ({ users, isLoading, wallets }) => {
-  //   console.log(wallets);
   const columns = [
     {
       title: "Index",

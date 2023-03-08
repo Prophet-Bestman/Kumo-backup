@@ -32,8 +32,6 @@ const UserWallets = ({ user }) => {
     onOpen: onDebitOpen,
   } = useDisclosure();
 
-  // console.log(user);
-
   return (
     <Box px="10" py="14" rounded="md" bg="white">
       <Grid

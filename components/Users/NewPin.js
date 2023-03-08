@@ -28,7 +28,7 @@ const NewPin = ({ isOpen, onClose, user_id }) => {
   } = useResetUsersPin();
 
   const handleReset = () => {
-    resetPin(user_id);
+    resetPin({ user_id });
   };
 
   useEffect(() => {

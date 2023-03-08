@@ -58,7 +58,6 @@ const TransactionDetails = () => {
   useEffect(() => {
     if (!!transactionResp && transactionResp?.status == "success") {
       const transaction = flattenObject(transactionResp?.data);
-      console.log(transaction);
       setTransaction(transaction);
       setUserId(transactionResp?.data?.user_id);
     }
