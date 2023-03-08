@@ -209,7 +209,7 @@ const UserListTable = ({ users, isLoading, wallets }) => {
         dataSource={users}
         columns={columns}
         loading={isLoading}
-        scroll={{ x: "100%" }}
+        scroll={{ x: "100vw" }}
       />
     </Box>
   );

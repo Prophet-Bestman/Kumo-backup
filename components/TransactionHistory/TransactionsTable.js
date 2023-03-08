@@ -5,6 +5,7 @@ import { customScrollBar3 } from "utils/styles";
 import TransactionRow from "./TransactionRow";
 
 const TransactionsTable = ({ transactions, isLoading }) => {
+  console.log(transactions);
   return (
     <TableContainer
       w="full"
