@@ -4,11 +4,8 @@ import {
   Flex,
   Grid,
   GridItem,
-  Menu,
-  MenuButton,
-  MenuItem,
-  MenuList,
-  Spinner,
+  Input,
+  Stack,
   Text,
   Textarea,
   useDisclosure,
@@ -26,13 +23,10 @@ import Link from "next/link";
 import { useRouter } from "next/router";
 import React, { useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
-import { AiFillEdit } from "react-icons/ai";
 import {
   cryptoNumberWithCommas,
   flattenObject,
-  getStatusColor,
   handleRequestError,
-  numberWithCommas,
   underscoreToSpace,
 } from "utils/helpers";
 import { updateTransactionSchema } from "utils/schema";
@@ -99,26 +93,46 @@ const TransactionDetails = () => {
                 </Text>
               </Flex>
             </Link>
-
-            {!!transaction &&
-              Object?.keys(transaction)?.map((prop, i) => (
-                <Text display="flex" gap="2" my="2" key={i}>
-                  {typeof transaction[prop] !== "object" && (
-                    <>
+            <Grid templateColumns={"repeat(2, 1fr)"} gap="8">
+              {!!transaction &&
+                Object?.keys(transaction)?.map((prop, i) => (
+                  <Stack display="flex" gap="2" my="2" key={i}>
+                    <Text>
                       <strong strong> {underscoreToSpace(prop)}: </strong>
+                    </Text>
+                    {prop?.includes("description") ? (
+                      <Textarea isReadOnly value={transaction[prop]}></Textarea>
+                    ) : (
+                      <Input
+                        isReadOnly
+                        value={
+                          typeof transaction[prop] === "number"
+                            ? cryptoNumberWithCommas(transaction[prop])
+                            : transaction[prop]
+                        }
+                      />
+                    )}
+                    {/* {typeof transaction[prop] !== "object" && (
+                      <>
+                        <strong strong> {underscoreToSpace(prop)}: </strong>
 
-                      {prop === "from"
-                        ? transaction?.type?.includes("BUY")
+                        {prop === "from"
+                          ? transaction?.type?.includes("BUY")
+                            ? "KUMO"
+                            : transaction[prop]
+                          : prop === "to" && transaction?.type?.includes("SELL")
                           ? "KUMO"
-                          : transaction[prop]
-                        : prop === "to" && transaction?.type?.includes("SELL")
-                        ? "KUMO"
-                        : transaction[prop]}
-                    </>
-                  )}
-                </Text>
-              ))}
+                          : transaction[prop]}
+                      </>
+                    )} */}
+                  </Stack>
+                ))}
+            </Grid>
           </Box>
+
+          <Button onClick={onOpen} mt="auto">
+            Update Admin Description
+          </Button>
 
           {/* <Box my="12" textTransform="capitalize">
             <Link href={`/users/${userId}`}>
@@ -233,8 +247,7 @@ const TransactionDetails = () => {
           </Box> */}
         </GridItem>
 
-        <GridItem px="6" py="12" rounded="md" bg="white">
-          {/* <TransactionBankDetails /> */}
+        {/* <GridItem px="6" py="12" rounded="md" bg="white">
 
           <Flex flexDir="column" h="full">
             <Box mb="6">
@@ -252,7 +265,7 @@ const TransactionDetails = () => {
               Update Admin Description
             </Button>
           </Flex>
-        </GridItem>
+        </GridItem> */}
       </Grid>
 
       {isOpen && (

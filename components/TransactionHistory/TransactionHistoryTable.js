@@ -5,6 +5,7 @@ import React from "react";
 import { cryptoNumberWithCommas } from "utils/helpers";
 
 const TransactionHistoryTable = ({ transactions, isLoading, wallets }) => {
+  console.log(transactions);
   const columns = [
     {
       title: "Index",
@@ -58,8 +59,9 @@ const TransactionHistoryTable = ({ transactions, isLoading, wallets }) => {
     },
     {
       title: "Currency",
-      key: "currency",
       dataIndex: "currency",
+      //   key: "currency",
+      render: (currency) => <Box>{currency?.name}</Box>,
       filters: [
         ...wallets.map((wallet) => {
           return {
@@ -83,8 +85,11 @@ const TransactionHistoryTable = ({ transactions, isLoading, wallets }) => {
     {
       title: "Amount Paid",
       dataIndex: "amount_paid",
-      render: (amount_paid) => (
-        <Box fontSize={"13px"}>{cryptoNumberWithCommas(amount_paid)}</Box>
+      render: (amount_paid, transaction) => (
+        <Box fontSize={"13px"}>
+          <strong> {transaction?.currency?.code}</strong>{" "}
+          {cryptoNumberWithCommas(amount_paid)}
+        </Box>
       ),
       sorter: {
         compare: (a, b) => a?.amount_paid - b?.amount_paid,

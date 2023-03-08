@@ -111,7 +111,7 @@ const CreateUserInvestment = ({ isOpen, onClose, user }) => {
       <Box bg="white" py="12" px="6">
         <form onSubmit={handleSubmit(submitInvestment)}>
           <LargeHeading color="app.primary.700" fontSize="20px">
-            Reset User Password
+            Create User Investment
           </LargeHeading>
 
           <Stack mt="8" mb="6">
