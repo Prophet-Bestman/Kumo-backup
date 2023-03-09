@@ -1,9 +1,8 @@
 import {
   Box,
   Button,
+  Grid,
   Input,
-  InputGroup,
-  InputLeftElement,
   Spinner,
   Stack,
   Text,
@@ -23,7 +22,6 @@ const UpdatePaypalRange = ({ paypalRange, loading }) => {
     register,
     handleSubmit,
     formState: { errors },
-    setValue,
   } = useForm({
     resolver: yupResolver(updatePaypalRangeSchema),
     defaultValues: { ...paypalRange },
@@ -75,50 +73,24 @@ const UpdatePaypalRange = ({ paypalRange, loading }) => {
       ) : (
         <Box w="full">
           <LargeHeading color="app.primary.700" fontSize="20px">
-            Update PaypalRange
+            Update Paypal Range
           </LargeHeading>
 
-          <Text fontSize="14px" mt="6">
+          {/* <Text fontSize="14px" mt="6">
             Select Fee Type
-          </Text>
+          </Text> */}
 
           <form onSubmit={handleSubmit(handleUpdate)}>
-            <Stack mt="4">
-              <Text fontSize="14px">Start</Text>
-              <InputGroup>
-                <InputLeftElement px="0">
-                  <Text
-                    fontSize="20"
-                    color={"app.primary.700"}
-                    fontWeight={700}
-                  >
-                    N
-                  </Text>
-                </InputLeftElement>
-                <Input {...register("start")} placeholder="" />
-              </InputGroup>
-              <InputError msg={errors?.start?.message} />
-            </Stack>
-
-            <Stack mt="4">
-              <Text fontSize="14px">End</Text>
-              <InputGroup>
-                <InputLeftElement px="0">
-                  <Text
-                    fontSize="20"
-                    color={"app.primary.700"}
-                    fontWeight={700}
-                  >
-                    N
-                  </Text>
-                </InputLeftElement>
-                <Input {...register("end")} placeholder="" />
-              </InputGroup>
-              <InputError msg={errors?.end?.message} />
-            </Stack>
+            <Grid gap="4" my="4">
+              <Stack>
+                <Text fontSize="14px">Range</Text>
+                <Input {...register("range")} />
+                <InputError msg={errors?.range?.message} />
+              </Stack>
+            </Grid>
 
             <Button mt="4" h="48px" type="submit" isLoading={isLoading}>
-              Update Range
+              Update
             </Button>
           </form>
           {/* )} */}

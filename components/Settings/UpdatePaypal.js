@@ -43,7 +43,7 @@ const UpdatePaypal = ({ data, loading }) => {
   };
 
   const {
-    mutate: updatePaypalEmail,
+    mutate: updatePaypal,
     data: updateResp,
     isLoading,
     error: updateError,
@@ -51,7 +51,7 @@ const UpdatePaypal = ({ data, loading }) => {
   } = useUpdatePaypal();
 
   const handleUpdate = (data) => {
-    updatePaypalEmail(data);
+    updatePaypal(data);
   };
 
   useEffect(() => {
@@ -82,11 +82,11 @@ const UpdatePaypal = ({ data, loading }) => {
                 <Input {...register("email")} />
                 <InputError msg={errors?.email?.message} />
               </Stack>
-              <Stack>
-                <Text fontSize="14px">Rate</Text>
-                <Input {...register("rate")} type="tel" />
-                <InputError msg={errors?.rate?.message} />
-              </Stack>
+              {/* <Stack>
+                <Text fontSize="14px">Range</Text>
+                <Input {...register("range")} />
+                <InputError msg={errors?.range?.message} />
+              </Stack> */}
             </Grid>
 
             <Button mt="4" h="48px" type="submit" isLoading={isLoading}>

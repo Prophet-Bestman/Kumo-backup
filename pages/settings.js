@@ -289,12 +289,12 @@ const Settings = () => {
             />
           </>
         )}
-        {/* {!loadingPaypal && (
+        {!loadingPaypal && (
           <UpdatePaypal loading={loadingPaypal} data={paypalResp?.data} />
-        )} */}
+        )}
         {!loadingPaypalRange && (
           <UpdatePaypalRange
-            loading={false}
+            loading={loadingPaypalRange}
             paypalRange={paypalRangeResp?.data}
           />
         )}

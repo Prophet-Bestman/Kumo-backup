@@ -128,7 +128,7 @@ export const updatePaypalSchema = yup
       .string()
       .required("email address is required")
       .email("Enter a valid email"),
-    rate: yup.string().required("Paypal rate is required"),
+    range: yup.string().required("Paypal rate is required"),
   })
   .required();
 
@@ -244,8 +244,7 @@ export const updateMinMaxSchema = yup
 
 export const updatePaypalRangeSchema = yup
   .object({
-    start: yup.string().required("Start is required"),
-    end: yup.string().required("End  is required"),
+    range: yup.string().required("Paypal rate is required"),
   })
   .required();
 

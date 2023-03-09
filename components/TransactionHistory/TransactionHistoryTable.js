@@ -5,7 +5,6 @@ import React from "react";
 import { cryptoNumberWithCommas } from "utils/helpers";
 
 const TransactionHistoryTable = ({ transactions, isLoading, wallets }) => {
-  console.log(transactions);
   const columns = [
     {
       title: "Index",
