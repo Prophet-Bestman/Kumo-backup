@@ -16,7 +16,7 @@ import countries from "data/coutriesAndCode";
 import React, { useEffect } from "react";
 import { useForm } from "react-hook-form";
 import { handleRequestError } from "utils/helpers";
-import { updateAgentSchema } from "utils/schema";
+import { createAgentSchema, updateAgentSchema } from "utils/schema";
 import { customScrollBar3 } from "utils/styles";
 
 const UpdateAgent = ({ isOpen, onClose, agent }) => {
@@ -25,8 +25,8 @@ const UpdateAgent = ({ isOpen, onClose, agent }) => {
     handleSubmit,
     formState: { errors },
   } = useForm({
-    resolver: yupResolver(updateAgentSchema),
-    defaultValues: { ...agent },
+    resolver: yupResolver(createAgentSchema),
+    defaultValues: { ...agent, ...agent?.type_details },
   });
 
   const {
@@ -117,6 +117,14 @@ const UpdateAgent = ({ isOpen, onClose, agent }) => {
               <InputError msg={errors?.agent_name?.message} />
             </Stack>
             <Stack>
+              <Text fontSize="12px">Agent Nickname</Text>
+              <Input
+                placeholder="Agent Nickname"
+                {...register("agent_nickname")}
+              />
+              <InputError msg={errors?.agent_nickname?.message} />
+            </Stack>
+            <Stack>
               <Text fontSize="12px">Agent Email</Text>
               <Input
                 placeholder="agent@email.com"
@@ -127,22 +135,52 @@ const UpdateAgent = ({ isOpen, onClose, agent }) => {
             </Stack>
             <Stack>
               <Text fontSize="12px">Select Country</Text>
-              <Select placeholder="Select country" {...register("country")}>
+              <Select
+                placeholder="Select country"
+                {...register("recipient_country")}
+              >
                 {countries.map((country) => (
-                  <option key={country.code} value={country.phone}>
+                  <option key={country.code} value={country.name}>
                     {country.name}
                   </option>
                 ))}
               </Select>
-              <InputError msg={errors?.country?.message} />
+              <InputError msg={errors?.recipient_country?.message} />
+            </Stack>
+            <Stack>
+              <Text fontSize="12px">Bank Type</Text>
+              <Select placeholder="Select Bank Type" {...register("type")}>
+                <option value={"Local Bank Account"}>Local Bank Account</option>
+                <option value={"ACH"}>ACH</option>
+                <option value={"SWIFT"}>SWIFT</option>
+              </Select>
+              <InputError msg={errors?.type?.message} />
+            </Stack>
+            <Stack>
+              <Text fontSize="12px">Account Type</Text>
+              <Select
+                placeholder="Select Bank Type"
+                {...register("account_type")}
+              >
+                <option value={"CHECKING"}>CHECKING</option>
+                <option value={"SAVINGS"}>SAVINGS</option>
+              </Select>
+              <InputError msg={errors?.account_type?.message} />
+            </Stack>
+            <Stack>
+              <Text fontSize="12px">Recipient Type</Text>
+              <Select
+                placeholder="Select Recipient Type"
+                {...register("recipient_type")}
+              >
+                <option value={"PERSONAL"}>PERSONAL</option>
+                <option value={"BUSINESS"}>BUSINESS</option>
+              </Select>
+              <InputError msg={errors?.recipient_type?.message} />
             </Stack>
             <Stack>
               <Text fontSize="12px">Agent Phone No.</Text>
-              <Input
-                placeholder="080X XXX XXXX"
-                type="tel"
-                {...register("agent_phone")}
-              />
+              <Input placeholder="080X XXX XXXX" {...register("agent_phone")} />
               <InputError msg={errors?.agent_phone?.message} />
             </Stack>
             <Stack>
@@ -157,12 +195,24 @@ const UpdateAgent = ({ isOpen, onClose, agent }) => {
             </Stack>
             <Stack>
               <Text fontSize="12px">Agent Account Number</Text>
-              <Input
-                placeholder="102XXXXXXX"
-                type="tel"
-                {...register("account_number")}
-              />
+              <Input placeholder="102XXXXXXX" {...register("account_number")} />
               <InputError msg={errors?.account_number?.message} />
+            </Stack>
+            <Stack>
+              <Text fontSize="12px">SWIFT Code</Text>
+              <Input
+                placeholder="Enter SWIFT Code"
+                {...register("swift_code")}
+              />
+              <InputError msg={errors?.swift_code?.message} />
+            </Stack>
+            <Stack>
+              <Text fontSize="12px">ACH Routing Number</Text>
+              <Input
+                placeholder="Enter ACH Routing Number"
+                {...register("ach_routing_number")}
+              />
+              <InputError msg={errors?.ach_routing_number?.message} />
             </Stack>
           </Grid>
 

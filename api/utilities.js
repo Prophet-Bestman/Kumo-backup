@@ -52,7 +52,7 @@ export const useGetAirtimeList = () => {
   const headers = configOptions();
   return useQuery("airtime-list", () =>
     request1
-      .get(`/get-airtime-network-list`, { headers: headers })
+      .get(`/get-utilities-list?identifier=airtime`, { headers: headers })
       .then((res) => res.data)
   );
 };

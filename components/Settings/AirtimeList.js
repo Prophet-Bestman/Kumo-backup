@@ -7,31 +7,26 @@ import {
   useDisclosure,
   useToast,
 } from "@chakra-ui/react";
-import { useDeleteCryptotToken } from "api/settings";
+import { useDisableUtility, useGetDisabledOperation } from "api/settings";
 import { useGetAirtimeList } from "api/utilities";
 import ConfirmModal from "components/ConfirmModal";
 import LargeHeading from "components/LargeHeading";
 import React, { useEffect, useState } from "react";
-import { AiFillEdit, AiOutlineDelete } from "react-icons/ai";
-import { handleRequestError } from "utils/helpers";
+import { BiBlock } from "react-icons/bi";
 import { customScrollBar3 } from "utils/styles";
-import UpdateCryptoToken from "./UpdateCryptoToken";
 
 const AirtimeList = () => {
-  const [tokens, setTokens] = useState([]);
-  const [selectedToken, setSelectedToken] = useState(null);
-  const { data, isLoading: loadingTokens } = useGetAirtimeList();
+  const [airtimeList, setAirtimeList] = useState([]);
+  const [selectedAirtime, setSelectedAirtime] = useState(null);
+
+  const { data, isLoading: loadingAirtimeList } = useGetAirtimeList();
+  const { data: disabledOperationsResp, isLoading: loadingDisabledOperations } =
+    useGetDisabledOperation();
 
   const {
-    isOpen: isDeleteOpen,
-    onOpen: onDeleteOpen,
-    onClose: onDeleteClose,
-  } = useDisclosure();
-
-  const {
-    isOpen: isUpdateOpen,
-    onOpen: onUpdateOpen,
-    onClose: onUpdateClose,
+    isOpen: isDisableOpen,
+    onOpen: onDisableOpen,
+    onClose: onDisableClose,
   } = useDisclosure();
 
   // ====== TOASTS ======
@@ -51,34 +46,28 @@ const AirtimeList = () => {
 
   useEffect(() => {
     if (!!data && data?.data?.length > 0) {
-      setTokens(data?.data);
+      setAirtimeList(data?.data);
     }
   }, [data]);
 
   const {
-    mutate: deleteToken,
-    data: deleteResp,
+    mutate: disableAirtime,
+    data: disableResp,
     isLoading,
-    reset: resetDelete,
-    error: deleteError,
-  } = useDeleteCryptotToken();
+    reset: resetDisable,
+  } = useDisableUtility();
 
-  const handleDelete = () => {
-    deleteToken(selectedToken.token_id);
+  const handleDisable = () => {
+    disableAirtime({ service_id: selectedAirtime.serviceID });
   };
 
   useEffect(() => {
-    if (!!deleteResp && deleteResp?.status === "success") {
-      successToast("Succesfully Deleted Token");
-      resetDelete();
-      onDeleteClose();
+    if (!!disableResp && disableResp?.status === "success") {
+      successToast("Succesfully Disabled Airtime");
+      resetDisable();
+      onDisableClose();
     }
-  }, [deleteResp]);
-
-  useEffect(() => {
-    handleRequestError(deleteError);
-    resetDelete();
-  }, [deleteError]);
+  }, [disableResp]);
 
   return (
     <Box rounded="md" bg="white" py="12" px="6" shadow="md" h="full">
@@ -87,11 +76,11 @@ const AirtimeList = () => {
       </LargeHeading>
 
       <Box overflowY="auto" h="280px" sx={customScrollBar3}>
-        {loadingTokens ? (
+        {loadingAirtimeList ? (
           <Spinner colorScheme="gray" mx="auto" />
         ) : (
-          tokens?.length > 0 &&
-          tokens?.map((token, i) => (
+          airtimeList?.length > 0 &&
+          airtimeList?.map((airtime, i) => (
             <Flex
               key={i}
               my="2"
@@ -101,49 +90,49 @@ const AirtimeList = () => {
               bg="#efefef"
             >
               <Text fontSize="14px" fontWeight="600">
-                {token.name}
+                {airtime.name}
               </Text>
 
               <Flex gap="2">
-                <AiFillEdit
+                {/* <AiFillEdit
                   color="app.primary"
                   cursor="pointer"
                   onClick={() => {
-                    setSelectedToken(token);
+                    setSelectedAirtime(token);
                     onUpdateOpen();
                   }}
-                />
-                <AiOutlineDelete
+                /> */}
+                <BiBlock
                   color="red"
                   cursor="pointer"
                   onClick={() => {
-                    setSelectedToken(token);
-                    onDeleteOpen();
+                    setSelectedAirtime(airtime);
+                    onDisableOpen();
                   }}
                 />
-                <Circle
+                {/* <Circle
                   bg={token.is_listed ? "green.400" : "red.400"}
                   size="8px"
                   my="auto"
-                />
+                /> */}
               </Flex>
-              {isUpdateOpen && (
+              {/* {isUpdateOpen && (
                 <UpdateCryptoToken
                   onClose={onUpdateClose}
                   isOpen={isUpdateOpen}
-                  token={selectedToken}
+                  token={selectedAirtime}
                 />
-              )}
+              )} */}
             </Flex>
           ))
         )}
       </Box>
 
       <ConfirmModal
-        isOpen={isDeleteOpen}
-        onClose={onDeleteClose}
-        primaryFunc={{ name: "Delete Token", func: handleDelete }}
-        message={"Are you sure you want to delete this token"}
+        isOpen={isDisableOpen}
+        onClose={onDisableClose}
+        primaryFunc={{ name: "Disable Airtime", func: handleDisable }}
+        message={"Are you sure you want to disable this airtime"}
         isLoading={isLoading}
       />
     </Box>

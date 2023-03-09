@@ -49,9 +49,20 @@ const AddAgent = ({ isOpen, onClose }) => {
   } = useCreateAgent();
 
   const handleCreate = (data) => {
+    function search(nameKey, myArray) {
+      for (let i = 0; i < myArray.length; i++) {
+        if (myArray[i].name === nameKey) {
+          return myArray[i];
+        }
+      }
+    }
+
+    const selectedCountry = search(data.recipient_country, countries);
     const payload = {
       ...data,
-      agent_phone: `+${data.country}${Number.parseInt(data.agent_phone)}`,
+      agent_phone: `+${selectedCountry.phone}${Number.parseInt(
+        data.agent_phone
+      )}`,
     };
 
     createAgent(payload);
@@ -101,22 +112,52 @@ const AddAgent = ({ isOpen, onClose }) => {
             </Stack>
             <Stack>
               <Text fontSize="12px">Select Country</Text>
-              <Select placeholder="Select country" {...register("country")}>
+              <Select
+                placeholder="Select country"
+                {...register("recipient_country")}
+              >
                 {countries.map((country) => (
-                  <option key={country.code} value={country.phone}>
+                  <option key={country.code} value={country.name}>
                     {country.name}
                   </option>
                 ))}
               </Select>
-              <InputError msg={errors?.country?.message} />
+              <InputError msg={errors?.recipient_country?.message} />
+            </Stack>
+            <Stack>
+              <Text fontSize="12px">Bank Type</Text>
+              <Select placeholder="Select Bank Type" {...register("type")}>
+                <option value={"Local Bank Account"}>Local Bank Account</option>
+                <option value={"ACH"}>ACH</option>
+                <option value={"SWIFT"}>SWIFT</option>
+              </Select>
+              <InputError msg={errors?.type?.message} />
+            </Stack>
+            <Stack>
+              <Text fontSize="12px">Account Type</Text>
+              <Select
+                placeholder="Select Bank Type"
+                {...register("account_type")}
+              >
+                <option value={"CHECKING"}>CHECKING</option>
+                <option value={"SAVINGS"}>SAVINGS</option>
+              </Select>
+              <InputError msg={errors?.account_type?.message} />
+            </Stack>
+            <Stack>
+              <Text fontSize="12px">Recipient Type</Text>
+              <Select
+                placeholder="Select Recipient Type"
+                {...register("recipient_type")}
+              >
+                <option value={"PERSONAL"}>PERSONAL</option>
+                <option value={"BUSINESS"}>BUSINESS</option>
+              </Select>
+              <InputError msg={errors?.recipient_type?.message} />
             </Stack>
             <Stack>
               <Text fontSize="12px">Agent Phone No.</Text>
-              <Input
-                placeholder="080X XXX XXXX"
-                type="tel"
-                {...register("agent_phone")}
-              />
+              <Input placeholder="080X XXX XXXX" {...register("agent_phone")} />
               <InputError msg={errors?.agent_phone?.message} />
             </Stack>
             <Stack>
@@ -131,12 +172,24 @@ const AddAgent = ({ isOpen, onClose }) => {
             </Stack>
             <Stack>
               <Text fontSize="12px">Agent Account Number</Text>
-              <Input
-                placeholder="102XXXXXXX"
-                type="tel"
-                {...register("account_number")}
-              />
+              <Input placeholder="102XXXXXXX" {...register("account_number")} />
               <InputError msg={errors?.account_number?.message} />
+            </Stack>
+            <Stack>
+              <Text fontSize="12px">SWIFT Code</Text>
+              <Input
+                placeholder="Enter SWIFT Code"
+                {...register("swift_code")}
+              />
+              <InputError msg={errors?.swift_code?.message} />
+            </Stack>
+            <Stack>
+              <Text fontSize="12px">ACH Routing Number</Text>
+              <Input
+                placeholder="Enter ACH Routing Number"
+                {...register("ach_routing_number")}
+              />
+              <InputError msg={errors?.ach_routing_number?.message} />
             </Stack>
           </Grid>
 

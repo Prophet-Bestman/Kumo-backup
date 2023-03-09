@@ -75,11 +75,6 @@ const UpdatePaypalRange = ({ paypalRange, loading }) => {
           <LargeHeading color="app.primary.700" fontSize="20px">
             Update Paypal Range
           </LargeHeading>
-
-          {/* <Text fontSize="14px" mt="6">
-            Select Fee Type
-          </Text> */}
-
           <form onSubmit={handleSubmit(handleUpdate)}>
             <Grid gap="4" my="4">
               <Stack>

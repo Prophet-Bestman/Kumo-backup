@@ -94,7 +94,7 @@ const initialMinMaxOptions = [
     max: "",
   },
   {
-    name: "TRANSFER_TO_KUMO_MIN_MAX",
+    name: "TRANSFER_TO_KUMO_AGENT_MIN_MAX",
     min: "",
     max: "",
   },

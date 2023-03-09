@@ -11,7 +11,7 @@ export const createAgentSchema = yup
   .object({
     agent_name: yup.string().required("Agent's Full name is required"),
     agent_nickname: yup.string().required("Agent's nickname is required"),
-    country: yup.string().required("Country is required"),
+    recipient_country: yup.string().required("Recipient Country is required"),
     agent_email: yup
       .string()
       .required("Agent's Full name is required")
@@ -21,7 +21,7 @@ export const createAgentSchema = yup
       .required("Agent's Phone Number is required")
       .min(4, "Phone number must be at least 6 digits")
       .max(20, "Phone number must be at most 20 digits"),
-    bank_name: yup.string().required("Agent's Bank name is required"),
+    // bank_name: yup.string().required("Agent's Bank name is required"),
     account_name: yup.string().required("Agent's Account name is required"),
     account_number: yup.string().required("Agent's Account Number is required"),
   })

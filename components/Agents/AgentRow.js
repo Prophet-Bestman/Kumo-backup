@@ -6,11 +6,10 @@ import UpdateAgent from "./UpdateAgent";
 const AgentRow = ({ agent, number }) => {
   const {
     agent_name,
-    account_name,
-    account_number,
     agent_email,
     agent_phone,
     bank_name,
+    type_details: { account_name, account_number },
   } = agent;
 
   const { isOpen, onOpen, onClose } = useDisclosure();

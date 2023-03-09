@@ -615,3 +615,31 @@ export const useUpdatePaypalRange = () => {
     }
   );
 };
+
+export const useGetDisabledOperation = () => {
+  const headers = configOptions();
+  return useQuery(["disabled-operation"], () =>
+    request2
+      .get(`/get-disabled-operation`, { headers: headers })
+      .then((res) => res.data)
+  );
+};
+
+export const useDisableUtility = () => {
+  const queryClient = useQueryClient();
+  const headers = configOptions();
+  return useMutation(
+    (values) =>
+      request2
+        .put(`add-disabled-operation`, values, {
+          headers: headers,
+        })
+        .then((res) => res.data),
+    {
+      onSuccess: () => {
+        queryClient.invalidateQueries("airtime-list");
+        queryClient.invalidateQueries("disabled-operation");
+      },
+    }
+  );
+};

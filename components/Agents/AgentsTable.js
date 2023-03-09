@@ -37,6 +37,8 @@ const AgentsTable = ({ agents, isLoading }) => {
               <Th>Email</Th>
               <Th>Phone Number</Th>
               <Th>Account Name</Th>
+              <Th>Account Number</Th>
+              <Th>Bank Name</Th>
               <Th>Action</Th>
             </Tr>
           </Thead>
