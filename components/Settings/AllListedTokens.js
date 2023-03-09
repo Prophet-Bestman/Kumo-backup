@@ -20,8 +20,6 @@ const AllListedTokens = () => {
   const [selectedToken, setSelectedToken] = useState(null);
   const { data } = useGetAllListedTokens();
 
-  // console.log(data);
-
   const {
     isOpen: isDeleteOpen,
     onOpen: onDeleteOpen,

@@ -3,15 +3,21 @@ import {
   Circle,
   Flex,
   Spinner,
+  Tag,
   Text,
   useDisclosure,
   useToast,
 } from "@chakra-ui/react";
-import { useDisableUtility, useGetDisabledOperation } from "api/settings";
+import {
+  useDisableUtility,
+  useEnableUtility,
+  useGetDisabledOperation,
+} from "api/settings";
 import { useGetAirtimeList } from "api/utilities";
 import ConfirmModal from "components/ConfirmModal";
 import LargeHeading from "components/LargeHeading";
 import React, { useEffect, useState } from "react";
+import { AiOutlineCheckCircle } from "react-icons/ai";
 import { BiBlock } from "react-icons/bi";
 import { customScrollBar3 } from "utils/styles";
 
@@ -23,6 +29,11 @@ const AirtimeList = () => {
   const { data: disabledOperationsResp, isLoading: loadingDisabledOperations } =
     useGetDisabledOperation();
 
+  const {
+    isOpen: isEnableOpen,
+    onOpen: onEnableOpen,
+    onClose: onEnableClose,
+  } = useDisclosure();
   const {
     isOpen: isDisableOpen,
     onOpen: onDisableOpen,
@@ -46,9 +57,16 @@ const AirtimeList = () => {
 
   useEffect(() => {
     if (!!data && data?.data?.length > 0) {
-      setAirtimeList(data?.data);
+      let airtimeList = data?.data;
+
+      airtimeList = airtimeList?.map((airtime) => {
+        if (disabledOperationsResp?.data?.includes(airtime?.serviceID)) {
+          return { ...airtime, disabled: true };
+        } else return { ...airtime, disabled: false };
+      });
+      setAirtimeList(airtimeList);
     }
-  }, [data]);
+  }, [data, disabledOperationsResp]);
 
   const {
     mutate: disableAirtime,
@@ -69,6 +87,25 @@ const AirtimeList = () => {
     }
   }, [disableResp]);
 
+  const {
+    mutate: enableAirtime,
+    data: enableResp,
+    isLoading: enabling,
+    reset: resetEnable,
+  } = useEnableUtility();
+
+  const handleEnable = () => {
+    enableAirtime({ service_id: selectedAirtime.serviceID });
+  };
+
+  useEffect(() => {
+    if (!!enableResp && enableResp?.status === "success") {
+      successToast("Succesfully Enabled Airtime");
+      resetEnable();
+      onEnableClose();
+    }
+  }, [enableResp]);
+
   return (
     <Box rounded="md" bg="white" py="12" px="6" shadow="md" h="full">
       <LargeHeading color="app.primary.700" fontSize="20px">
@@ -76,7 +113,7 @@ const AirtimeList = () => {
       </LargeHeading>
 
       <Box overflowY="auto" h="280px" sx={customScrollBar3}>
-        {loadingAirtimeList ? (
+        {loadingAirtimeList || loadingDisabledOperations ? (
           <Spinner colorScheme="gray" mx="auto" />
         ) : (
           airtimeList?.length > 0 &&
@@ -94,22 +131,33 @@ const AirtimeList = () => {
               </Text>
 
               <Flex gap="2">
-                {/* <AiFillEdit
-                  color="app.primary"
-                  cursor="pointer"
-                  onClick={() => {
-                    setSelectedAirtime(token);
-                    onUpdateOpen();
-                  }}
-                /> */}
-                <BiBlock
-                  color="red"
-                  cursor="pointer"
-                  onClick={() => {
-                    setSelectedAirtime(airtime);
-                    onDisableOpen();
-                  }}
-                />
+                <Tag
+                  colorScheme={airtime?.disabled ? "red" : "green"}
+                  size="sm"
+                >
+                  {airtime?.disabled ? "Disabled" : "Enabled"}
+                </Tag>
+                {airtime?.disabled ? (
+                  <AiOutlineCheckCircle
+                    color="green"
+                    size="18px"
+                    cursor="pointer"
+                    onClick={() => {
+                      setSelectedAirtime(airtime);
+                      onEnableOpen();
+                    }}
+                  />
+                ) : (
+                  <BiBlock
+                    color="red"
+                    cursor="pointer"
+                    size="18px"
+                    onClick={() => {
+                      setSelectedAirtime(airtime);
+                      onDisableOpen();
+                    }}
+                  />
+                )}
                 {/* <Circle
                   bg={token.is_listed ? "green.400" : "red.400"}
                   size="8px"
@@ -134,6 +182,13 @@ const AirtimeList = () => {
         primaryFunc={{ name: "Disable Airtime", func: handleDisable }}
         message={"Are you sure you want to disable this airtime"}
         isLoading={isLoading}
+      />
+      <ConfirmModal
+        isOpen={isEnableOpen}
+        onClose={onEnableClose}
+        primaryFunc={{ name: "Enable Airtime", func: handleEnable }}
+        message={"Are you sure you want to enable this airtime"}
+        isLoading={enabling}
       />
     </Box>
   );

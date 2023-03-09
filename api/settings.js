@@ -625,6 +625,29 @@ export const useGetDisabledOperation = () => {
   );
 };
 
+export const useEnableUtility = () => {
+  const queryClient = useQueryClient();
+  const headers = configOptions();
+  return useMutation(
+    (values) =>
+      request2
+        .put(
+          `remove-disabled-operation?service_id=${values?.service_id}`,
+          {},
+          {
+            headers: headers,
+          }
+        )
+        .then((res) => res.data),
+    {
+      onSuccess: () => {
+        queryClient.invalidateQueries("airtime-list");
+        queryClient.invalidateQueries("disabled-operation");
+      },
+    }
+  );
+};
+
 export const useDisableUtility = () => {
   const queryClient = useQueryClient();
   const headers = configOptions();
