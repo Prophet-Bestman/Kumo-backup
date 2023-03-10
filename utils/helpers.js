@@ -83,8 +83,10 @@ export const getStatusColor = (status) => {
 
 export function getWalletBalanceFromUser(user, wallet_name) {
   return (
-    user?.wallet_balance?.find((balance) => balance?.name === wallet_name)
-      ?.value || 0
+    user?.wallet_balance?.find(
+      (balance) =>
+        balance?.name?.toLocaleLowerCase() === wallet_name?.toLocaleLowerCase()
+    )?.value || 0
   );
 }
 

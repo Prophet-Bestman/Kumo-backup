@@ -153,12 +153,25 @@ const UserListTable = ({ users, isLoading, wallets }) => {
     {
       title: "Base Currency",
       dataIndex: "current_base_currency",
-      render: (_, user) => (
-        <Box>
-          {user?.current_base_currency?.symbol}
-          {cryptoNumberWithCommas(getWalletBalanceFromUser(user, "base"))}
-        </Box>
-      ),
+
+      render: (_, user) => {
+        // console.log(user);
+        return (
+          <Box>
+            {user?.current_base_currency?.symbol}
+            {cryptoNumberWithCommas(
+              getWalletBalanceFromUser(user, user?.current_base_currency?.name)
+            )}
+          </Box>
+        );
+      },
+      sorter: {
+        compare: (a, b) =>
+          getWalletBalanceFromUser(a, a?.current_base_currency?.name) -
+          getWalletBalanceFromUser(b, a?.current_base_currency?.name),
+        multiple: 3,
+      },
+      sortDirections: ["descend", "ascend"],
     },
 
     ...wallets?.map((wallet) => {

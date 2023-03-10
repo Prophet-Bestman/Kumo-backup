@@ -54,7 +54,7 @@ const initialTransactionFeeOptions = [
   "SELL_CRYPTO_FEE",
   "SEND_CRYPTO_FEE",
   "TRANSFER_TO_BANK_FEE",
-  "TRANSFER_TO_KUMO_AGENT",
+  "TRANSFER_TO_KUMO_AGENT_FEE",
   "BUY_DATA_FEE",
   "BUY_AIRTIME_FEE",
 ];
