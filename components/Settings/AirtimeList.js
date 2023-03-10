@@ -109,7 +109,7 @@ const AirtimeList = () => {
   return (
     <Box rounded="md" bg="white" py="12" px="6" shadow="md" h="full">
       <LargeHeading color="app.primary.700" fontSize="20px">
-        Aitime List
+        Airtime List
       </LargeHeading>
 
       <Box overflowY="auto" h="280px" sx={customScrollBar3}>
