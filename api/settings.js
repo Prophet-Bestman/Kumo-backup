@@ -389,8 +389,8 @@ export const useGetAllListedTokens = () => {
   return useQuery(
     ["listed-tokens"],
     () =>
-      request2
-        .get(`/get-all-list-tokens?item_per_page=50`, {
+      request
+        .get(`/get-all-list-tokens`, {
           headers: headers,
         })
         .then((res) => {

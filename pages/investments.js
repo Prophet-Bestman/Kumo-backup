@@ -85,7 +85,7 @@ const Investments = () => {
           </MenuList>
         </Menu>
       </Box>
-      <CreatePackage isOpen={isOpen} onClose={onClose} />
+      {isOpen && <CreatePackage isOpen={isOpen} onClose={onClose} />}
     </Box>
   );
 };

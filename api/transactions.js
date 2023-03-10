@@ -9,15 +9,18 @@ const request = axios.create({
 
 export const useGetTransactions = (page, userID) => {
   const headers = configOptions();
-  return useQuery(["transactions", page], () =>
-    request
-      .get(
-        `/get-transactions?item_per_page=30&page=${page}&q=${userID || ""}`,
-        {
-          headers: headers,
-        }
-      )
-      .then((res) => res.data)
+  return useQuery(
+    ["transactions", page],
+    () =>
+      request
+        .get(
+          `/get-transactions?item_per_page=30&page=${page}&q=${userID || ""}`,
+          {
+            headers: headers,
+          }
+        )
+        .then((res) => res.data),
+    { retry: false }
   );
 };
 

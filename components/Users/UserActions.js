@@ -192,8 +192,8 @@ const UserActions = ({ user_id, user }) => {
     const payload = {
       user_id,
       data: {
-        admin_reply: option === "activate" ? "approved" : "disapproved",
-        verified: option === "activate" ? true : "false",
+        admin_reply: option === "activate" ? "verified" : "failed",
+        verified: option === "activate" ? true : false,
       },
     };
 

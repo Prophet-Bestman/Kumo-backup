@@ -15,7 +15,7 @@ import LargeHeading from "components/LargeHeading";
 import React, { useEffect } from "react";
 import { useForm } from "react-hook-form";
 import { handleRequestError } from "utils/helpers";
-import { updatePaypalSchema } from "utils/schema";
+import { updatePaypalEmailSchema } from "utils/schema";
 
 const UpdatePaypal = ({ data, loading }) => {
   const {
@@ -23,7 +23,7 @@ const UpdatePaypal = ({ data, loading }) => {
     handleSubmit,
     formState: { errors },
   } = useForm({
-    resolver: yupResolver(updatePaypalSchema),
+    resolver: yupResolver(updatePaypalEmailSchema),
     defaultValues: data,
   });
 
@@ -84,8 +84,8 @@ const UpdatePaypal = ({ data, loading }) => {
               </Stack>
               {/* <Stack>
                 <Text fontSize="14px">Range</Text>
-                <Input {...register("range")} />
-                <InputError msg={errors?.range?.message} />
+                <Input {...register("rate")} />
+                <InputError msg={errors?.rate?.message} />
               </Stack> */}
             </Grid>
 

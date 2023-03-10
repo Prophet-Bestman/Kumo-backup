@@ -9,10 +9,13 @@ const request = axios.create({
 
 export const useGetUsers = () => {
   const headers = configOptions();
-  return useQuery("users", () =>
-    request
-      .get(`/get-users?item_per_page=20`, { headers: headers })
-      .then((res) => res.data)
+  return useQuery(
+    "users",
+    () =>
+      request
+        .get(`/get-users?item_per_page=20`, { headers: headers })
+        .then((res) => res.data),
+    { retry: false }
   );
 };
 

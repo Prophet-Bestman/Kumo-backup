@@ -48,7 +48,7 @@ const AuthGuard = ({ children }) => {
         router.push("/auth/login");
       }
     }
-  }, [loading, router, user, setRedirect, error, isLoggedIn]);
+  }, [loading, router, user, setRedirect, error, isLoggedIn, isLoading]);
 
   /* show loading indicator while the auth provider is still loading */
   if (loading || isLoading) {
