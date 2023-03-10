@@ -187,7 +187,11 @@ const Settings = () => {
       );
 
       setTransactionFees(
-        allFees?.filter((item) => !item?.name?.includes("FUND_WALLET"))
+        allFees?.filter(
+          (item) =>
+            !item?.name?.includes("FUND_WALLET") &&
+            !item?.name?.includes("MIN_MAX")
+        )
       );
 
       setFundWalletFees(
