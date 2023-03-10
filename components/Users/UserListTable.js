@@ -6,6 +6,7 @@ import {
   cryptoNumberWithCommas,
   getStatusColor,
   getWalletBalanceFromUser,
+  numberWithCommas,
 } from "utils/helpers";
 
 const UserListTable = ({ users, isLoading, wallets }) => {
@@ -159,7 +160,7 @@ const UserListTable = ({ users, isLoading, wallets }) => {
         return (
           <Box>
             {user?.current_base_currency?.symbol}
-            {cryptoNumberWithCommas(
+            {numberWithCommas(
               getWalletBalanceFromUser(user, user?.current_base_currency?.name)
             )}
           </Box>

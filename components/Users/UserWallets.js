@@ -11,7 +11,7 @@ import {
 } from "@chakra-ui/react";
 import LargeHeading from "components/LargeHeading";
 import React from "react";
-import { cryptoNumberWithCommas } from "utils/helpers";
+import { cryptoNumberWithCommas, numberWithCommas } from "utils/helpers";
 import DebitWallet from "./DebitWallet";
 import FundWallet from "./FundWallet";
 
@@ -87,7 +87,7 @@ const UserWallets = ({ user }) => {
           </GridItem>
 
           {wallet_balance?.length > 0 &&
-            wallet_balance?.map((wallet) => (
+            wallet_balance?.map((wallet, i) => (
               <Stack mb="5" key={wallet?.code}>
                 <Text
                   fontWeight={500}
@@ -97,7 +97,14 @@ const UserWallets = ({ user }) => {
                   {wallet.name}
                 </Text>
 
-                <Input value={cryptoNumberWithCommas(wallet?.value)} disabled />
+                <Input
+                  value={
+                    i === 0
+                      ? numberWithCommas(wallet?.value)
+                      : cryptoNumberWithCommas(wallet?.value)
+                  }
+                  disabled
+                />
               </Stack>
             ))}
 
