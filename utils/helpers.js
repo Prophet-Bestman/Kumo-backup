@@ -42,8 +42,10 @@ export function numberWithCommas(number = 0) {
 }
 
 export function cryptoNumberWithCommas(number = 0) {
-  if (typeof number === "number")
-    return number.toString().replace(/\B(?<!\.\d*)(?=(\d{3})+(?!\d))/g, ",");
+  if (typeof number === "number") {
+    let approx = parseFloat(number).toFixed(6);
+    return approx.toString().replace(/\B(?<!\.\d*)(?=(\d{3})+(?!\d))/g, ",");
+  }
 }
 
 export function numberWithCommasNoDecimal(number = 0) {
