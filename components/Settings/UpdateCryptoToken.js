@@ -9,7 +9,12 @@ import {
   useToast,
 } from "@chakra-ui/react";
 import { yupResolver } from "@hookform/resolvers/yup";
-import { useListUnlistToken, useUpdateCryptoToken } from "api/settings";
+import {
+  useDelistToken,
+  useListToken,
+  useListUnlistToken,
+  useUpdateCryptoToken,
+} from "api/settings";
 import InputError from "components/InputError";
 import LargeHeading from "components/LargeHeading";
 import ModalCard from "components/ModalCard";
@@ -52,12 +57,20 @@ const UpdateCryptoToken = ({ isOpen, onClose, token }) => {
   } = useUpdateCryptoToken();
 
   const {
-    mutate: updateListing,
-    isLoading: listing,
-    data: listingResp,
-    error: listingError,
-    reset: listingReset,
-  } = useListUnlistToken();
+    mutate: delistToken,
+    isLoading: delisting,
+    data: delistResp,
+    error: delistError,
+    reset: delistReset,
+  } = useDelistToken();
+
+  const {
+    mutate: listToken,
+    isLoading: listingToken,
+    data: listResp,
+    error: listError,
+    reset: listReset,
+  } = useListToken();
 
   const handleUpdate = (data) => {
     delete data.is_listed;
@@ -66,6 +79,9 @@ const UpdateCryptoToken = ({ isOpen, onClose, token }) => {
 
   const handleListing = (data) => {
     updateListing({ token_id: token?.token_id, data: { list: data } });
+    token?.is_listed
+      ? delistToken({ token_id: token?.token_id })
+      : listToken({ token_id: token?.token_id });
   };
 
   useEffect(() => {
@@ -73,18 +89,24 @@ const UpdateCryptoToken = ({ isOpen, onClose, token }) => {
       successToast();
       reset();
     }
-    if (!!listingResp && listingResp?.status === "success") {
+    if (!!listResp && listResp?.status === "success") {
       successToast();
-      listingReset();
+      listReset();
     }
-  }, [updateResp, listingResp]);
+    if (!!delistResp && delistResp?.status === "success") {
+      successToast();
+      delistReset();
+    }
+  }, [updateResp, listResp, delistResp]);
 
   useEffect(() => {
     handleRequestError(updateError);
     reset();
-    handleRequestError(listingError);
-    listingReset();
-  }, [updateError, listingError]);
+    handleRequestError(listError);
+    listReset();
+    handleRequestError(delistError);
+    delistReset();
+  }, [updateError, listError, delistError]);
 
   return (
     <ModalCard onClose={onClose} isOpen={isOpen}>
@@ -137,9 +159,9 @@ const UpdateCryptoToken = ({ isOpen, onClose, token }) => {
             h="48px"
             variant={"ghost"}
             onClick={() => handleListing(token.is_listed ? "false" : "true")}
-            isLoading={listing}
+            isLoading={listingToken || delisting}
           >
-            {token.is_listed ? "Unlist Token" : "List Token"}
+            {token.is_listed ? "Delist Token" : "List Token"}
           </Button>
         </form>
       </Box>

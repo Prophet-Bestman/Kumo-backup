@@ -268,32 +268,39 @@ const UserActions = ({ user_id, user }) => {
           Resend Activation Code
         </Button>
 
-        {(user?.bvn?.verified == "false" || user?.bvn?.verified == false) &&
-          user?.bvn?.admin_reply !== "failed" && (
-            <>
-              <Button
-                onClick={handleBvnLookup}
-                maxW="full"
-                isLoading={lookingUp}
-              >
-                Lookup Bvn Validity
-              </Button>
-              <Button
-                onClick={() => openActivateKyc("activate")}
-                maxW="full"
-                isLoading={approving}
-              >
-                Activate KYC/Verify BVN
-              </Button>
-              <Button
-                onClick={() => openActivateKyc("decline")}
-                maxW="full"
-                isLoading={approving}
-              >
-                Decline KYC/BVN Verification
-              </Button>
-            </>
-          )}
+        {(user?.bvn?.verified == "false" || user?.bvn?.verified == false) && (
+          <>
+            <Button onClick={handleBvnLookup} maxW="full" isLoading={lookingUp}>
+              Lookup Bvn Validity
+            </Button>
+            <Button
+              onClick={() => {
+                user?.bvn?.admin_reply === "failed"
+                  ? errorToast(
+                      "This users bvn has been previously declined. They must resubmit for further action"
+                    )
+                  : openActivateKyc("activate");
+              }}
+              maxW="full"
+              isLoading={approving}
+            >
+              Activate KYC/Verify BVN
+            </Button>
+            <Button
+              onClick={() => {
+                user?.bvn?.admin_reply === "failed"
+                  ? errorToast(
+                      "This users bvn has been previously declined. They must resubmit for further action"
+                    )
+                  : openActivateKyc("decline");
+              }}
+              maxW="full"
+              isLoading={approving}
+            >
+              Decline KYC/BVN Verification
+            </Button>
+          </>
+        )}
         {isOpen && (
           <NewPin onClose={onClose} isOpen={isOpen} user_id={user_id} />
         )}

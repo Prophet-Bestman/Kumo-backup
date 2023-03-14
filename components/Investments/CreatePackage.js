@@ -154,7 +154,7 @@ const CreatePackage = ({ isOpen, onClose }) => {
             </Stack>
             <Stack>
               <Text fontSize="12px">Package Duration</Text>
-              <Input {...register("package_duration")} type="number" />
+              <Input {...register("package_duration")} />
               <InputError msg={errors?.package_duration?.message} />
             </Stack>
             <Stack>
@@ -164,7 +164,7 @@ const CreatePackage = ({ isOpen, onClose }) => {
             </Stack>
             <Stack>
               <Text fontSize="12px">Referral Percentage</Text>
-              <Input {...register("referral_percentage")} type="number" />
+              <Input {...register("referral_percentage")} />
               <InputError msg={errors?.referral_percentage?.message} />
             </Stack>
 

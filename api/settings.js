@@ -26,6 +26,16 @@ export const useGetAllMinMax = () => {
       .then((res) => res.data)
   );
 };
+export const useGetSendMinMax = () => {
+  const headers = configOptions();
+  return useQuery("all-min-max", () =>
+    request2
+      .get(`/get-all-transaction-minmax?transaction_name=SEND_MIN_MAX`, {
+        headers: headers,
+      })
+      .then((res) => res.data)
+  );
+};
 
 export const useGetPaypal = () => {
   const headers = configOptions();
@@ -447,6 +457,52 @@ export const useListUnlistToken = () => {
         .put(`/list-unlist-token?token_id=${values?.token_id}`, values?.data, {
           headers: headers,
         })
+        .then((res) => res.data),
+    {
+      onSuccess: () => {
+        queryClient.invalidateQueries("crypto-tokens");
+        queryClient.invalidateQueries("listed-tokens");
+      },
+    }
+  );
+};
+
+export const useListToken = () => {
+  const queryClient = useQueryClient();
+  const headers = configOptions();
+  return useMutation(
+    (values) =>
+      request2
+        .put(
+          `/list-token?token_id=${values?.token_id}`,
+          {},
+          {
+            headers: headers,
+          }
+        )
+        .then((res) => res.data),
+    {
+      onSuccess: () => {
+        queryClient.invalidateQueries("crypto-tokens");
+        queryClient.invalidateQueries("listed-tokens");
+      },
+    }
+  );
+};
+
+export const useDelistToken = () => {
+  const queryClient = useQueryClient();
+  const headers = configOptions();
+  return useMutation(
+    (values) =>
+      request2
+        .put(
+          `/delist-token?token_id=${values?.token_id}`,
+          {},
+          {
+            headers: headers,
+          }
+        )
         .then((res) => res.data),
     {
       onSuccess: () => {

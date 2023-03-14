@@ -18,6 +18,7 @@ import UpdateBaseCurrency from "./UpdateBaseCurrency";
 import AddBaseCurrency from "./AddBaseCurrency";
 import UpdatePaypalRange from "./UpdatePaypalRate";
 import AirtimeList from "./AirtimeList";
+import UpdateSendCryptoMinMax from "./UpdateSendCryptoMinMax";
 
 export {
   UsdToNaira,
@@ -37,4 +38,5 @@ export {
   UpdateMinMax,
   UpdatePaypalRange,
   AirtimeList,
+  UpdateSendCryptoMinMax,
 };

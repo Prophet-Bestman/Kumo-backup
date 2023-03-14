@@ -32,6 +32,7 @@ import {
   UpdateMinMax,
   UpdatePaypal,
   UpdatePaypalRange,
+  UpdateSendCryptoMinMax,
   UpdateTransactionFees,
   UsdToNaira,
 } from "components/Settings";
@@ -287,6 +288,7 @@ const Settings = () => {
               options={transactionFees}
             />
             <UpdateMinMax loading={loadingFees} options={minMaxOptions} />
+            <UpdateSendCryptoMinMax />
             <UpdateFundWalletFee
               loading={loadingFees}
               options={fundWalletFees}

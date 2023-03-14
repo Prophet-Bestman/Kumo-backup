@@ -37,6 +37,12 @@ const AuthProvider = ({ children }) => {
     refetchOnWindowFocus: false,
   });
 
+  useEffect(() => {
+    if (adminResp?.status === "success") {
+      setUser(adminResp?.data);
+    }
+  }, [adminResp]);
+
   const signIn = (data) => {
     localStorage.setItem(config.key.user, JSON.stringify(data));
     localStorage.setItem(config.key.token, data.token);
@@ -59,6 +65,7 @@ const AuthProvider = ({ children }) => {
       // setLocalUser(localUser);
       setIsLoggedIn(JSON.parse(localStorage.getItem(config.key.isLoggedIn)));
       setHasChecked(true);
+      setUser(JSON.parse(localStorage.getItem(config.key.user)));
     }, 100);
   }, []);
 

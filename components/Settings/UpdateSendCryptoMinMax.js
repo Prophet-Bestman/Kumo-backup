@@ -14,7 +14,12 @@ import {
   useToast,
 } from "@chakra-ui/react";
 import { yupResolver } from "@hookform/resolvers/yup";
-import { useUpdateMinMax } from "api/settings";
+import {
+  useGetAllCoinListing,
+  useGetCurrencies,
+  useGetSendMinMax,
+  useUpdateMinMax,
+} from "api/settings";
 import InputError from "components/InputError";
 import LargeHeading from "components/LargeHeading";
 import React, { useEffect, useState } from "react";
@@ -23,9 +28,28 @@ import { handleRequestError, underscoreToSpace } from "utils/helpers";
 import { updateMinMaxSchema } from "utils/schema";
 import { customScrollBar3 } from "utils/styles";
 
-const UpdateMinMax = ({ options, loading }) => {
+const UpdateSendCryptoMinMax = ({ options, loading }) => {
   const [selectedOption, setSelectedOption] = useState(null);
   const [feeError, setFeeError] = useState(null);
+  const [coins, setCoins] = useState();
+  //   const [selectedType, setSelectedType] = useState(null);
+
+  //   const handleChange = (e) => {
+  //     setSelectedType(e?.target?.value);
+  //   };
+
+  const { data: coinsResp, isLoading: loadingCoins } = useGetAllCoinListing();
+
+  const { data } = useGetSendMinMax();
+  console.log(data);
+
+  useEffect(() => {
+    if (!!coinsResp && coinsResp?.status === "success") {
+      setCoins();
+    }
+  }, [coinsResp]);
+
+  // console.log(coinsResp);
 
   const {
     register,
@@ -37,7 +61,6 @@ const UpdateMinMax = ({ options, loading }) => {
     defaultValues: selectedOption,
   });
 
-  // console.log(options);
   // ====== TOASTS ======
   const toast = useToast();
 
@@ -100,7 +123,7 @@ const UpdateMinMax = ({ options, loading }) => {
       ) : (
         <Box w="full">
           <LargeHeading color="app.primary.700" fontSize="20px">
-            Update Transaction Min & Max
+            Update Send Crytpo Min & Max
           </LargeHeading>
 
           <Text fontSize="14px" mt="6">
@@ -196,4 +219,4 @@ const UpdateMinMax = ({ options, loading }) => {
   );
 };
 
-export default UpdateMinMax;
+export default UpdateSendCryptoMinMax;

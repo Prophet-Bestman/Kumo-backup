@@ -54,6 +54,8 @@ const CryptoTokens = () => {
     }
   }, [data]);
 
+  console.log(data);
+
   const {
     mutate: deleteToken,
     data: deleteResp,

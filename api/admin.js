@@ -1,4 +1,5 @@
 import axios from "axios";
+import { useAuthContext } from "context/AuthProvider";
 import { useQuery } from "react-query";
 import { baseUrl } from "./baseUrl";
 import configOptions, { getUserID } from "./config";
@@ -14,6 +15,8 @@ export const useGetAdmin = (options) => {
       axios
         .get(request + `/get-admin/${id || ""}`, { headers: headers })
         .then((res) => res.data),
-    { ...options }
+    {
+      ...options,
+    }
   );
 };
