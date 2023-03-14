@@ -308,7 +308,7 @@ const Settings = () => {
         {!loadingUtilities && (
           <UpdateUtility loading={loadingUtilities} options={utilities} />
         )}
-        <CryptoTokens />
+        {/* <CryptoTokens /> */}
         <CoinListings />
         <AirtimeList />
         <AllListedTokens />
