@@ -1,18 +1,8 @@
-import {
-  Box,
-  Circle,
-  Flex,
-  Spinner,
-  Text,
-  useDisclosure,
-  useToast,
-} from "@chakra-ui/react";
-import { useDeleteCryptotToken, useGetCryptoTokens } from "api/settings";
-import ConfirmModal from "components/ConfirmModal";
+import { Box, Flex, Spinner, Text, useDisclosure } from "@chakra-ui/react";
+import { useGetCryptoTokens } from "api/settings";
 import LargeHeading from "components/LargeHeading";
 import React, { useEffect, useState } from "react";
-import { AiFillEdit, AiOutlineDelete } from "react-icons/ai";
-import { handleRequestError } from "utils/helpers";
+import { AiFillEdit } from "react-icons/ai";
 import { customScrollBar3 } from "utils/styles";
 import UpdateCryptoToken from "./UpdateCryptoToken";
 
@@ -22,64 +12,16 @@ const CryptoTokens = () => {
   const { data, isLoading: loadingTokens } = useGetCryptoTokens();
 
   const {
-    isOpen: isDeleteOpen,
-    onOpen: onDeleteOpen,
-    onClose: onDeleteClose,
-  } = useDisclosure();
-
-  const {
     isOpen: isUpdateOpen,
     onOpen: onUpdateOpen,
     onClose: onUpdateClose,
   } = useDisclosure();
-
-  // ====== TOASTS ======
-  const toast = useToast();
-
-  const successToast = (msg) => {
-    toast({
-      title: "Action Successful",
-      description: msg,
-      status: "success",
-      duration: 3000,
-      isClosable: true,
-      variant: "top-accent",
-      position: "top",
-    });
-  };
 
   useEffect(() => {
     if (!!data && data?.data?.length > 0) {
       setTokens(data?.data);
     }
   }, [data]);
-
-  console.log(data);
-
-  const {
-    mutate: deleteToken,
-    data: deleteResp,
-    isLoading,
-    reset: resetDelete,
-    error: deleteError,
-  } = useDeleteCryptotToken();
-
-  const handleDelete = () => {
-    deleteToken(selectedToken.token_id);
-  };
-
-  useEffect(() => {
-    if (!!deleteResp && deleteResp?.status === "success") {
-      successToast("Succesfully Deleted Token");
-      resetDelete();
-      onDeleteClose();
-    }
-  }, [deleteResp]);
-
-  useEffect(() => {
-    handleRequestError(deleteError);
-    resetDelete();
-  }, [deleteError]);
 
   return (
     <Box rounded="md" bg="white" py="12" px="6" shadow="md" h="full">
@@ -105,29 +47,14 @@ const CryptoTokens = () => {
                 {token.name}
               </Text>
 
-              <Flex gap="2">
-                <AiFillEdit
-                  color="app.primary"
-                  cursor="pointer"
-                  onClick={() => {
-                    setSelectedToken(token);
-                    onUpdateOpen();
-                  }}
-                />
-                <AiOutlineDelete
-                  color="red"
-                  cursor="pointer"
-                  onClick={() => {
-                    setSelectedToken(token);
-                    onDeleteOpen();
-                  }}
-                />
-                <Circle
-                  bg={token.is_listed ? "green.400" : "red.400"}
-                  size="8px"
-                  my="auto"
-                />
-              </Flex>
+              <AiFillEdit
+                color="app.primary"
+                cursor="pointer"
+                onClick={() => {
+                  setSelectedToken(token);
+                  onUpdateOpen();
+                }}
+              />
               {isUpdateOpen && (
                 <UpdateCryptoToken
                   onClose={onUpdateClose}
@@ -139,14 +66,6 @@ const CryptoTokens = () => {
           ))
         )}
       </Box>
-
-      <ConfirmModal
-        isOpen={isDeleteOpen}
-        onClose={onDeleteClose}
-        primaryFunc={{ name: "Delete Token", func: handleDelete }}
-        message={"Are you sure you want to delete this token"}
-        isLoading={isLoading}
-      />
     </Box>
   );
 };

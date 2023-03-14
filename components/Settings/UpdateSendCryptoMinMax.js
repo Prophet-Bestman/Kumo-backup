@@ -41,7 +41,7 @@ const UpdateSendCryptoMinMax = ({ options, loading }) => {
   const { data: coinsResp, isLoading: loadingCoins } = useGetAllCoinListing();
 
   const { data } = useGetSendMinMax();
-  console.log(data);
+  // console.log(data);
 
   useEffect(() => {
     if (!!coinsResp && coinsResp?.status === "success") {

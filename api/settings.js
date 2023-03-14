@@ -1,38 +1,42 @@
+import { useToast } from "@chakra-ui/react";
 import axios from "axios";
 import { useMutation, useQuery, useQueryClient } from "react-query";
+import { successToastConfig } from "utils/constants";
 import { baseUrl } from "./baseUrl";
 import configOptions from "./config";
 
-const request = axios.create({
-  baseURL: baseUrl + "/app/settings",
-});
-const request2 = axios.create({
-  baseURL: baseUrl + "/admin/settings",
-});
+const request = baseUrl + "/app/settings";
+// const request2 = axios.create({
+//   baseURL: baseUrl + "/admin/settings",
+// });
+const request2 = baseUrl + "/admin/settings";
 
 export const useGetAllFees = () => {
   const headers = configOptions();
   return useQuery("fee-costs", () =>
-    request2
-      .get(`/get-all-settings`, { headers: headers })
+    axios
+      .get(`${request2}/get-all-settings`, { headers: headers })
       .then((res) => res.data)
   );
 };
 export const useGetAllMinMax = () => {
   const headers = configOptions();
   return useQuery("all-min-max", () =>
-    request2
-      .get(`/get-all-transaction-minmax`, { headers: headers })
+    axios
+      .get(`${request2}/get-all-transaction-minmax`, { headers: headers })
       .then((res) => res.data)
   );
 };
 export const useGetSendMinMax = () => {
   const headers = configOptions();
   return useQuery("all-min-max", () =>
-    request2
-      .get(`/get-all-transaction-minmax?transaction_name=SEND_MIN_MAX`, {
-        headers: headers,
-      })
+    axios
+      .get(
+        `${request2}/get-all-transaction-minmax?transaction_name=SEND_MIN_MAX`,
+        {
+          headers: headers,
+        }
+      )
       .then((res) => res.data)
   );
 };
@@ -40,15 +44,17 @@ export const useGetSendMinMax = () => {
 export const useGetPaypal = () => {
   const headers = configOptions();
   return useQuery("paypal", () =>
-    request.get(`/get-paypal`, { headers: headers }).then((res) => res.data)
+    axios
+      .get(`${request}/get-paypal`, { headers: headers })
+      .then((res) => res.data)
   );
 };
 
 export const useGetPaypalRange = () => {
   const headers = configOptions();
   return useQuery("paypal-range", () =>
-    request
-      .get(`/get-paypal-fee-range`, { headers: headers })
+    axios
+      .get(`${request}/get-paypal-fee-range`, { headers: headers })
       .then((res) => res.data)
   );
 };
@@ -56,8 +62,8 @@ export const useGetPaypalRange = () => {
 export const useGetBaseCurrency = () => {
   const headers = configOptions();
   return useQuery("base-currency", () =>
-    request2
-      .get(`/get-base-currency`, { headers: headers })
+    axios
+      .get(`${request2}/get-base-currency`, { headers: headers })
       .then((res) => res.data)
   );
 };
@@ -65,8 +71,8 @@ export const useGetBaseCurrency = () => {
 export const useGetUtilities = () => {
   const headers = configOptions();
   return useQuery("utilities", () =>
-    request2
-      .get(`/get-utilities-state`, { headers: headers })
+    axios
+      .get(`${request2}/get-utilities-state`, { headers: headers })
       .then((res) => res.data)
   );
 };
@@ -74,15 +80,17 @@ export const useGetUtilities = () => {
 export const useGetCurrencies = () => {
   const headers = configOptions();
   return useQuery("currencies", () =>
-    request2.get(`/get-currency`, { headers: headers }).then((res) => res.data)
+    axios
+      .get(`${request2}/get-currency`, { headers: headers })
+      .then((res) => res.data)
   );
 };
 
 export const useGetSingleTransaction = (id) => {
   const headers = configOptions();
   return useQuery(["single-transaction", id], () =>
-    request
-      .get(`/get-transaction/${id || ""}`, { headers: headers })
+    axios
+      .get(`${request}/get-transaction/${id || ""}`, { headers: headers })
       .then((res) => res.data)
   );
 };
@@ -90,8 +98,8 @@ export const useGetSingleTransaction = (id) => {
 export const useGetCryptoAddresses = () => {
   const headers = configOptions();
   return useQuery("crypto-addresses", () =>
-    request
-      .get(`/get-crypto-addresses`, { headers: headers })
+    axios
+      .get(`${request}/get-crypto-addresses`, { headers: headers })
       .then((res) => res.data)
   );
 };
@@ -101,8 +109,8 @@ export const useUpdateCryptoAddress = () => {
   const headers = configOptions();
   return useMutation(
     (values) =>
-      request2
-        .put(`/add-crypto-address`, values, {
+      axios
+        .put(`${request2}/add-crypto-address`, values, {
           headers: headers,
         })
         .then((res) => res.data),
@@ -119,8 +127,8 @@ export const useUpdateCurrency = () => {
   const headers = configOptions();
   return useMutation(
     (values) =>
-      request2
-        .put(`/add-currency`, values, {
+      axios
+        .put(`${request2}/add-currency`, values, {
           headers: headers,
         })
         .then((res) => res.data),
@@ -137,8 +145,8 @@ export const useUpdateUtility = () => {
   const headers = configOptions();
   return useMutation(
     (values) =>
-      request2
-        .put(`/update-utilities-state`, values, {
+      axios
+        .put(`${request2}/update-utilities-state`, values, {
           headers: headers,
         })
         .then((res) => res.data),
@@ -155,8 +163,8 @@ export const useUpdateUsdToDollar = () => {
   const headers = configOptions();
   return useMutation(
     (values) =>
-      request2
-        .put(`/update-kumo-usd-ngn`, values, {
+      axios
+        .put(`${request2}/update-kumo-usd-ngn`, values, {
           headers: headers,
         })
         .then((res) => res.data),
@@ -173,8 +181,8 @@ export const useUpdatePaypal = () => {
   const headers = configOptions();
   return useMutation(
     (values) =>
-      request2
-        .put(`/update-paypal`, values, {
+      axios
+        .put(`${request2}/update-paypal`, values, {
           headers: headers,
         })
         .then((res) => res.data),
@@ -191,8 +199,8 @@ export const useUpdateSendCryptoFee = () => {
   const headers = configOptions();
   return useMutation(
     (values) =>
-      request2
-        .put(`/update-send-crypto-fee`, values, {
+      axios
+        .put(`${request2}/update-send-crypto-fee`, values, {
           headers: headers,
         })
         .then((res) => res.data),
@@ -209,8 +217,8 @@ export const useUpdateSellCryptoFee = () => {
   const headers = configOptions();
   return useMutation(
     (values) =>
-      request2
-        .put(`/update-sell-crypto-fee`, values, {
+      axios
+        .put(`${request2}/update-sell-crypto-fee`, values, {
           headers: headers,
         })
         .then((res) => res.data),
@@ -227,8 +235,8 @@ export const useUpdateGeneralFee = () => {
   const headers = configOptions();
   return useMutation(
     (values) =>
-      request2
-        .put(`/update-general-fee`, values, {
+      axios
+        .put(`${request2}/update-general-fee`, values, {
           headers: headers,
         })
         .then((res) => res.data),
@@ -245,8 +253,8 @@ export const useUpdateFundWalletFee = () => {
   const headers = configOptions();
   return useMutation(
     (values) =>
-      request2
-        .put(`/update-fund-wallet-fee`, values, {
+      axios
+        .put(`${request2}/update-fund-wallet-fee`, values, {
           headers: headers,
         })
         .then((res) => res.data),
@@ -263,9 +271,9 @@ export const useDeleteUtility = () => {
   const headers = configOptions();
   return useMutation(
     (values) =>
-      request2
+      axios
         .delete(
-          `/delete-utilities-state?utility_name=${values?.utility_name}`,
+          `${request2}/delete-utilities-state?utility_name=${values?.utility_name}`,
           {
             headers: headers,
           }
@@ -284,10 +292,13 @@ export const useDeleteCryptoAddress = () => {
   const headers = configOptions();
   return useMutation(
     (values) =>
-      request2
-        .delete(`/delete-crypto-address?coin_name=${values?.coin_name}`, {
-          headers: headers,
-        })
+      axios
+        .delete(
+          `${request2}/delete-crypto-address?coin_name=${values?.coin_name}`,
+          {
+            headers: headers,
+          }
+        )
         .then((res) => res.data),
     {
       onSuccess: () => {
@@ -302,8 +313,8 @@ export const useDeleteCurrency = () => {
   const headers = configOptions();
   return useMutation(
     (values) =>
-      request2
-        .delete(`/delete-currency?currency_name=${values}`, {
+      axios
+        .delete(`${request2}/delete-currency?currency_name=${values}`, {
           headers: headers,
         })
         .then((res) => res.data),
@@ -321,9 +332,11 @@ export const useGetExternalCoins = (searchText) => {
   return useQuery(
     ["external-coins"],
     () =>
-      request2
+      axios
         .get(
-          `/get-external-coin-listing?item_per_page=50&q=${searchText || ""}`,
+          `${request2}/get-external-coin-listing?item_per_page=50&q=${
+            searchText || ""
+          }`,
           {
             headers: headers,
           }
@@ -336,8 +349,8 @@ export const useGetExternalCoins = (searchText) => {
 export const useGetAllCoinListing = () => {
   const headers = configOptions();
   return useQuery("coin-listings", () =>
-    request2
-      .get(`/get-all-coin-listings`, { headers: headers })
+    axios
+      .get(`${request2}/get-all-coin-listings`, { headers: headers })
       .then((res) => res.data)
   );
 };
@@ -347,8 +360,8 @@ export const useAddCoinToListing = () => {
   const headers = configOptions();
   return useMutation(
     (values) =>
-      request2
-        .post(`/add-coin-to-listing`, values, {
+      axios
+        .post(`${request2}/add-coin-to-listing`, values, {
           headers: headers,
         })
         .then((res) => res.data),
@@ -365,8 +378,8 @@ export const useRemoveCoinFromListing = () => {
   const headers = configOptions();
   return useMutation(
     (values) =>
-      request2
-        .delete(`/remove-coin-from-listing?coin_id=${values}`, {
+      axios
+        .delete(`${request2}/remove-coin-from-listing?coin_id=${values}`, {
           headers: headers,
         })
         .then((res) => res.data),
@@ -383,8 +396,24 @@ export const useGetCryptoTokens = () => {
   return useQuery(
     ["crypto-tokens"],
     () =>
-      request2
-        .get(`/get-all-tokens?item_per_page=50`, {
+      axios
+        .get(`${request2}/get-all-tokens?item_per_page=50`, {
+          headers: headers,
+        })
+        .then((res) => {
+          return res.data;
+        }),
+    { refetchOnWindowFocus: false }
+  );
+};
+
+export const useGetAllDelistedTokens = () => {
+  const headers = configOptions();
+  return useQuery(
+    ["delisted-tokens"],
+    () =>
+      axios
+        .get(`${request2}/get-all-delist-tokens`, {
           headers: headers,
         })
         .then((res) => {
@@ -399,8 +428,8 @@ export const useGetAllListedTokens = () => {
   return useQuery(
     ["listed-tokens"],
     () =>
-      request
-        .get(`/get-all-list-tokens`, {
+      axios
+        .get(`${request2}/get-all-list-tokens`, {
           headers: headers,
         })
         .then((res) => {
@@ -415,8 +444,8 @@ export const useCreateToken = () => {
   const headers = configOptions();
   return useMutation(
     (values) =>
-      request2
-        .post(`/create-token`, values, {
+      axios
+        .post(`${request2}/create-token`, values, {
           headers: headers,
         })
         .then((res) => res.data),
@@ -424,6 +453,7 @@ export const useCreateToken = () => {
       onSuccess: () => {
         queryClient.invalidateQueries("crypto-tokens");
         queryClient.invalidateQueries("listed-tokens");
+        queryClient.invalidateQueries("delisted-tokens");
       },
     }
   );
@@ -434,8 +464,8 @@ export const useUpdateCryptoToken = () => {
   const headers = configOptions();
   return useMutation(
     (values) =>
-      request2
-        .put(`/update-token?token_id=${values?.token_id}`, values, {
+      axios
+        .put(`${request2}/update-token?token_id=${values?.token_id}`, values, {
           headers: headers,
         })
         .then((res) => res.data),
@@ -443,25 +473,41 @@ export const useUpdateCryptoToken = () => {
       onSuccess: () => {
         queryClient.invalidateQueries("crypto-tokens");
         queryClient.invalidateQueries("listed-tokens");
+        queryClient.invalidateQueries("delisted-tokens");
       },
     }
   );
 };
 
 export const useListUnlistToken = () => {
+  const toast = useToast();
+  const successToast = (msg) => {
+    toast({
+      title: "Action Successful",
+      description: msg,
+      ...successToastConfig,
+    });
+  };
+
   const queryClient = useQueryClient();
   const headers = configOptions();
   return useMutation(
     (values) =>
-      request2
-        .put(`/list-unlist-token?token_id=${values?.token_id}`, values?.data, {
-          headers: headers,
-        })
+      axios
+        .put(
+          `${request2}/list-unlist-token?token_id=${values?.token_id}`,
+          values?.data,
+          {
+            headers: headers,
+          }
+        )
         .then((res) => res.data),
     {
       onSuccess: () => {
+        successToast("Successfully Delisted token ");
         queryClient.invalidateQueries("crypto-tokens");
         queryClient.invalidateQueries("listed-tokens");
+        queryClient.invalidateQueries("delisted-tokens");
       },
     }
   );
@@ -470,11 +516,21 @@ export const useListUnlistToken = () => {
 export const useListToken = () => {
   const queryClient = useQueryClient();
   const headers = configOptions();
+  const toast = useToast();
+
+  const successToast = (msg) => {
+    toast({
+      title: "Action Successful",
+      description: msg,
+      ...successToastConfig,
+    });
+  };
+
   return useMutation(
     (values) =>
-      request2
+      axios
         .put(
-          `/list-token?token_id=${values?.token_id}`,
+          `${request2}/list-token?token_id=${values?.token_id}`,
           {},
           {
             headers: headers,
@@ -483,8 +539,10 @@ export const useListToken = () => {
         .then((res) => res.data),
     {
       onSuccess: () => {
+        successToast("Successfully Listed token");
         queryClient.invalidateQueries("crypto-tokens");
         queryClient.invalidateQueries("listed-tokens");
+        queryClient.invalidateQueries("delisted-tokens");
       },
     }
   );
@@ -493,11 +551,21 @@ export const useListToken = () => {
 export const useDelistToken = () => {
   const queryClient = useQueryClient();
   const headers = configOptions();
+  const toast = useToast();
+
+  const successToast = (msg) => {
+    toast({
+      title: "Action Successful",
+      description: msg,
+      ...successToastConfig,
+    });
+  };
+
   return useMutation(
     (values) =>
-      request2
+      axios
         .put(
-          `/delist-token?token_id=${values?.token_id}`,
+          `${request2}/delist-token?token_id=${values?.token_id}`,
           {},
           {
             headers: headers,
@@ -506,8 +574,10 @@ export const useDelistToken = () => {
         .then((res) => res.data),
     {
       onSuccess: () => {
+        successToast("Successfully Delisted token ");
         queryClient.invalidateQueries("crypto-tokens");
         queryClient.invalidateQueries("listed-tokens");
+        queryClient.invalidateQueries("delisted-tokens");
       },
     }
   );
@@ -516,17 +586,29 @@ export const useDelistToken = () => {
 export const useDeleteCryptotToken = () => {
   const queryClient = useQueryClient();
   const headers = configOptions();
+  const toast = useToast();
+
+  const successToast = (msg) => {
+    toast({
+      title: "Action Successful",
+      description: msg,
+      ...successToastConfig,
+    });
+  };
+
   return useMutation(
     (values) =>
-      request2
-        .delete(`/delete-token?token_id=${values}`, {
+      axios
+        .delete(`${request2}/delete-token?token_id=${values}`, {
           headers: headers,
         })
         .then((res) => res.data),
     {
       onSuccess: () => {
+        successToast("Successfully Deleted token ");
         queryClient.invalidateQueries("crypto-tokens");
         queryClient.invalidateQueries("listed-tokens");
+        queryClient.invalidateQueries("delisted-tokens");
       },
     }
   );
@@ -537,10 +619,14 @@ export const useUpdateBaseCurrency = () => {
   const headers = configOptions();
   return useMutation(
     (values) =>
-      request2
-        .put(`/update-base-currency?currency_id=${values.id}`, values.data, {
-          headers: headers,
-        })
+      axios
+        .put(
+          `${request2}/update-base-currency?currency_id=${values.id}`,
+          values.data,
+          {
+            headers: headers,
+          }
+        )
         .then((res) => res.data),
     {
       onSuccess: () => {
@@ -555,8 +641,8 @@ export const useAddBaseCurrency = () => {
   const headers = configOptions();
   return useMutation(
     (values) =>
-      request2
-        .put(`/add-base-currency`, values, {
+      axios
+        .put(`${request2}/add-base-currency`, values, {
           headers: headers,
         })
         .then((res) => res.data),
@@ -573,8 +659,8 @@ export const useDeleteBaseCurrency = () => {
   const headers = configOptions();
   return useMutation(
     (values) =>
-      request2
-        .delete(`/delete-base-currency?currency_id=${values}`, {
+      axios
+        .delete(`${request2}/delete-base-currency?currency_id=${values}`, {
           headers: headers,
         })
         .then((res) => res.data),
@@ -589,7 +675,9 @@ export const useDeleteBaseCurrency = () => {
 export const useGetCoinRate = () => {
   const headers = configOptions();
   return useQuery(["coin-rate"], () =>
-    request.get(`/get-coin-rate`, { headers: headers }).then((res) => res.data)
+    axios
+      .get(`${request}/get-coin-rate`, { headers: headers })
+      .then((res) => res.data)
   );
 };
 
@@ -598,8 +686,8 @@ export const useSetCoinRate = () => {
   const headers = configOptions();
   return useMutation(
     (values) =>
-      request2
-        .post(`/set-coin-rate`, values, {
+      axios
+        .post(`${request2}/set-coin-rate`, values, {
           headers: headers,
         })
         .then((res) => res.data),
@@ -614,7 +702,9 @@ export const useSetCoinRate = () => {
 export const useGetTokenRate = () => {
   const headers = configOptions();
   return useQuery(["token-rate"], () =>
-    request.get(`/get-token-rate`, { headers: headers }).then((res) => res.data)
+    axios
+      .get(`${request}/get-token-rate`, { headers: headers })
+      .then((res) => res.data)
   );
 };
 
@@ -623,8 +713,8 @@ export const useSetTokenRate = () => {
   const headers = configOptions();
   return useMutation(
     (values) =>
-      request2
-        .post(`/set-token-rate`, values, {
+      axios
+        .post(`${request2}/set-token-rate`, values, {
           headers: headers,
         })
         .then((res) => res.data),
@@ -641,8 +731,8 @@ export const useUpdateMinMax = () => {
   const headers = configOptions();
   return useMutation(
     (values) =>
-      request2
-        .put(`/update-transaction-minmax`, values, {
+      axios
+        .put(`${request2}/update-transaction-minmax`, values, {
           headers: headers,
         })
         .then((res) => res.data),
@@ -659,8 +749,8 @@ export const useUpdatePaypalRange = () => {
   const headers = configOptions();
   return useMutation(
     (values) =>
-      request2
-        .put(`set-paypal-fee-range`, values, {
+      axios
+        .put(`${request2}/set-paypal-fee-range`, values, {
           headers: headers,
         })
         .then((res) => res.data),
@@ -675,8 +765,8 @@ export const useUpdatePaypalRange = () => {
 export const useGetDisabledOperation = () => {
   const headers = configOptions();
   return useQuery(["disabled-operation"], () =>
-    request2
-      .get(`/get-disabled-operation`, { headers: headers })
+    axios
+      .get(`${request2}/get-disabled-operation`, { headers: headers })
       .then((res) => res.data)
   );
 };
@@ -686,9 +776,9 @@ export const useEnableUtility = () => {
   const headers = configOptions();
   return useMutation(
     (values) =>
-      request2
+      axios
         .put(
-          `remove-disabled-operation?service_id=${values?.service_id}`,
+          `${request2}/remove-disabled-operation?service_id=${values?.service_id}`,
           {},
           {
             headers: headers,
@@ -709,8 +799,8 @@ export const useDisableUtility = () => {
   const headers = configOptions();
   return useMutation(
     (values) =>
-      request2
-        .put(`add-disabled-operation`, values, {
+      axios
+        .put(`${request2}/add-disabled-operation`, values, {
           headers: headers,
         })
         .then((res) => res.data),

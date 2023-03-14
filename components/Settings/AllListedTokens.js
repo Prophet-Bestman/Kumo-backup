@@ -1,82 +1,24 @@
-import {
-  Box,
-  Circle,
-  Flex,
-  Text,
-  useDisclosure,
-  useToast,
-} from "@chakra-ui/react";
-import { useDeleteCryptotToken, useGetAllListedTokens } from "api/settings";
-import ConfirmModal from "components/ConfirmModal";
+import { Box, Flex, Spinner, Text, useDisclosure } from "@chakra-ui/react";
+import { useDelistToken, useGetAllListedTokens } from "api/settings";
 import LargeHeading from "components/LargeHeading";
-import React, { useEffect, useState } from "react";
-import { AiFillEdit, AiOutlineDelete } from "react-icons/ai";
-import { handleRequestError } from "utils/helpers";
+import React, { useState } from "react";
+import { AiFillEdit } from "react-icons/ai";
+import { BiBlock } from "react-icons/bi";
 import { customScrollBar3 } from "utils/styles";
 import UpdateCryptoToken from "./UpdateCryptoToken";
 
 const AllListedTokens = () => {
-  const [tokens, setTokens] = useState([]);
   const [selectedToken, setSelectedToken] = useState(null);
-  const { data } = useGetAllListedTokens();
+  const { data: listedTokensResp, isLoading: loadingTokens } =
+    useGetAllListedTokens();
 
-  const {
-    isOpen: isDeleteOpen,
-    onOpen: onDeleteOpen,
-    onClose: onDeleteClose,
-  } = useDisclosure();
+  const { mutate: delistToken, isLoading: delisting } = useDelistToken();
 
   const {
     isOpen: isUpdateOpen,
     onOpen: onUpdateOpen,
     onClose: onUpdateClose,
   } = useDisclosure();
-
-  // ====== TOASTS ======
-  const toast = useToast();
-
-  const successToast = (msg) => {
-    toast({
-      title: "Action Successful",
-      description: msg,
-      status: "success",
-      duration: 3000,
-      isClosable: true,
-      variant: "top-accent",
-      position: "top",
-    });
-  };
-
-  useEffect(() => {
-    if (!!data && data?.data?.length > 0) {
-      setTokens(data?.data);
-    }
-  }, [data]);
-
-  const {
-    mutate: deleteToken,
-    data: deleteResp,
-    isLoading,
-    reset: resetDelete,
-    error: deleteError,
-  } = useDeleteCryptotToken();
-
-  const handleDelete = () => {
-    deleteToken(selectedToken.token_id);
-  };
-
-  useEffect(() => {
-    if (!!deleteResp && deleteResp?.status === "success") {
-      successToast("Succesfully Deleted Token");
-      resetDelete();
-      onDeleteClose();
-    }
-  }, [deleteResp]);
-
-  useEffect(() => {
-    handleRequestError(deleteError);
-    resetDelete();
-  }, [deleteError]);
 
   return (
     <Box rounded="md" bg="white" py="12" px="6" shadow="md" h="full">
@@ -85,8 +27,11 @@ const AllListedTokens = () => {
       </LargeHeading>
 
       <Box overflowY="auto" h="280px" sx={customScrollBar3}>
-        {tokens?.length > 0 &&
-          tokens?.map((token, i) => (
+        {loadingTokens ? (
+          <Spinner />
+        ) : (
+          listedTokensResp?.data?.length > 0 &&
+          listedTokensResp?.data?.map((token, i) => (
             <Flex
               key={i}
               my="2"
@@ -100,6 +45,20 @@ const AllListedTokens = () => {
               </Text>
 
               <Flex gap="2">
+                {delisting && selectedToken?.token_id === token?.token_id ? (
+                  <Spinner size="xs" />
+                ) : (
+                  <BiBlock
+                    color="app.red"
+                    cursor="pointer"
+                    fontSize="20px"
+                    onClick={() => {
+                      setSelectedToken(token);
+                      delistToken({ token_id: token?.token_id });
+                    }}
+                  />
+                )}
+
                 <AiFillEdit
                   color="app.primary"
                   cursor="pointer"
@@ -108,38 +67,19 @@ const AllListedTokens = () => {
                     onUpdateOpen();
                   }}
                 />
-                <AiOutlineDelete
-                  color="red"
-                  cursor="pointer"
-                  onClick={() => {
-                    setSelectedToken(token);
-                    onDeleteOpen();
-                  }}
-                />
-                <Circle
-                  bg={token.is_listed ? "green.400" : "red.400"}
-                  size="8px"
-                  my="auto"
-                />
               </Flex>
-              {isUpdateOpen && (
-                <UpdateCryptoToken
-                  onClose={onUpdateClose}
-                  isOpen={isUpdateOpen}
-                  token={selectedToken}
-                />
-              )}
             </Flex>
-          ))}
+          ))
+        )}
       </Box>
 
-      <ConfirmModal
-        isOpen={isDeleteOpen}
-        onClose={onDeleteClose}
-        primaryFunc={{ name: "Delete Token", func: handleDelete }}
-        message={"Are you sure you want to delete this token"}
-        isLoading={isLoading}
-      />
+      {isUpdateOpen && (
+        <UpdateCryptoToken
+          onClose={onUpdateClose}
+          isOpen={isUpdateOpen}
+          token={selectedToken}
+        />
+      )}
     </Box>
   );
 };

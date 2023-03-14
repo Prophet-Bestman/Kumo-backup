@@ -49,6 +49,7 @@ import AllListedTokens from "components/Settings/AllListedTokens";
 import CoinRate from "components/Settings/CoinRate";
 import TokenRate from "components/Settings/TokenRate";
 import BaseCurrencies from "components/Settings/BaseCurrencies";
+import AllDelistedTokens from "components/Settings/AllDelistedTokens";
 
 const initialTransactionFeeOptions = [
   "BUY_CRYPTO_FEE",
@@ -311,6 +312,7 @@ const Settings = () => {
         <CoinListings />
         <AirtimeList />
         <AllListedTokens />
+        <AllDelistedTokens />
       </Grid>
       <Box pos="fixed" bottom={8} right={8}>
         <Menu>

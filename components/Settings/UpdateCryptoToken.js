@@ -4,17 +4,11 @@ import {
   Grid,
   Input,
   Stack,
-  Tag,
   Text,
   useToast,
 } from "@chakra-ui/react";
 import { yupResolver } from "@hookform/resolvers/yup";
-import {
-  useDelistToken,
-  useListToken,
-  useListUnlistToken,
-  useUpdateCryptoToken,
-} from "api/settings";
+import { useUpdateCryptoToken } from "api/settings";
 import InputError from "components/InputError";
 import LargeHeading from "components/LargeHeading";
 import ModalCard from "components/ModalCard";
@@ -56,32 +50,9 @@ const UpdateCryptoToken = ({ isOpen, onClose, token }) => {
     reset,
   } = useUpdateCryptoToken();
 
-  const {
-    mutate: delistToken,
-    isLoading: delisting,
-    data: delistResp,
-    error: delistError,
-    reset: delistReset,
-  } = useDelistToken();
-
-  const {
-    mutate: listToken,
-    isLoading: listingToken,
-    data: listResp,
-    error: listError,
-    reset: listReset,
-  } = useListToken();
-
   const handleUpdate = (data) => {
     delete data.is_listed;
     updateToken({ ...data });
-  };
-
-  const handleListing = (data) => {
-    updateListing({ token_id: token?.token_id, data: { list: data } });
-    token?.is_listed
-      ? delistToken({ token_id: token?.token_id })
-      : listToken({ token_id: token?.token_id });
   };
 
   useEffect(() => {
@@ -89,30 +60,18 @@ const UpdateCryptoToken = ({ isOpen, onClose, token }) => {
       successToast();
       reset();
     }
-    if (!!listResp && listResp?.status === "success") {
-      successToast();
-      listReset();
-    }
-    if (!!delistResp && delistResp?.status === "success") {
-      successToast();
-      delistReset();
-    }
-  }, [updateResp, listResp, delistResp]);
+  }, [updateResp]);
 
   useEffect(() => {
     handleRequestError(updateError);
     reset();
-    handleRequestError(listError);
-    listReset();
-    handleRequestError(delistError);
-    delistReset();
-  }, [updateError, listError, delistError]);
+  }, [updateError]);
 
   return (
     <ModalCard onClose={onClose} isOpen={isOpen}>
       <Box bg="white" py="12" px="6">
         <LargeHeading color="app.primary.700" fontSize="20px">
-          Create Token
+          Update Token
         </LargeHeading>
         <form onSubmit={handleSubmit(handleUpdate)}>
           <Grid gap="4" mb="5">
@@ -131,37 +90,10 @@ const UpdateCryptoToken = ({ isOpen, onClose, token }) => {
               <Input {...register("token_to_usd")} type="tel" />
               <InputError msg={errors?.token_to_usd?.message} />
             </Stack>
-            {/* <Stack>
-              <Text fontSize="14px">Token to Naira</Text>
-              <Input {...register("token_to_naira")} type="tel" />
-              <InputError msg={errors?.token_to_naira?.message} />
-            </Stack> */}
-
-            <Box>
-              {token.is_listed ? (
-                <Tag bg="green.100" color="green.500" py="2" px="3">
-                  {token?.is_listed ? "Listed" : "Not Listed"}
-                </Tag>
-              ) : (
-                <Tag bg="red.100" color="red.500" py="2" px="3">
-                  {token?.is_listed ? "Listed" : "Not Listed"}
-                </Tag>
-              )}
-            </Box>
           </Grid>
 
           <Button mt="4" h="48px" type="submit" isLoading={isLoading}>
             Update Token
-          </Button>
-
-          <Button
-            mt="4"
-            h="48px"
-            variant={"ghost"}
-            onClick={() => handleListing(token.is_listed ? "false" : "true")}
-            isLoading={listingToken || delisting}
-          >
-            {token.is_listed ? "Delist Token" : "List Token"}
           </Button>
         </form>
       </Box>

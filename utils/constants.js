@@ -17,3 +17,11 @@ export const statusColors = {
 };
 
 export const currencies = ["bitcoin", "ethereum", "dash", "tron"];
+
+export const successToastConfig = {
+  status: "success",
+  duration: 3000,
+  isClosable: true,
+  variant: "top-accent",
+  position: "top",
+};
