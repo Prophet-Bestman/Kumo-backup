@@ -37,7 +37,6 @@ const UpdateMinMax = ({ options, loading }) => {
     defaultValues: selectedOption,
   });
 
-  // console.log(options);
   // ====== TOASTS ======
   const toast = useToast();
 

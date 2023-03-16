@@ -65,7 +65,7 @@ const CreatePackage = ({ isOpen, onClose }) => {
     const payload = {
       ...data,
       package_token: selectedToken.name,
-      admin_creator_id: user?.user_id,
+      admin_creator_id: user?.user_id || user?._id,
       admin_creator_name: `${user?.first_name} ${user?.last_name}`,
       isFixed: data?.isFixed ? "true" : "false",
     };

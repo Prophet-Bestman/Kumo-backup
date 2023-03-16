@@ -29,14 +29,11 @@ export const useGetAllMinMax = () => {
 };
 export const useGetSendMinMax = () => {
   const headers = configOptions();
-  return useQuery("all-min-max", () =>
+  return useQuery("send-min-max", () =>
     axios
-      .get(
-        `${request2}/get-all-transaction-minmax?transaction_name=SEND_MIN_MAX`,
-        {
-          headers: headers,
-        }
-      )
+      .get(`${request2}/get-transaction-minmax?transaction_name=SEND_MIN_MAX`, {
+        headers: headers,
+      })
       .then((res) => res.data)
   );
 };
@@ -739,6 +736,26 @@ export const useUpdateMinMax = () => {
     {
       onSuccess: () => {
         queryClient.invalidateQueries("all-min-max");
+        queryClient.invalidateQueries("send-min-max");
+      },
+    }
+  );
+};
+
+export const useUpdateSendMinMax = () => {
+  const queryClient = useQueryClient();
+  const headers = configOptions();
+  return useMutation(
+    (values) =>
+      axios
+        .put(`${request2}/update-individual-transaction-minmax`, values, {
+          headers: headers,
+        })
+        .then((res) => res.data),
+    {
+      onSuccess: () => {
+        queryClient.invalidateQueries("all-min-max");
+        queryClient.invalidateQueries("send-min-max");
       },
     }
   );

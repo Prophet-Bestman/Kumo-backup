@@ -44,7 +44,6 @@ import AddCurrency from "components/Settings/AddCurrency";
 import AddUtility from "components/Settings/AddUtitlity";
 import UpdateUtility from "components/Settings/UpdateUtitlity";
 import CreateToken from "components/Settings/CreateToken";
-import CryptoTokens from "components/Settings/CryptoTokens";
 import AllListedTokens from "components/Settings/AllListedTokens";
 import CoinRate from "components/Settings/CoinRate";
 import TokenRate from "components/Settings/TokenRate";

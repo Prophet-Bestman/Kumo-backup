@@ -2,7 +2,7 @@ import { Box } from "@chakra-ui/react";
 import { Button, Table } from "antd";
 import Link from "next/link";
 import React from "react";
-import { cryptoNumberWithCommas } from "utils/helpers";
+import { cryptoNumberWithCommas, numberWithCommas } from "utils/helpers";
 
 const TransactionHistoryTable = ({ transactions, isLoading, wallets }) => {
   const columns = [
@@ -87,7 +87,9 @@ const TransactionHistoryTable = ({ transactions, isLoading, wallets }) => {
       render: (amount_paid, transaction) => (
         <Box fontSize={"13px"}>
           <strong> {transaction?.currency?.code}</strong>{" "}
-          {cryptoNumberWithCommas(amount_paid)}
+          {transaction?.base_currency?.name === transaction?.currency?.name
+            ? numberWithCommas(amount_paid)
+            : cryptoNumberWithCommas(transaction.amount_to_fund_in_currency)}
         </Box>
       ),
       sorter: {

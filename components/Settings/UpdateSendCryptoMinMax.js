@@ -19,12 +19,13 @@ import {
   useGetCurrencies,
   useGetSendMinMax,
   useUpdateMinMax,
+  useUpdateSendMinMax,
 } from "api/settings";
 import InputError from "components/InputError";
 import LargeHeading from "components/LargeHeading";
 import React, { useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
-import { handleRequestError, underscoreToSpace } from "utils/helpers";
+import { underscoreToSpace } from "utils/helpers";
 import { updateMinMaxSchema } from "utils/schema";
 import { customScrollBar3 } from "utils/styles";
 
@@ -32,24 +33,19 @@ const UpdateSendCryptoMinMax = ({ options, loading }) => {
   const [selectedOption, setSelectedOption] = useState(null);
   const [feeError, setFeeError] = useState(null);
   const [coins, setCoins] = useState();
-  //   const [selectedType, setSelectedType] = useState(null);
-
-  //   const handleChange = (e) => {
-  //     setSelectedType(e?.target?.value);
-  //   };
 
   const { data: coinsResp, isLoading: loadingCoins } = useGetAllCoinListing();
 
   const { data } = useGetSendMinMax();
-  // console.log(data);
 
   useEffect(() => {
     if (!!coinsResp && coinsResp?.status === "success") {
-      setCoins();
+      const coins = coinsResp?.data?.map((coin) => {
+        return { currency: coin?.name, code: coin?.code };
+      });
+      setCoins(coins);
     }
   }, [coinsResp]);
-
-  // console.log(coinsResp);
 
   const {
     register,
@@ -92,15 +88,19 @@ const UpdateSendCryptoMinMax = ({ options, loading }) => {
     mutate: updateMinMax,
     data: updateResp,
     isLoading,
-    error: updateError,
     reset,
-  } = useUpdateMinMax();
+  } = useUpdateSendMinMax();
 
   const handleUpdate = (data) => {
     if (!selectedOption) {
       setFeeError("Select a transaction name to continue");
     } else {
-      updateMinMax({ ...data, transaction_name: selectedOption?.name });
+      updateMinMax({
+        ...data,
+        isActive: true,
+        transaction_name: "SEND_MIN_MAX",
+        currency: selectedOption?.currency,
+      });
     }
   };
 
@@ -111,14 +111,9 @@ const UpdateSendCryptoMinMax = ({ options, loading }) => {
     }
   }, [updateResp]);
 
-  useEffect(() => {
-    handleRequestError(updateError);
-    reset();
-  }, [updateError]);
-
   return (
     <Box display="flex" rounded="md" bg="white" py="12" px="6" shadow="md">
-      {loading ? (
+      {loadingCoins ? (
         <Spinner size="lg" mx="auto" />
       ) : (
         <Box w="full">
@@ -149,7 +144,8 @@ const UpdateSendCryptoMinMax = ({ options, loading }) => {
                 boxShadow: " rgba(99, 99, 99, 0.1) 0px 2px 8px 0px;",
               }}
             >
-              {underscoreToSpace(selectedOption?.name) || "Select fee to add"}
+              {underscoreToSpace(selectedOption?.currency) ||
+                "Select fee to add"}
             </MenuButton>
 
             <MenuList
@@ -159,16 +155,17 @@ const UpdateSendCryptoMinMax = ({ options, loading }) => {
               overflowY="auto"
               sx={customScrollBar3}
             >
-              {options?.map((option, i) => (
-                <MenuItem
-                  key={i}
-                  fontWeight={500}
-                  fontSize="14px"
-                  onClick={() => handleSelect(option)}
-                >
-                  {underscoreToSpace(option.name)}
-                </MenuItem>
-              ))}
+              {coins?.length > 0 &&
+                coins?.map((option) => (
+                  <MenuItem
+                    key={option?.code}
+                    fontWeight={500}
+                    fontSize="14px"
+                    onClick={() => handleSelect(option)}
+                  >
+                    {underscoreToSpace(option.currency)}
+                  </MenuItem>
+                ))}
             </MenuList>
           </Menu>
           <InputError msg={feeError} />
