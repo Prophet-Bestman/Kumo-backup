@@ -14,7 +14,7 @@ import {
   useToast,
 } from "@chakra-ui/react";
 import { useRouter } from "next/router";
-import { useDeleteUser, useFreezeUser } from "api/users";
+import { useDeleteUser, useFreezeUser, useUnfreezeUser } from "api/users";
 import ConfirmModal from "components/ConfirmModal";
 import React, { useEffect, useRef } from "react";
 import { handleRequestError } from "utils/helpers";
@@ -82,7 +82,7 @@ const FreezeUser = ({ user, onClose, isOpen }) => {
     error: unfreezeError,
     isLoading: unfreezing,
     reset: resetUnreeze,
-  } = useFreezeUser();
+  } = useUnfreezeUser();
 
   const handleDelete = () => {
     deleteUser(_id);

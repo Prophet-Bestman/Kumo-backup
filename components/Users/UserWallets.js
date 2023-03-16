@@ -132,7 +132,7 @@ const UserWallets = ({ user }) => {
 
         <Flex gap="6">
           <Button variant="outline" onClick={onDebitOpen}>
-            Debit Wallet Wallet
+            Debit Wallet
           </Button>
           <Button onClick={onOpen}>Fund Wallet</Button>
         </Flex>
