@@ -5,6 +5,7 @@ import React from "react";
 import { cryptoNumberWithCommas, numberWithCommas } from "utils/helpers";
 
 const TransactionHistoryTable = ({ transactions, isLoading, wallets }) => {
+  console.log(transactions);
   const columns = [
     {
       title: "Index",
@@ -35,8 +36,9 @@ const TransactionHistoryTable = ({ transactions, isLoading, wallets }) => {
     {
       title: "From",
       dataIndex: "from",
-      render: (from, transaction) => (
-        <Box>{transaction?.type?.includes("BUY") ? "KUMO" : from}</Box>
+      render: (from) => (
+        // <Box>{transaction?.type?.includes("BUY") ? "KUMO" : from}</Box>
+        <Box>{from}</Box>
       ),
       sorter: {
         compare: (a, b) => a?.from.localeCompare(b?.from),
@@ -47,8 +49,9 @@ const TransactionHistoryTable = ({ transactions, isLoading, wallets }) => {
     {
       title: "To",
       dataIndex: "to",
-      render: (to, transaction) => (
-        <Box>{transaction?.type?.includes("SELL") ? "KUMO" : to}</Box>
+      render: (to) => (
+        // <Box>{transaction?.type?.includes("SELL") ? "KUMO" : to}</Box>
+        <Box>{to}</Box>
       ),
       sorter: {
         compare: (a, b) => a?.to.localeCompare(b?.to),
