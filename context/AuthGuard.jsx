@@ -6,7 +6,7 @@ import { useAuthContext } from "./AuthProvider";
 
 const AuthGuard = ({ children }) => {
   const { user, loading, setRedirect, isLoggedIn } = useAuthContext();
-  const [authError, setAuthError] = useState(true);
+  const [authError, setAuthError] = useState(false);
   const [networkError, setNetworkError] = useState(false);
   const [serverError, setServerError] = useState(false);
   const router = useRouter();
@@ -19,7 +19,6 @@ const AuthGuard = ({ children }) => {
     retry: false,
     refetchOnWindowFocus: false,
   });
-
   useEffect(() => {
     if (!!adminResp && adminResp?.status === "success") {
       setAuthError(false);
@@ -84,7 +83,6 @@ const AuthGuard = ({ children }) => {
         alignItems="center"
       >
         <Text textAlign="center" fontSize="24px" fontWeight="medium">
-          {" "}
           We are sorry
         </Text>
         <Text textAlign="center" fontSize="18px" fontWeight="medium">

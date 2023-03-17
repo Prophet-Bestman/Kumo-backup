@@ -156,7 +156,6 @@ const UserListTable = ({ users, isLoading, wallets }) => {
       dataIndex: "current_base_currency",
 
       render: (_, user) => {
-        // console.log(user);
         return (
           <Box>
             {user?.current_base_currency?.symbol}

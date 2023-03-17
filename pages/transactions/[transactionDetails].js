@@ -57,8 +57,6 @@ const TransactionDetails = () => {
     }
   }, [transactionResp]);
 
-  console.log(transactionResp);
-
   const { mutate: updateTransaction, isLoading: updating } =
     useUpdateTransaction();
 

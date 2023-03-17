@@ -1,9 +1,13 @@
 import config from "utils/config";
 
 const configOptions = () => {
-  if (typeof window === "undefined") return {};
+  if (typeof window === "undefined") {
+    return {};
+  }
 
-  if (!window.localStorage.getItem(config.key.token)) return {};
+  if (!window.localStorage.getItem(config.key.token)) {
+    return {};
+  }
 
   const accessToken = window.localStorage.getItem(config.key.token);
 
@@ -15,9 +19,9 @@ const configOptions = () => {
 };
 
 export const getUserID = () => {
-  if (typeof window === "undefined") return {};
+  if (typeof window === "undefined") return null;
 
-  if (!window.localStorage.getItem(config.key.userID)) return {};
+  if (!window.localStorage.getItem(config.key.userID)) return null;
 
   const userID = window.localStorage.getItem(config.key.userID);
 

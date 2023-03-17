@@ -1,5 +1,4 @@
 import axios from "axios";
-import { useAuthContext } from "context/AuthProvider";
 import { useQuery } from "react-query";
 import { baseUrl } from "./baseUrl";
 import configOptions, { getUserID } from "./config";
@@ -9,6 +8,7 @@ const request = baseUrl + "/admin/admin";
 export const useGetAdmin = (options) => {
   const headers = configOptions();
   const id = getUserID();
+
   return useQuery(
     ["single-user", id, options],
     () =>
@@ -17,6 +17,7 @@ export const useGetAdmin = (options) => {
         .then((res) => res.data),
     {
       ...options,
+      enabled: false,
     }
   );
 };

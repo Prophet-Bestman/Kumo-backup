@@ -1,5 +1,4 @@
 import { useGetAdmin } from "api/admin";
-import { getUserFromLocalStorage } from "api/config";
 import React, { useState, useEffect, useContext } from "react";
 import config from "utils/config";
 
@@ -25,16 +24,16 @@ const AuthProvider = ({ children }) => {
   const [loading, setLoading] = useState(true);
   const [user, setUser] = useState(null);
   const [isLoggedIn, setIsLoggedIn] = useState(false);
-  const [localUser, setLocalUser] = useState();
   const [hasChecked, setHasChecked] = useState(false);
 
   const {
     data: adminResp,
-    error,
     isLoading,
+    refetch,
   } = useGetAdmin({
     retry: false,
     refetchOnWindowFocus: false,
+    enabled: false,
   });
 
   useEffect(() => {
@@ -60,22 +59,34 @@ const AuthProvider = ({ children }) => {
 
   useEffect(() => {
     setHasChecked(false);
+    setLoading(true);
     setTimeout(() => {
       // const localUser = getUserFromLocalStorage();
       // setLocalUser(localUser);
       setIsLoggedIn(JSON.parse(localStorage.getItem(config.key.isLoggedIn)));
-      setHasChecked(true);
       setUser(JSON.parse(localStorage.getItem(config.key.user)));
-    }, 100);
+      setHasChecked(true);
+    }, 1000);
   }, []);
 
+  // useEffect(() => {
+  //   if (!hasChecked || isLoading) {
+  //     setLoading(true);
+  //   } else {
+  //     if (!isLoggedIn) signOut();
+  //     setLoading(false);
+  //   }
+  // }, [hasChecked, isLoggedIn, isLoading]);
+
   useEffect(() => {
-    if (!hasChecked || isLoading) {
-      setLoading(true);
-    } else {
-      if (!isLoggedIn) signOut();
-      setLoading(false);
+    if (!!hasChecked) {
+      refetch();
     }
+  }, [hasChecked]);
+
+  useEffect(() => {
+    if (hasChecked && !!isLoading && !isLoggedIn) signOut();
+    setLoading(false);
   }, [hasChecked, isLoggedIn, isLoading]);
 
   const value = {
@@ -90,7 +101,11 @@ const AuthProvider = ({ children }) => {
     clearRedirect,
   };
 
-  return <AuthContext.Provider value={value}>{children}</AuthContext.Provider>;
+  return (
+    <AuthContext.Provider value={value}>
+      {hasChecked && children}
+    </AuthContext.Provider>
+  );
 };
 
 export default AuthProvider;
