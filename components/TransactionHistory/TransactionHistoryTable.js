@@ -101,19 +101,35 @@ const TransactionHistoryTable = ({ transactions, isLoading, wallets }) => {
     //   },
     //   sortDirections: ["descend", "ascend"],
     // },
+    // {
+    //   title: "Amount Paid",
+    //   dataIndex: "amount_paid",
+    //   render: (amount_paid, transaction) => (
+    //     <Box fontSize={"13px"}>
+    //       <strong> {transaction?.currency?.code}</strong>{" "}
+    //       {transaction?.base_currency?.name === transaction?.currency?.name
+    //         ? numberWithCommas(amount_paid)
+    //         : cryptoNumberWithCommas(transaction.amount_to_fund_in_currency)}
+    //     </Box>
+    //   ),
+    //   sorter: {
+    //     compare: (a, b) => a?.amount_paid - b?.amount_paid,
+    //     multiple: 3,
+    //   },
+    //   sortDirections: ["descend", "ascend"],
+    // },
     {
-      title: "Amount Paid",
-      dataIndex: "amount_paid",
-      render: (amount_paid, transaction) => (
-        <Box fontSize={"13px"}>
-          <strong> {transaction?.currency?.code}</strong>{" "}
-          {transaction?.base_currency?.name === transaction?.currency?.name
-            ? numberWithCommas(amount_paid)
-            : cryptoNumberWithCommas(transaction.amount_to_fund_in_currency)}
+      title: "Amount Received in Base Currency",
+      dataIndex: "amount_in_base_currency",
+      render: (amount_in_base_currency, transaction) => (
+        <Box fontSize={"13px"} w="250px">
+          <strong> {transaction?.base_currency?.symbol}</strong>{" "}
+          {numberWithCommas(amount_in_base_currency)}
         </Box>
       ),
       sorter: {
-        compare: (a, b) => a?.amount_paid - b?.amount_paid,
+        compare: (a, b) =>
+          a?.amount_in_base_currency - b?.amount_in_base_currency,
         multiple: 3,
       },
       sortDirections: ["descend", "ascend"],
@@ -122,7 +138,7 @@ const TransactionHistoryTable = ({ transactions, isLoading, wallets }) => {
       title: "Amount Paid in Base Currency",
       dataIndex: "amount_paid_in_base_currency",
       render: (amount_paid_in_base_currency, transaction) => (
-        <Box fontSize={"13px"}>
+        <Box fontSize={"13px"} w="250px">
           <strong> {transaction?.base_currency?.symbol}</strong>{" "}
           {numberWithCommas(amount_paid_in_base_currency)}
         </Box>
@@ -138,7 +154,7 @@ const TransactionHistoryTable = ({ transactions, isLoading, wallets }) => {
       title: "Amount Paid in Coin/Token",
       dataIndex: "amount_in_crypto",
       render: (amount_in_crypto, transaction) => (
-        <Box fontSize={"13px"}>
+        <Box fontSize={"13px"} w="250px">
           <strong> {transaction?.currency?.code}</strong>{" "}
           {cryptoNumberWithCommas(amount_in_crypto)}
         </Box>
