@@ -156,18 +156,18 @@ const UpdatePackage = ({ isOpen, onClose, singlePackage }) => {
                   </Stack>
                   <Stack>
                     <Text fontSize="12px">Referral Percentage</Text>
-                    <Input {...register("referral_percentage")} type="number" />
+                    <Input {...register("referral_percentage")} />
                     <InputError msg={errors?.referral_percentage?.message} />
                   </Stack>
 
                   <Stack>
                     <Text fontSize="12px">Min Amount</Text>
-                    <Input {...register("min_amount")} type="number" />
+                    <Input {...register("min_amount")} />
                     <InputError msg={errors?.min_amount?.message} />
                   </Stack>
                   <Stack>
                     <Text fontSize="12px">Max Amount</Text>
-                    <Input {...register("max_amount")} type="number" />
+                    <Input {...register("max_amount")} />
                     <InputError msg={errors?.max_amount?.message} />
                   </Stack>
                 </Grid>

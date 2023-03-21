@@ -16,10 +16,11 @@ import countries from "data/coutriesAndCode";
 import React, { useEffect } from "react";
 import { useForm } from "react-hook-form";
 import { handleRequestError } from "utils/helpers";
-import { createAgentSchema, updateAgentSchema } from "utils/schema";
+import { createAgentSchema } from "utils/schema";
 import { customScrollBar3 } from "utils/styles";
 
 const UpdateAgent = ({ isOpen, onClose, agent }) => {
+  console.log(agent);
   const {
     register,
     handleSubmit,

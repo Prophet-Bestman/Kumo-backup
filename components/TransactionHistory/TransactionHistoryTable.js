@@ -84,6 +84,23 @@ const TransactionHistoryTable = ({ transactions, isLoading, wallets }) => {
         transaction.currency.toLowerCase() === value.toLowerCase(),
     },
 
+    // {
+    //   title: "Amount Paid",
+    //   dataIndex: "amount_paid",
+    //   render: (amount_paid, transaction) => (
+    //     <Box fontSize={"13px"}>
+    //       <strong> {transaction?.currency?.code}</strong>{" "}
+    //       {transaction?.base_currency?.name === transaction?.currency?.name
+    //         ? numberWithCommas(amount_paid)
+    //         : cryptoNumberWithCommas(transaction.amount_to_fund_in_currency)}
+    //     </Box>
+    //   ),
+    //   sorter: {
+    //     compare: (a, b) => a?.amount_paid - b?.amount_paid,
+    //     multiple: 3,
+    //   },
+    //   sortDirections: ["descend", "ascend"],
+    // },
     {
       title: "Amount Paid",
       dataIndex: "amount_paid",
@@ -97,6 +114,37 @@ const TransactionHistoryTable = ({ transactions, isLoading, wallets }) => {
       ),
       sorter: {
         compare: (a, b) => a?.amount_paid - b?.amount_paid,
+        multiple: 3,
+      },
+      sortDirections: ["descend", "ascend"],
+    },
+    {
+      title: "Amount Paid in Base Currency",
+      dataIndex: "amount_paid_in_base_currency",
+      render: (amount_paid_in_base_currency, transaction) => (
+        <Box fontSize={"13px"}>
+          <strong> {transaction?.base_currency?.symbol}</strong>{" "}
+          {numberWithCommas(amount_paid_in_base_currency)}
+        </Box>
+      ),
+      sorter: {
+        compare: (a, b) =>
+          a?.amount_paid_in_base_currency - b?.amount_paid_in_base_currency,
+        multiple: 3,
+      },
+      sortDirections: ["descend", "ascend"],
+    },
+    {
+      title: "Amount Paid in Coin/Token",
+      dataIndex: "amount_in_crypto",
+      render: (amount_in_crypto, transaction) => (
+        <Box fontSize={"13px"}>
+          <strong> {transaction?.currency?.code}</strong>{" "}
+          {cryptoNumberWithCommas(amount_in_crypto)}
+        </Box>
+      ),
+      sorter: {
+        compare: (a, b) => a?.amount_in_crypto - b?.amount_in_crypto,
         multiple: 3,
       },
       sortDirections: ["descend", "ascend"],

@@ -8,8 +8,7 @@ const AgentRow = ({ agent, number }) => {
     agent_name,
     agent_email,
     agent_phone,
-    bank_name,
-    type_details: { account_name, account_number },
+    type_details: { account_name, account_number, bank_name },
   } = agent;
 
   const { isOpen, onOpen, onClose } = useDisclosure();
