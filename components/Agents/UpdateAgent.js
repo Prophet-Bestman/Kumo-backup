@@ -20,7 +20,6 @@ import { createAgentSchema } from "utils/schema";
 import { customScrollBar3 } from "utils/styles";
 
 const UpdateAgent = ({ isOpen, onClose, agent }) => {
-  console.log(agent);
   const {
     register,
     handleSubmit,

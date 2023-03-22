@@ -99,7 +99,6 @@ const SendCryptoFee = ({ loading }) => {
   useEffect(() => {
     if (!!updateResp && updateResp?.status === "success") {
       successToast();
-      console.log("SUCCESS");
       reset();
     }
   }, [updateResp]);

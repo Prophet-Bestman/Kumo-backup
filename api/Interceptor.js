@@ -45,7 +45,6 @@ const Interceptor = () => {
           signOut();
           return;
         } else if (error?.response?.status === 404) {
-          console.log("NOT FOUND");
           return;
         } else if (error.code === "ERR_BAD_REQUEST") {
           if (

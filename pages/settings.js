@@ -177,7 +177,7 @@ const Settings = () => {
   const { data: sendCryptoFeeResp, isLoading: loadingSendCryptoFee } =
     useGetSendCryptoFee();
 
-  console.log(sendCryptoFeeResp);
+  // console.log(sendCryptoFeeResp);
 
   //  ================ USEEFFECTS ==========
   useEffect(() => {
