@@ -7,6 +7,7 @@ import {
   MenuButton,
   MenuItem,
   MenuList,
+  Progress,
   Stack,
   Switch,
   Text,
@@ -15,7 +16,7 @@ import {
 } from "@chakra-ui/react";
 import { yupResolver } from "@hookform/resolvers/yup";
 import { useCreatePackage } from "api/investment";
-import { useGetAllListedTokens } from "api/settings";
+import { useGetAllCoinListing, useGetAllListedTokens } from "api/settings";
 import InputError from "components/InputError";
 import LargeHeading from "components/LargeHeading";
 import ModalCard from "components/ModalCard";
@@ -28,9 +29,38 @@ import { customScrollBar3 } from "utils/styles";
 
 const CreatePackage = ({ isOpen, onClose }) => {
   const { user } = useAuthContext();
+  const [tokens, setTokens] = useState([]);
   const [selectedToken, setSelectedToken] = useState();
 
-  const { data: listedTokens } = useGetAllListedTokens();
+  const { data: listedTokens, isLoading: loadingTokens } =
+    useGetAllListedTokens({ refetchOnWindowFocus: false });
+
+  const { data: coinsResp, isLoading: loadingCoins } = useGetAllCoinListing({
+    refetchOnWindowFocus: false,
+  });
+
+  useEffect(() => {
+    if (!loadingCoins && !loadingTokens) {
+      let formattedTokens = [];
+      if (!!coinsResp && coinsResp?.status === "success") {
+        const tokens = coinsResp?.data?.map((coin) => ({
+          name: coin?.name,
+        }));
+        formattedTokens = [...formattedTokens, ...tokens];
+      }
+      if (!!listedTokens && listedTokens?.status === "success") {
+        const tokens = listedTokens?.data?.map((token) => ({
+          name: token?.name,
+        }));
+        formattedTokens = [...formattedTokens, ...tokens];
+      }
+      setTokens([...tokens, ...formattedTokens]);
+    }
+  }, [coinsResp, listedTokens, loadingCoins, loadingTokens]);
+
+  console.log(coinsResp);
+
+  console.log(tokens);
 
   const {
     register,
@@ -103,47 +133,51 @@ const CreatePackage = ({ isOpen, onClose }) => {
             </Stack>
             <Stack>
               <Text fontSize="12px">Select Token</Text>
-              <Menu>
-                <MenuButton
-                  size="sm"
-                  color="app.primary.500"
-                  bg="white"
-                  boxShadow="md"
-                  w="full"
-                  h="48px"
-                  my="2"
-                  borderWidth="1px"
-                  borderColor="app.primary.500"
-                  _hover={{
-                    bg: "app.primaryTrans",
-                  }}
-                  as={Button}
-                  sx={{
-                    boxShadow: " rgba(99, 99, 99, 0.1) 0px 2px 8px 0px;",
-                  }}
-                >
-                  {selectedToken?.name || "Select token to add"}
-                </MenuButton>
+              {loadingCoins || loadingTokens ? (
+                <Progress isIndeterminate colorScheme="gray" />
+              ) : (
+                <Menu>
+                  <MenuButton
+                    size="sm"
+                    color="app.primary.500"
+                    bg="white"
+                    boxShadow="md"
+                    w="full"
+                    h="48px"
+                    my="2"
+                    borderWidth="1px"
+                    borderColor="app.primary.500"
+                    _hover={{
+                      bg: "app.primaryTrans",
+                    }}
+                    as={Button}
+                    sx={{
+                      boxShadow: " rgba(99, 99, 99, 0.1) 0px 2px 8px 0px;",
+                    }}
+                  >
+                    {selectedToken?.name || "Select token to add"}
+                  </MenuButton>
 
-                <MenuList
-                  pos="relative"
-                  zIndex="docked"
-                  maxH="200px"
-                  overflowY="auto"
-                  sx={customScrollBar3}
-                >
-                  {listedTokens?.data?.map((option, i) => (
-                    <MenuItem
-                      key={i}
-                      fontWeight={500}
-                      fontSize="14px"
-                      onClick={() => selectToken(option)}
-                    >
-                      {option?.name}
-                    </MenuItem>
-                  ))}
-                </MenuList>
-              </Menu>
+                  <MenuList
+                    pos="relative"
+                    zIndex="docked"
+                    maxH="200px"
+                    overflowY="auto"
+                    sx={customScrollBar3}
+                  >
+                    {tokens?.map((option, i) => (
+                      <MenuItem
+                        key={i}
+                        fontWeight={500}
+                        fontSize="14px"
+                        onClick={() => selectToken(option)}
+                      >
+                        {option?.name}
+                      </MenuItem>
+                    ))}
+                  </MenuList>
+                </Menu>
+              )}
               <InputError msg={errors?.package_name?.message} />
             </Stack>
 

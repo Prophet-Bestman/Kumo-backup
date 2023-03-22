@@ -17,7 +17,7 @@ const Interceptor = () => {
       position: "top",
       variant: "top-accent",
       size: "sm",
-      duration: 5000,
+      duration: 2000,
       description: text,
       id: errorId,
     });
@@ -43,8 +43,15 @@ const Interceptor = () => {
       if (error.response) {
         if (error.response.status === 401) {
           signOut();
+          return;
+        } else if (error?.response?.status === 404) {
+          console.log("NOT FOUND");
+          return;
         } else if (error.code === "ERR_BAD_REQUEST") {
-          if (error?.response?.data?.message !== "token required")
+          if (
+            error?.response?.data?.message !== "token required" &&
+            error?.response?.status !== 404
+          )
             !toast.isActive(errorId) &&
               errorToast(
                 error?.response?.data?.msg ||

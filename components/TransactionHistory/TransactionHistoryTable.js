@@ -165,6 +165,11 @@ const TransactionHistoryTable = ({ transactions, isLoading, wallets }) => {
       },
       sortDirections: ["descend", "ascend"],
     },
+    {
+      title: "Transaction Description",
+      dataIndex: "description",
+      key: "description",
+    },
 
     {
       title: "Status",

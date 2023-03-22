@@ -191,6 +191,18 @@ export const useUpdatePaypal = () => {
   );
 };
 
+export const useGetSendCryptoFee = () => {
+  const headers = configOptions();
+  return useQuery(
+    "send-crypto-fees",
+    () =>
+      axios
+        .get(`${request2}/get-send-crypto-fees`, { headers: headers })
+        .then((res) => res.data),
+    { retry: false }
+  );
+};
+
 export const useUpdateSendCryptoFee = () => {
   const queryClient = useQueryClient();
   const headers = configOptions();
@@ -203,7 +215,7 @@ export const useUpdateSendCryptoFee = () => {
         .then((res) => res.data),
     {
       onSuccess: () => {
-        queryClient.invalidateQueries("fee-costs");
+        queryClient.invalidateQueries("send-crypto-fees");
       },
     }
   );
@@ -343,12 +355,17 @@ export const useGetExternalCoins = (searchText) => {
   );
 };
 
-export const useGetAllCoinListing = () => {
+export const useGetAllCoinListing = (options) => {
   const headers = configOptions();
-  return useQuery("coin-listings", () =>
-    axios
-      .get(`${request2}/get-all-coin-listings`, { headers: headers })
-      .then((res) => res.data)
+  return useQuery(
+    ["coin-listings", options],
+    () =>
+      axios
+        .get(`${request2}/get-all-coin-listings`, { headers: headers })
+        .then((res) => res.data),
+    {
+      ...options,
+    }
   );
 };
 
@@ -420,10 +437,10 @@ export const useGetAllDelistedTokens = () => {
   );
 };
 
-export const useGetAllListedTokens = () => {
+export const useGetAllListedTokens = (options) => {
   const headers = configOptions();
   return useQuery(
-    ["listed-tokens"],
+    ["listed-tokens", options],
     () =>
       axios
         .get(`${request2}/get-all-list-tokens`, {
