@@ -58,10 +58,6 @@ const CreatePackage = ({ isOpen, onClose }) => {
     }
   }, [coinsResp, listedTokens, loadingCoins, loadingTokens]);
 
-  console.log(coinsResp);
-
-  console.log(tokens);
-
   const {
     register,
     handleSubmit,

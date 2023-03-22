@@ -449,7 +449,7 @@ export const useGetAllListedTokens = (options) => {
         .then((res) => {
           return res.data;
         }),
-    { refetchOnWindowFocus: false }
+    { ...options, refetchOnWindowFocus: false }
   );
 };
 
