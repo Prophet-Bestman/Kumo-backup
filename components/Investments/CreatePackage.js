@@ -43,14 +43,16 @@ const CreatePackage = ({ isOpen, onClose }) => {
     if (!loadingCoins && !loadingTokens) {
       let formattedTokens = [];
       if (!!coinsResp && coinsResp?.status === "success") {
-        const tokens = coinsResp?.data?.map((coin) => ({
+        const coins = coinsResp?.data?.map((coin) => ({
           name: coin?.name,
+          token_code: coin?.code,
         }));
-        formattedTokens = [...formattedTokens, ...tokens];
+        formattedTokens = [...formattedTokens, ...coins];
       }
       if (!!listedTokens && listedTokens?.status === "success") {
         const tokens = listedTokens?.data?.map((token) => ({
           name: token?.name,
+          token_code: token?.token_code,
         }));
         formattedTokens = [...formattedTokens, ...tokens];
       }
@@ -91,6 +93,7 @@ const CreatePackage = ({ isOpen, onClose }) => {
     const payload = {
       ...data,
       package_token: selectedToken.name,
+      token_code: selectedToken.token_code,
       admin_creator_id: user?.user_id || user?._id,
       admin_creator_name: `${user?.first_name} ${user?.last_name}`,
       isFixed: data?.isFixed ? "true" : "false",
@@ -177,11 +180,11 @@ const CreatePackage = ({ isOpen, onClose }) => {
               <InputError msg={errors?.package_name?.message} />
             </Stack>
 
-            <Stack>
+            {/* <Stack>
               <Text fontSize="12px">Token Code</Text>
               <Input {...register("token_code")} />
               <InputError msg={errors?.token_code?.message} />
-            </Stack>
+            </Stack> */}
             <Stack>
               <Text fontSize="12px">Package Duration</Text>
               <Input {...register("package_duration")} />

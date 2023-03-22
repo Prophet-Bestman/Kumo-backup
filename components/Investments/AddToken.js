@@ -2,30 +2,58 @@ import {
   Box,
   Button,
   Grid,
-  Input,
+  Menu,
+  MenuButton,
+  MenuItem,
+  MenuList,
+  Progress,
   Stack,
   Text,
   useToast,
 } from "@chakra-ui/react";
-import { yupResolver } from "@hookform/resolvers/yup";
 import { useAddToken } from "api/investment";
-import InputError from "components/InputError";
+import { useGetAllCoinListing, useGetAllListedTokens } from "api/settings";
 import LargeHeading from "components/LargeHeading";
 import ModalCard from "components/ModalCard";
-import React, { useEffect } from "react";
-import { useForm } from "react-hook-form";
+import React, { useEffect, useState } from "react";
 import { handleRequestError } from "utils/helpers";
-import { addTokenSchema } from "utils/schema";
+import { customScrollBar3 } from "utils/styles";
 
 const AddToken = ({ isOpen, onClose, package_id }) => {
-  const {
-    register,
-    handleSubmit,
-    formState: { errors },
-    resetField,
-  } = useForm({
-    resolver: yupResolver(addTokenSchema),
+  const [tokens, setTokens] = useState([]);
+  const [selectedToken, setSelectedToken] = useState();
+
+  const { data: listedTokens, isLoading: loadingTokens } =
+    useGetAllListedTokens({ refetchOnWindowFocus: false });
+
+  const { data: coinsResp, isLoading: loadingCoins } = useGetAllCoinListing({
+    refetchOnWindowFocus: false,
   });
+
+  useEffect(() => {
+    if (!loadingCoins && !loadingTokens) {
+      let formattedTokens = [];
+      if (!!coinsResp && coinsResp?.status === "success") {
+        const coins = coinsResp?.data?.map((coin) => ({
+          name: coin?.name,
+          token_code: coin?.code,
+        }));
+        formattedTokens = [...formattedTokens, ...coins];
+      }
+      if (!!listedTokens && listedTokens?.status === "success") {
+        const tokens = listedTokens?.data?.map((token) => ({
+          name: token?.name,
+          token_code: token?.code,
+        }));
+        formattedTokens = [...formattedTokens, ...tokens];
+      }
+      setTokens([...tokens, ...formattedTokens]);
+    }
+  }, [coinsResp, listedTokens, loadingCoins, loadingTokens]);
+
+  const selectToken = (token) => {
+    setSelectedToken(token);
+  };
 
   // ====== TOASTS ======
   const toast = useToast();
@@ -54,7 +82,7 @@ const AddToken = ({ isOpen, onClose, package_id }) => {
     const payload = {
       id: package_id,
       data: {
-        package_token: `${data?.token_name}(${data?.token_code})`,
+        package_token: `${selectedToken?.name}(${selectedToken?.token_code})`,
       },
     };
     addToken(payload);
@@ -63,8 +91,6 @@ const AddToken = ({ isOpen, onClose, package_id }) => {
   useEffect(() => {
     if (!!createResp && createResp?.status === "success") {
       successToast();
-      resetField("token_name", "");
-      resetField("token_code", "");
       reset();
       onClose();
     }
@@ -80,23 +106,63 @@ const AddToken = ({ isOpen, onClose, package_id }) => {
       <Box p="6">
         <LargeHeading>Add Package Token</LargeHeading>
 
-        <form onSubmit={handleSubmit(handleCreate)}>
-          <Grid my="6" rowGap="4">
-            <Stack>
-              <Text fontSize="12px">Token Name</Text>
-              <Input {...register("token_name")} />
-              <InputError msg={errors?.token_name?.message} />
-            </Stack>
-            <Stack>
-              <Text fontSize="12px">Token Code</Text>
-              <Input {...register("token_code")} />
-              <InputError msg={errors?.token_code?.message} />
-            </Stack>
-          </Grid>
-          <Button isLoading={isLoading} type="submit">
-            Add Token
-          </Button>
-        </form>
+        <Grid my="6" rowGap="4">
+          <Stack>
+            <Text fontSize="12px">Select Token</Text>
+            {loadingCoins || loadingTokens ? (
+              <Progress isIndeterminate colorScheme="gray" />
+            ) : (
+              <Menu>
+                <MenuButton
+                  size="sm"
+                  color="app.primary.500"
+                  bg="white"
+                  boxShadow="md"
+                  w="full"
+                  h="48px"
+                  my="2"
+                  borderWidth="1px"
+                  borderColor="app.primary.500"
+                  _hover={{
+                    bg: "app.primaryTrans",
+                  }}
+                  as={Button}
+                  sx={{
+                    boxShadow: " rgba(99, 99, 99, 0.1) 0px 2px 8px 0px;",
+                  }}
+                >
+                  {selectedToken?.name || "Select token to add"}
+                </MenuButton>
+
+                <MenuList
+                  pos="relative"
+                  zIndex="docked"
+                  maxH="200px"
+                  overflowY="auto"
+                  sx={customScrollBar3}
+                >
+                  {tokens?.map((option, i) => (
+                    <MenuItem
+                      key={i}
+                      fontWeight={500}
+                      fontSize="14px"
+                      onClick={() => selectToken(option)}
+                    >
+                      {option?.name}
+                    </MenuItem>
+                  ))}
+                </MenuList>
+              </Menu>
+            )}
+          </Stack>
+        </Grid>
+        <Button
+          isLoading={isLoading}
+          disabled={!selectedToken}
+          onClick={handleCreate}
+        >
+          Add Token
+        </Button>
       </Box>
     </ModalCard>
   );
