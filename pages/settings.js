@@ -174,10 +174,8 @@ const Settings = () => {
     useGetTokenRate();
   const { data: coinRateResp, isLoading: loadingCoinRate } = useGetCoinRate();
   const { data: minMaxResp, isLoading: loadingMinMax } = useGetAllMinMax();
-  const { data: sendCryptoFeeResp, isLoading: loadingSendCryptoFee } =
-    useGetSendCryptoFee();
-
-  // console.log(sendCryptoFeeResp);
+  // const { data: sendCryptoFeeResp, isLoading: loadingSendCryptoFee } =
+  //   useGetSendCryptoFee();
 
   //  ================ USEEFFECTS ==========
   useEffect(() => {
