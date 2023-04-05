@@ -34,10 +34,7 @@ const TransactionHistoryTable = ({ transactions, isLoading, wallets }) => {
     {
       title: "From",
       dataIndex: "from",
-      render: (from) => (
-        // <Box>{transaction?.type?.includes("BUY") ? "KUMO" : from}</Box>
-        <Box>{from}</Box>
-      ),
+      render: (from) => <Box>{from}</Box>,
       sorter: {
         compare: (a, b) => a?.from.localeCompare(b?.from),
         multiple: 3,
@@ -47,10 +44,7 @@ const TransactionHistoryTable = ({ transactions, isLoading, wallets }) => {
     {
       title: "To",
       dataIndex: "to",
-      render: (to) => (
-        // <Box>{transaction?.type?.includes("SELL") ? "KUMO" : to}</Box>
-        <Box>{to}</Box>
-      ),
+      render: (to) => <Box>{to}</Box>,
       sorter: {
         compare: (a, b) => a?.to.localeCompare(b?.to),
         multiple: 3,
@@ -160,14 +154,6 @@ const TransactionHistoryTable = ({ transactions, isLoading, wallets }) => {
   return (
     <Box>
       <Table
-        // pagination={{
-        //   onChange: (page) => {
-        //     setPage(page);
-        //   },
-        //   current: Number.parseInt(metaData.currentPage),
-        //   total: metaData.totalNumberOfItems,
-        //   pageSize: metaData.pageLimit,
-        // }}
         size="small"
         pagination={false}
         dataSource={transactions}

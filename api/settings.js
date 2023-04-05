@@ -197,7 +197,7 @@ export const useGetSendCryptoFee = () => {
     "send-crypto-fees",
     () =>
       axios
-        .get(`${request2}/get-send-crypto-fees`, { headers: headers })
+        .get(`${request}/get-send-crypto-fees`, { headers: headers })
         .then((res) => res.data),
     { retry: false }
   );
