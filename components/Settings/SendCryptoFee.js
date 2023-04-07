@@ -30,8 +30,6 @@ const UpdateTransactionFees = ({ options, loading }) => {
   const [feeError, setFeeError] = useState(null);
   const [selectedType, setSelectedType] = useState(null);
 
-  console.log(options);
-
   const handleChange = (e) => {
     setSelectedType(e?.target?.value);
   };
@@ -87,8 +85,7 @@ const UpdateTransactionFees = ({ options, loading }) => {
       if (selectedType === "VALUE") {
         delete data.cap_value;
       }
-      updateFee({ ...data, name: selectedOption?.name });
-      console.log(data);
+      updateFee({ ...data, cost_type: "VALUE", name: selectedOption?.name });
     }
   };
 
@@ -163,80 +160,22 @@ const UpdateTransactionFees = ({ options, loading }) => {
           {!!selectedOption && (
             <form onSubmit={handleSubmit(handleUpdate)}>
               <Stack mt="4">
-                <Text fontSize="14px">Cost Type</Text>
-                <Select
-                  {...register("cost_type")}
-                  placeholder="Select Cost Type"
-                  onChange={handleChange}
-                  value={selectedType || selectedOption?.cost_type}
-                >
-                  <option value="PERCENTAGE">PERCENTAGE</option>
-                  <option value="VALUE">VALUE</option>
-                </Select>
-                <InputError msg={errors?.cost_type?.message} />
-              </Stack>
-
-              <Stack mt="4">
                 <Text fontSize="14px">Cost</Text>
                 <InputGroup>
-                  {((!selectedType && selectedOption.cost_type === "VALUE") ||
-                    selectedType === "VALUE") && (
-                    <InputLeftElement px="0">
-                      <Text
-                        fontSize="20"
-                        color={"app.primary.700"}
-                        fontWeight={700}
-                      >
-                        N
-                      </Text>
-                    </InputLeftElement>
-                  )}
-                  <Input {...register("cost")} placeholder="" />
+                  <InputLeftElement px="0">
+                    <Text
+                      fontSize="20"
+                      color={"app.primary.700"}
+                      fontWeight={700}
+                    >
+                      N
+                    </Text>
+                  </InputLeftElement>
 
-                  {((!selectedType &&
-                    selectedOption.cost_type === "PERCENTAGE") ||
-                    selectedType === "PERCENTAGE") && (
-                    <InputRightElement px="0">
-                      <Text
-                        fontSize="20"
-                        color={"app.primary.700"}
-                        fontWeight={700}
-                      >
-                        %
-                      </Text>
-                    </InputRightElement>
-                  )}
+                  <Input {...register("cost")} placeholder="" />
                 </InputGroup>
                 <InputError msg={errors?.cost?.message} />
               </Stack>
-
-              {(selectedType === "VALUE"
-                ? null
-                : selectedType === "PERCENTAGE" ||
-                  selectedOption.cost_type === "PERCENTAGE") && (
-                <Stack mt="4">
-                  <Text fontSize="14px">Cap Value</Text>
-                  <InputGroup>
-                    <InputLeftElement px="0">
-                      <Text
-                        fontSize="20"
-                        color={"app.primary.700"}
-                        fontWeight={700}
-                      >
-                        N
-                      </Text>
-                    </InputLeftElement>
-                    <Input
-                      {...register("cap_value")}
-                      type="number"
-                      placeholder=""
-                      defaultValue={selectedOption.cap_value}
-                    />
-                  </InputGroup>
-
-                  <InputError msg={errors?.cap_value?.message} />
-                </Stack>
-              )}
 
               <Button mt="4" h="48px" type="submit" isLoading={isLoading}>
                 Update Fee

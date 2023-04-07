@@ -79,7 +79,6 @@ export const updateBaseCurrencySchema = yup
 export const updateSendCryptoFeeSchema = yup
   .object({
     cost: yup.string().required("Value is required"),
-    cost_type: yup.string().required("Cost type is required"),
   })
   .required();
 
