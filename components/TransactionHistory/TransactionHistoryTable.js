@@ -1,7 +1,9 @@
 import { Box } from "@chakra-ui/react";
 import { Button, Table } from "antd";
+import transactions from "data/transactions";
 import Link from "next/link";
 import React from "react";
+import { filterBaseCurrency, filterCrypto } from "utils/helpers";
 
 const TransactionHistoryTable = ({ transactions, isLoading, wallets }) => {
   const columns = [
@@ -71,9 +73,9 @@ const TransactionHistoryTable = ({ transactions, isLoading, wallets }) => {
     {
       title: "Amount in Base Currency",
       dataIndex: "amount_in_base_currency",
-      render: (amount_in_base_currency) => (
+      render: (amount_in_base_currency, transaction) => (
         <Box fontSize={"13px"} w="180px">
-          {amount_in_base_currency}
+          {filterBaseCurrency(amount_in_base_currency, transaction)}
         </Box>
       ),
       sorter: {
@@ -86,9 +88,11 @@ const TransactionHistoryTable = ({ transactions, isLoading, wallets }) => {
     {
       title: "Amount in Coin/Token",
       dataIndex: "amount_in_crypto",
-      render: (amount_in_crypto) => (
+      render: (amount_in_crypto, transaction) => (
         <Box fontSize={"13px"} w="180px">
-          {amount_in_crypto}
+          {/* {amount_in_crypto} */}
+
+          {filterCrypto(amount_in_crypto, transaction)}
         </Box>
       ),
       sorter: {

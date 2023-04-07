@@ -16,7 +16,7 @@ import {
   useToast,
 } from "@chakra-ui/react";
 import { yupResolver } from "@hookform/resolvers/yup";
-import { useUpdateGeneralFee, useUpdateSendCryptoFee } from "api/settings";
+import { useUpdateSendCryptoFee } from "api/settings";
 import InputError from "components/InputError";
 import LargeHeading from "components/LargeHeading";
 import React, { useEffect, useState } from "react";

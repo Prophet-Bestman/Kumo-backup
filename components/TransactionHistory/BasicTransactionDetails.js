@@ -10,6 +10,7 @@ import {
 import LargeHeading from "components/LargeHeading";
 import Link from "next/link";
 import React from "react";
+import { filterBaseCurrency, filterCrypto } from "utils/helpers";
 
 const BasicTransactionDetails = ({ transaction, user }) => {
   return (
@@ -115,7 +116,15 @@ const BasicTransactionDetails = ({ transaction, user }) => {
           <Text fontWeight="semibold" fontSize="14px">
             Amount in Base Currency
           </Text>
-          <Input isReadOnly value={transaction.amount_in_base_currency} />
+          <Input
+            isReadOnly
+            value={
+              filterBaseCurrency(
+                transaction.amount_in_base_currency,
+                transaction
+              ) || "Nil"
+            }
+          />
         </Stack>
 
         {!!transaction?.currency && (
@@ -130,7 +139,13 @@ const BasicTransactionDetails = ({ transaction, user }) => {
               <Text fontWeight="semibold" fontSize="14px">
                 Amount in Crypto
               </Text>
-              <Input isReadOnly value={transaction?.amount_in_crypto} />
+              <Input
+                isReadOnly
+                value={
+                  filterCrypto(transaction?.amount_in_crypto, transaction) ||
+                  "Nil"
+                }
+              />
             </Stack>
           </>
         )}

@@ -107,3 +107,39 @@ export const flattenObject = (obj) => {
 
   return flattened;
 };
+
+export const filterBaseCurrency = (amount, transaction) => {
+  if (
+    transaction?.type !== "SELL CRYPTO" &&
+    transaction?.type !== "BUY CRYPTO"
+  ) {
+    return amount;
+  } else {
+    return (
+      (transaction?.type === "BUY CRYPTO" &&
+        transaction.mode === "DEBIT" &&
+        amount) ||
+      (transaction?.type === "SELL CRYPTO" &&
+        transaction.mode === "CREDIT" &&
+        amount)
+    );
+  }
+};
+
+export const filterCrypto = (amount, transaction) => {
+  if (
+    transaction?.type !== "SELL CRYPTO" &&
+    transaction?.type !== "BUY CRYPTO"
+  ) {
+    return amount;
+  } else {
+    return (
+      (transaction?.type === "BUY CRYPTO" &&
+        transaction.mode === "CREDIT" &&
+        amount) ||
+      (transaction?.type === "SELL CRYPTO" &&
+        transaction.mode === "DEBIT" &&
+        amount)
+    );
+  }
+};
