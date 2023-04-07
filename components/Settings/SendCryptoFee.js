@@ -4,12 +4,10 @@ import {
   Input,
   InputGroup,
   InputLeftElement,
-  InputRightElement,
   Menu,
   MenuButton,
   MenuItem,
   MenuList,
-  Select,
   Spinner,
   Stack,
   Text,
@@ -28,11 +26,6 @@ import { customScrollBar3 } from "utils/styles";
 const UpdateTransactionFees = ({ options, loading }) => {
   const [selectedOption, setSelectedOption] = useState(null);
   const [feeError, setFeeError] = useState(null);
-  const [selectedType, setSelectedType] = useState(null);
-
-  const handleChange = (e) => {
-    setSelectedType(e?.target?.value);
-  };
 
   const {
     register,
@@ -82,9 +75,6 @@ const UpdateTransactionFees = ({ options, loading }) => {
     if (!selectedOption) {
       setFeeError("Select a fee name to continue");
     } else {
-      if (selectedType === "VALUE") {
-        delete data.cap_value;
-      }
       updateFee({ ...data, cost_type: "VALUE", name: selectedOption?.name });
     }
   };
