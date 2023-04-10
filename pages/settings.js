@@ -299,7 +299,7 @@ const Settings = () => {
               options={transactionFees}
             />
             <UpdateMinMax loading={loadingFees} options={minMaxOptions} />
-            <UpdateSendCryptoMinMax />
+            {/* <UpdateSendCryptoMinMax /> */}
             <UpdateFundWalletFee
               loading={loadingFees}
               options={fundWalletFees}
