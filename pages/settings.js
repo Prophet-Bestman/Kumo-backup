@@ -34,7 +34,7 @@ import {
   UpdateMinMax,
   UpdatePaypal,
   UpdatePaypalRange,
-  UpdateSendCryptoMinMax,
+  // UpdateSendCryptoMinMax,
   UpdateTransactionFees,
   UsdToNaira,
 } from "components/Settings";
