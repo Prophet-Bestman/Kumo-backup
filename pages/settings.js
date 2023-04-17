@@ -34,7 +34,7 @@ import {
   UpdateMinMax,
   UpdatePaypal,
   UpdatePaypalRange,
-  // UpdateSendCryptoMinMax,
+  UpdateSendCryptoMinMax,
   UpdateTransactionFees,
   UsdToNaira,
 } from "components/Settings";
@@ -81,11 +81,11 @@ const initialMinMaxOptions = [
     min: "",
     max: "",
   },
-  {
-    name: "SEND_MIN_MAX",
-    min: "",
-    max: "",
-  },
+  // {
+  //   name: "SEND_MIN_MAX",
+  //   min: "",
+  //   max: "",
+  // },
   {
     name: "FUND_WALLET_MIN_MAX",
     min: "",
@@ -299,7 +299,7 @@ const Settings = () => {
               options={transactionFees}
             />
             <UpdateMinMax loading={loadingFees} options={minMaxOptions} />
-            {/* <UpdateSendCryptoMinMax /> */}
+            <UpdateSendCryptoMinMax />
             <UpdateFundWalletFee
               loading={loadingFees}
               options={fundWalletFees}

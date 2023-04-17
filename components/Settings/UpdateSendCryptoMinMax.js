@@ -16,9 +16,7 @@ import {
 import { yupResolver } from "@hookform/resolvers/yup";
 import {
   useGetAllCoinListing,
-  useGetCurrencies,
   useGetSendMinMax,
-  useUpdateMinMax,
   useUpdateSendMinMax,
 } from "api/settings";
 import InputError from "components/InputError";
@@ -29,23 +27,30 @@ import { underscoreToSpace } from "utils/helpers";
 import { updateMinMaxSchema } from "utils/schema";
 import { customScrollBar3 } from "utils/styles";
 
-const UpdateSendCryptoMinMax = ({ options, loading }) => {
+const UpdateSendCryptoMinMax = () => {
   const [selectedOption, setSelectedOption] = useState(null);
   const [feeError, setFeeError] = useState(null);
   const [coins, setCoins] = useState();
 
   const { data: coinsResp, isLoading: loadingCoins } = useGetAllCoinListing();
 
-  const { data } = useGetSendMinMax();
+  const { data: sendMinMaxResp } = useGetSendMinMax();
 
   useEffect(() => {
-    if (!!coinsResp && coinsResp?.status === "success") {
-      const coins = coinsResp?.data?.map((coin) => {
-        return { currency: coin?.name, code: coin?.code };
-      });
-      setCoins(coins);
+    if (!!coinsResp && coinsResp?.data?.length > 0) {
+      if (!!sendMinMaxResp && sendMinMaxResp?.data?.minmax?.length > 0) {
+        const mappedCoins = coinsResp?.data.map((coin) => {
+          return (
+            sendMinMaxResp?.data?.minmax?.find(
+              (minMax) => minMax.name === coin?.name
+            ) || { name: coin.name, min: 0, max: 0 }
+          );
+        });
+
+        setCoins(mappedCoins);
+      }
     }
-  }, [coinsResp]);
+  }, [coinsResp, sendMinMaxResp]);
 
   const {
     register,
@@ -99,7 +104,7 @@ const UpdateSendCryptoMinMax = ({ options, loading }) => {
         ...data,
         isActive: true,
         transaction_name: "SEND_MIN_MAX",
-        currency: selectedOption?.currency,
+        currency: selectedOption?.name,
       });
     }
   };
@@ -144,8 +149,7 @@ const UpdateSendCryptoMinMax = ({ options, loading }) => {
                 boxShadow: " rgba(99, 99, 99, 0.1) 0px 2px 8px 0px;",
               }}
             >
-              {underscoreToSpace(selectedOption?.currency) ||
-                "Select fee to add"}
+              {underscoreToSpace(selectedOption?.name) || "Select fee to add"}
             </MenuButton>
 
             <MenuList
@@ -158,12 +162,12 @@ const UpdateSendCryptoMinMax = ({ options, loading }) => {
               {coins?.length > 0 &&
                 coins?.map((option) => (
                   <MenuItem
-                    key={option?.code}
+                    key={option?.name}
                     fontWeight={500}
                     fontSize="14px"
                     onClick={() => handleSelect(option)}
                   >
-                    {underscoreToSpace(option.currency)}
+                    {underscoreToSpace(option.name)}
                   </MenuItem>
                 ))}
             </MenuList>
