@@ -1,6 +1,5 @@
 import { Box } from "@chakra-ui/react";
 import { Button, Table } from "antd";
-import transactions from "data/transactions";
 import Link from "next/link";
 import React from "react";
 import { filterBaseCurrency, filterCrypto } from "utils/helpers";
@@ -36,7 +35,11 @@ const TransactionHistoryTable = ({ transactions, isLoading, wallets }) => {
     {
       title: "From",
       dataIndex: "from",
-      render: (from) => <Box>{from}</Box>,
+      render: (from) => (
+        <Box w="230px" overflowX="auto">
+          {from}
+        </Box>
+      ),
       sorter: {
         compare: (a, b) => a?.from.localeCompare(b?.from),
         multiple: 3,
@@ -46,7 +49,11 @@ const TransactionHistoryTable = ({ transactions, isLoading, wallets }) => {
     {
       title: "To",
       dataIndex: "to",
-      render: (to) => <Box>{to}</Box>,
+      render: (to) => (
+        <Box w="230px" overflowX="auto">
+          {to}
+        </Box>
+      ),
       sorter: {
         compare: (a, b) => a?.to.localeCompare(b?.to),
         multiple: 3,
@@ -75,7 +82,8 @@ const TransactionHistoryTable = ({ transactions, isLoading, wallets }) => {
       dataIndex: "amount_in_base_currency",
       render: (amount_in_base_currency, transaction) => (
         <Box fontSize={"13px"} w="180px">
-          {filterBaseCurrency(amount_in_base_currency, transaction)}
+          {transaction.type !== "SEND CRYPTO" &&
+            filterBaseCurrency(amount_in_base_currency, transaction)}
         </Box>
       ),
       sorter: {
@@ -92,7 +100,12 @@ const TransactionHistoryTable = ({ transactions, isLoading, wallets }) => {
         <Box fontSize={"13px"} w="180px">
           {/* {amount_in_crypto} */}
 
-          {filterCrypto(amount_in_crypto, transaction)}
+          {transaction.type === "SEND CRYPTO"
+            ? transaction?.amount_paid
+            : filterCrypto(
+                amount_in_crypto || transaction?.amount_paid,
+                transaction
+              )}
         </Box>
       ),
       sorter: {
@@ -131,7 +144,7 @@ const TransactionHistoryTable = ({ transactions, isLoading, wallets }) => {
       title: "Date",
       dataIndex: "created_at",
       render: (created_at) => (
-        <Box fontSize={"13px"} textTransform="capitalize">
+        <Box w="200px" fontSize={"13px"} textTransform="capitalize">
           {new Date(created_at).toDateString()},{" "}
           {new Date(created_at).toLocaleTimeString()}
         </Box>

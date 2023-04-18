@@ -25,7 +25,7 @@ const InvestmentsTable = ({ investments, isLoading }) => {
               <Th w="50px">S/N</Th>
               <Th>Name</Th>
               <Th>User</Th>
-              <Th>Amount (N)</Th>
+              <Th>Amount </Th>
               <Th>Token</Th>
               <Th>Rate</Th>
               <Th>Start Date</Th>

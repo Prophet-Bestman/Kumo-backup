@@ -72,8 +72,6 @@ const UpdateMinMax = ({ options, loading }) => {
     reset,
   } = useUpdateMinMax();
 
-  console.log(selectedOption);
-
   const handleUpdate = (data) => {
     if (!selectedOption) {
       setFeeError("Select a transaction name to continue");

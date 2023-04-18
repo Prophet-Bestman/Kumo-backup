@@ -142,8 +142,12 @@ const BasicTransactionDetails = ({ transaction, user }) => {
               <Input
                 isReadOnly
                 value={
-                  filterCrypto(transaction?.amount_in_crypto, transaction) ||
-                  "Nil"
+                  transaction?.type === "SEND CRYPTO" || "CREATE INVESTMENT"
+                    ? transaction?.amount_paid
+                    : filterCrypto(
+                        transaction?.amount_in_crypto,
+                        transaction
+                      ) || "Nil"
                 }
               />
             </Stack>
