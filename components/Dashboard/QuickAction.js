@@ -8,11 +8,11 @@ const QuickAction = ({ action }) => {
       shadow=" rgba(0, 0, 0, 0.06) 0px 2px 4px 0px inset;"
       cursor="pointer"
       rounded="md"
-      px="4"
+      px={["3", , "4"]}
       py="3"
     >
       <Circle
-        size="38px"
+        size={["30px", , "38px"]}
         rounded="sm"
         bg="app.primaryTrans"
         color="app.primary.300"
@@ -21,7 +21,9 @@ const QuickAction = ({ action }) => {
         {icon}
       </Circle>
 
-      <Text fontWeight={500}>{title}</Text>
+      <Text fontSize={["14px", "16px"]} fontWeight={500}>
+        {title}
+      </Text>
     </Box>
   );
 };

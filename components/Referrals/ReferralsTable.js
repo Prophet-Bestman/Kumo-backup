@@ -26,14 +26,15 @@ const ReferralsTable = ({ referrals, isLoading }) => {
         shadow="rgba(0, 0, 0, 0.1) 0px 1px 2px 0px;"
         overflowY="auto"
         sx={customScrollBar3}
-        p="4"
+        py="4"
+        px={[, , "4"]}
       >
         {isLoading ? (
           <Progress isIndeterminate colorScheme={"gray"} />
         ) : (
           !!referrals &&
           referrals?.length > 0 && (
-            <Table w="full" variant="unstyled">
+            <Table w="full" variant="unstyled" size="sm">
               <Thead fontSize="12px">
                 <Tr>
                   <Th w="5%">S/N</Th>

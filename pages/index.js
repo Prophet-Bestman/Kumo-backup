@@ -44,13 +44,16 @@ const Home = () => {
               <StatsCard key={i} stats={stat} />
             ))}
         </Flex>
-        <Grid templateColumns={["repeat(2, 1fr)"]} gap="6">
+        <Grid
+          templateColumns={["repeat(1, 1fr)", , , "repeat(2, 1fr)"]}
+          gap="6"
+        >
           <GridItem colSpan={1}>
             <WalletBalance />
             <QuickActions />
             <RecentTransactions />
           </GridItem>
-          <GridItem colSpan={1}>
+          <GridItem colSpan={1} overflowX="auto">
             <DashboardTransactions />
             <PayWithKumo />
           </GridItem>

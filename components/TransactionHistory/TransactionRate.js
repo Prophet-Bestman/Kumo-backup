@@ -7,7 +7,11 @@ const TransactionRate = ({ transactionRate }) => {
     <Box>
       <LargeHeading>Transaction Rate</LargeHeading>
 
-      <Grid templateColumns={"repeat(2, 1fr)"} w={["100%", , , "85%"]} gap="8">
+      <Grid
+        templateColumns={["repeat(1, 1fr)", , "repeat(2, 1fr)"]}
+        w={["100%", , , "85%"]}
+        gap="8"
+      >
         <Stack display="flex" gap="2" my="2">
           <Text fontWeight="semibold" fontSize="14px">
             Coin - Dollar Rate

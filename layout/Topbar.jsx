@@ -15,11 +15,11 @@ import { useNavContext } from "context/NavProvider";
 import Link from "next/link";
 import { useRouter } from "next/router";
 import React from "react";
-import { AiOutlineArrowLeft } from "react-icons/ai";
+import { AiOutlineArrowLeft, AiOutlineMenu } from "react-icons/ai";
 import { BiDownArrow } from "react-icons/bi";
 import { MdNotifications } from "react-icons/md";
 
-const Topbar = () => {
+const Topbar = ({ onOpen, onClose, isOpen }) => {
   const { activeNav } = useNavContext();
   const router = useRouter();
   const { user, signOut } = useAuthContext();
@@ -38,7 +38,7 @@ const Topbar = () => {
   return (
     <Flex py="32px" justify="space-between" alignItems="center">
       {activeNav !== "Dashboard" && (
-        <Flex my="6" px="12" alignItems="center" gap="4">
+        <Flex my="6" px={["6", "8", , "12"]} alignItems="center" gap="4">
           <Box color="app.primary.900">
             <AiOutlineArrowLeft
               onClick={() => router?.back()}
@@ -53,14 +53,14 @@ const Topbar = () => {
         </Flex>
       )}
       <Flex
-        px="42px"
+        px={["6", "8", , "42px"]}
         ml="auto"
         justify="end"
         alignItems="center"
         color="app.primary.900"
-        gap="24px"
+        gap={["8px", , , "24px"]}
       >
-        <Box pos="relative">
+        {/* <Box pos="relative">
           <Circle
             size="12px"
             borderColor="white"
@@ -71,7 +71,7 @@ const Topbar = () => {
             bg="app.primary.900"
           />
           <MdNotifications size="30px" />
-        </Box>
+        </Box> */}
 
         <Text fontSize="12px" fontWeight={700}>
           {user?.first_name} {user?.last_name}
@@ -82,7 +82,7 @@ const Topbar = () => {
             p="0"
             as={Button}
             rightIcon={<BiDownArrow />}
-            width="80px"
+            width={["60px", "70px", "80px"]}
             bg="transparent"
             color="app.primary.900"
             _hover={{
@@ -91,11 +91,12 @@ const Topbar = () => {
           >
             <Avatar
               name={`${user?.first_name} ${user?.last_name}`}
-              rounded="lg"
+              // rounded=""
               src={user?.image_url}
+              size={["sm", , "md"]}
             />
           </MenuButton>
-          <MenuList px="5" py="4">
+          <MenuList zIndex="popover" px="5" py="4">
             {menuList?.map((item, i) => (
               <MenuItem
                 py="3"
@@ -122,6 +123,14 @@ const Topbar = () => {
             </MenuItem>
           </MenuList>
         </Menu>
+        <Box display={["block", , , "none"]}>
+          <AiOutlineMenu
+            onClick={onOpen}
+            size="24px"
+            color="#006577"
+            cursor="pointer"
+          />
+        </Box>
       </Flex>
     </Flex>
   );

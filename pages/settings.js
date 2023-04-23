@@ -260,7 +260,7 @@ const Settings = () => {
   }, [transactionFees, fundWalletFees]);
 
   return (
-    <Box p="12">
+    <Box py="12" px={["4", "6", "12"]}>
       {(loadingBaseCurrency ||
         loadingCoinRate ||
         loadingFees ||
@@ -270,7 +270,11 @@ const Settings = () => {
         loadingUtilities) && (
         <Progress size="xs" isIndeterminate colorScheme="gray" />
       )}
-      <Grid templateColumns={"repeat(3, 1fr)"} gap="12" my="5">
+      <Grid
+        templateColumns={["repeat(1, 1fr)", "repeat(2, 1fr)", "repeat(3, 1fr)"]}
+        gap="12"
+        my="5"
+      >
         <BaseCurrencies />
         {!loadingBaseCurrency && (
           <AddBaseCurrency

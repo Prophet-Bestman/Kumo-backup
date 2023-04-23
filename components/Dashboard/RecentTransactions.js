@@ -31,7 +31,14 @@ const RecentTransactions = () => {
           <MdOutlineHistory fontSize="18px" />
           Recent
         </Text>
-        <Grid templateColumns={["repeat(3, 1fr)"]} gap="3">
+        <Grid
+          templateColumns={[
+            "repeat(1, 1fr)",
+            "repeat(2, 1fr)",
+            "repeat(3, 1fr)",
+          ]}
+          gap="3"
+        >
           <RecentTransaction />
           <RecentTransaction />
           <RecentTransaction />
@@ -39,7 +46,7 @@ const RecentTransactions = () => {
           <RecentTransaction />
           <RecentTransaction />
         </Grid>
-        <GetLoans />
+        {/* <GetLoans /> */}
       </Box>
     </Box>
   );

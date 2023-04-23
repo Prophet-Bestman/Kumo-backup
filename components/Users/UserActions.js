@@ -235,7 +235,12 @@ const UserActions = ({ user_id, user }) => {
   return (
     <Box px="10" py="14" bg="white" boxShadow="sm">
       <Grid
-        templateColumns={"repeat(3, 1fr)"}
+        templateColumns={[
+          "repeat(1, 1fr)",
+          ,
+          "repeat(2, 1fr)",
+          "repeat(3, 1fr)",
+        ]}
         gap="4"
         my="10"
         justify={"center"}

@@ -136,10 +136,14 @@ const InvestmentDetails = ({ isOpen, onClose, investment }) => {
   }, [terminateError, activateError, updateError]);
 
   return (
-    <ModalCard isOpen={isOpen} onClose={onClose} size="2xl">
+    <ModalCard isOpen={isOpen} onClose={onClose} size="2xl" isCentered={false}>
       <LargeHeading my="4">Investment Details</LargeHeading>
 
-      <Grid mb="30px" templateColumns={"repeat(3, 1fr)"} rowGap="8">
+      <Grid
+        mb="30px"
+        templateColumns={["repeat(2, 1fr)", , "repeat(3, 1fr)"]}
+        rowGap="8"
+      >
         <InvestmentItem title="User Name" value={user_name} />
         <InvestmentItem title="Name" value={investment_name} />
         {/* <InvestmentItem

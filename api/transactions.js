@@ -7,14 +7,16 @@ const request = axios.create({
   baseURL: baseUrl + "/admin/transaction",
 });
 
-export const useGetTransactions = (page, userID) => {
+export const useGetTransactions = (page, userID, itemsPerPage) => {
   const headers = configOptions();
   return useQuery(
-    ["transactions", page],
+    ["transactions", page, userID, itemsPerPage],
     () =>
       request
         .get(
-          `/get-transactions?item_per_page=30&page=${page}&q=${userID || ""}`,
+          `/get-transactions?item_per_page=${
+            itemsPerPage || 30
+          }&page=${page}&q=${userID || ""}`,
           {
             headers: headers,
           }

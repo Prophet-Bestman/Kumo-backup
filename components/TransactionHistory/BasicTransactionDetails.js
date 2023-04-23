@@ -25,7 +25,11 @@ const BasicTransactionDetails = ({ transaction, user }) => {
         </Flex>
       </Link>
 
-      <Grid templateColumns={"repeat(2, 1fr)"} w={["100%", , , "75%"]} gap="8">
+      <Grid
+        templateColumns={["repeat(1, 1fr)", , "repeat(2, 1fr)"]}
+        w={["100%", , , "75%"]}
+        gap="8"
+      >
         <Stack display="flex" gap="2" my="2">
           <Text fontWeight="semibold" fontSize="14px">
             Email

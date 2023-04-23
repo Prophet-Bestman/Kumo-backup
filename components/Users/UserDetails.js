@@ -4,7 +4,7 @@ import React from "react";
 
 const UserDetails = ({ user }) => {
   return (
-    <Box py="14" px="10" bg="white" boxShadow="sm">
+    <Box py="14" px={["4", "6", "10"]} bg="white" boxShadow="sm">
       <Avatar
         src={user?.image_url}
         name={`${user?.first_name} ${user?.last_name}`}
@@ -13,7 +13,11 @@ const UserDetails = ({ user }) => {
       />
 
       <form>
-        <Grid templateColumns={"repeat(2, 1fr)"} gap="4" rowGap="10">
+        <Grid
+          templateColumns={["repeat(1, 1fr)", , "repeat(2, 1fr)"]}
+          gap="4"
+          rowGap="10"
+        >
           <Stack>
             <Text ml="2" fontSize="12px" fontWeight={600}>
               ID

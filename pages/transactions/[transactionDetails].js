@@ -91,7 +91,7 @@ const TransactionDetails = () => {
   }, [userResp, setUser]);
 
   return (
-    <Box p="6" px="10">
+    <Box p="6" px={["4", , "10"]}>
       {loadingUser || isLoading ? (
         <Progress isIndeterminate colorScheme="gray" />
       ) : (

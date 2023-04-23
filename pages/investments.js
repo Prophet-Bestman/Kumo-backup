@@ -49,10 +49,10 @@ const Investments = () => {
       <Tabs>
         <CustomTabList tabList={tabs} />
         <TabPanels>
-          <TabPanel>
+          <TabPanel px="0">
             {<PackagesTable isLoading={isLoading} packages={packages} />}
           </TabPanel>
-          <TabPanel>
+          <TabPanel px="0">
             {
               <InvestmentsTable
                 isLoading={isLoading}

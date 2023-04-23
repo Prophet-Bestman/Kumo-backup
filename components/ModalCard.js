@@ -8,9 +8,14 @@ import {
 import React from "react";
 import { AiOutlineClose } from "react-icons/ai";
 
-const ModalCard = ({ isOpen, onClose, size, children }) => {
+const ModalCard = ({ isOpen, onClose, size, children, isCentered }) => {
   return (
-    <Modal isOpen={isOpen} onClose={onClose} size={size || "md"}>
+    <Modal
+      isOpen={isOpen}
+      onClose={onClose}
+      size={size || "md"}
+      isCentered={typeof isCentered !== "undefined" ? isCentered : true}
+    >
       <ModalOverlay
         // bg="blackAlpha.300"
         backdropFilter="blur(10px) hue-rotate(60deg)"

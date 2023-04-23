@@ -26,41 +26,46 @@ const UserWallets = ({ user }) => {
   } = useDisclosure();
 
   return (
-    <Box px="10" py="14" rounded="md" bg="white">
-      <Grid
+    <Box py="14" px={["4", "6", "10"]} rounded="md" bg="white">
+      <Flex
         pos="relative"
         // templateColumns={"repeat(2, 1fr)"}
         // gap="8"
+        // templateColumns={["repeat(1, 1fr)", , "repeat(2, 1fr)"]}
         rowGap="10"
         mt="30px"
+        flexDir="column"
       >
-        <Grid
+        <Box
+          display={["flex", , "grid"]}
+          flexDir="column"
           pos="relative"
-          templateColumns={"repeat(2, 1fr)"}
+          templateColumns={["repeat(1, 1fr)", , "repeat(2, 1fr)"]}
           gap="8"
           rowGap="10"
-          alignItems="flex-end"
+          // alignItems="flex-end"
         >
           <GridItem colSpan={2}>
             <LargeHeading> Wallet Addresses</LargeHeading>
           </GridItem>
           {wallet_addresses?.length > 0 &&
             wallet_addresses?.map((wallet) => (
-              <Stack mb="5" key={wallet?.walletAddress}>
-                <Flex
-                  gap="1"
-                  justifyContent={"space-between"}
-                  alignItems="center"
-                  paddingRight={"40px"}
-                  color="app.primary.900"
-                  textTransform={"capitalize"}
-                  mb="2"
-                >
-                  <Text fontWeight={500} fontSize="14px">
-                    {wallet.name}
-                  </Text>
+              <GridItem key={wallet.walletAddress}>
+                <Stack mb="5">
+                  <Flex
+                    gap="1"
+                    justifyContent={"space-between"}
+                    alignItems="center"
+                    paddingRight={"40px"}
+                    color="app.primary.900"
+                    textTransform={"capitalize"}
+                    mb="2"
+                  >
+                    <Text fontWeight={500} fontSize="14px">
+                      {wallet.name}
+                    </Text>
 
-                  {/* <Flex gap="1">
+                    {/* <Flex gap="1">
                     <Text fontWeight={500} fontSize="12px">
                       {wallet.code}:
                     </Text>
@@ -68,18 +73,19 @@ const UserWallets = ({ user }) => {
                       {getWalletBalance(wallet.name, wallet_balance)}
                     </Text>
                   </Flex> */}
-                </Flex>
+                  </Flex>
 
-                <Text fontWeight={500} fontSize="12px">
-                  Wallet Address
-                </Text>
-                <Input value={wallet.walletAddress} disabled />
+                  <Text fontWeight={500} fontSize="12px">
+                    Wallet Address
+                  </Text>
+                  <Input value={wallet.walletAddress} disabled />
 
-                <Text fontWeight={500} fontSize="12px">
-                  Crypto Address
-                </Text>
-                <Input value={wallet.cryptoAddress} disabled />
-              </Stack>
+                  <Text fontWeight={500} fontSize="12px">
+                    Crypto Address
+                  </Text>
+                  <Input value={wallet.cryptoAddress} disabled />
+                </Stack>
+              </GridItem>
             ))}
 
           <GridItem colSpan={2}>
@@ -128,7 +134,7 @@ const UserWallets = ({ user }) => {
               />
             </InputGroup>
           </Stack> */}
-        </Grid>
+        </Box>
 
         <Flex gap="6">
           <Button variant="outline" onClick={onDebitOpen}>
@@ -136,7 +142,7 @@ const UserWallets = ({ user }) => {
           </Button>
           <Button onClick={onOpen}>Fund Wallet</Button>
         </Flex>
-      </Grid>
+      </Flex>
       <FundWallet isOpen={isOpen} onClose={onClose} user={user} />
       <DebitWallet isOpen={isDebitOpen} onClose={onDebitClose} user={user} />
     </Box>

@@ -26,12 +26,13 @@ const WalletBalance = () => {
     },
   ];
   return (
-    <Box>
+    <Box overflowX="auto">
       <Tabs
         borderWidth={0}
         rounded="md"
         py="3"
         variant="unstyled"
+        overflowX="auto"
         defaultIndex={0}
       >
         <TabPanels h="150px">
@@ -118,19 +119,16 @@ const WalletBalance = () => {
             </Box>
           </TabPanel>
         </TabPanels>
-        <CustomTabList tabList={tabs} justify="space-evenly" />
-      </Tabs>
 
-      <Text
-        color="app.primary.900"
-        mt="6"
-        mr="20"
-        cursor="pointer"
-        textAlign="end"
-        fontWeight="700"
-      >
-        + Fund Wallet
-      </Text>
+        <Box maxW={["380px", "500px", "600px"]} overflowX={"auto"}>
+          <CustomTabList
+            tabwWidth={["100px"]}
+            tabList={tabs}
+            justify="space-evenly"
+            size={["sm"]}
+          />
+        </Box>
+      </Tabs>
     </Box>
   );
 };

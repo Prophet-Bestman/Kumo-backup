@@ -6,7 +6,7 @@ const ReferAndWin = () => {
   return (
     <Grid
       mb="5"
-      w="90%"
+      w={["100%", , "90%"]}
       pos="relative"
       pt="6"
       pl="6"
@@ -16,14 +16,19 @@ const ReferAndWin = () => {
       gap="8"
     >
       <GridItem colSpan={3} pb="6">
-        <Text fontSize="32px" fontWeight={700}>
+        <Text fontSize={["26px", , "32px"]} fontWeight={700}>
           Refer your friends and Win!
         </Text>
 
         <Text>Click this board and share</Text>
       </GridItem>
       <GridItem colSpan={2}>
-        <Img src="/img/refer_and_win.png" h="full" />
+        <Img
+          src="/img/refer_and_win.png"
+          h="full"
+          w="full"
+          objectFit="contain"
+        />
       </GridItem>
       <Circle
         pos="absolute"

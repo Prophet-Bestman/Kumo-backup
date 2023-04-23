@@ -14,7 +14,8 @@ const InvestmentsTable = ({ investments, isLoading }) => {
       overflowY="auto"
       sx={customScrollBar3}
       maxH="410px"
-      p="4"
+      py="4"
+      px={[, , "4"]}
     >
       {isLoading ? (
         <Loader />

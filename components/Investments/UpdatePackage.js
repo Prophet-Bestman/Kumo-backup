@@ -131,7 +131,7 @@ const UpdatePackage = ({ isOpen, onClose, singlePackage }) => {
     <ModalCard isOpen={isOpen} onClose={onClose} size="4xl">
       <LargeHeading my="4">Update Package</LargeHeading>
       <Grid
-        templateColumns="repeat(2, 1fr)"
+        templateColumns={["repeat(1, 1fr)", , "repeat(2, 1fr)"]}
         px="4"
         py="8"
         overflowY="auto"

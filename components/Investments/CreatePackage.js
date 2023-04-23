@@ -119,7 +119,7 @@ const CreatePackage = ({ isOpen, onClose }) => {
   };
 
   return (
-    <ModalCard isOpen={isOpen} onClose={onClose}>
+    <ModalCard isOpen={isOpen} onClose={onClose} isCentered={false}>
       <Box py="6">
         <LargeHeading>Create Investment Package</LargeHeading>
 

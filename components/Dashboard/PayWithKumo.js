@@ -35,7 +35,7 @@ const PayWithKumo = () => {
         shadow="rgba(0, 0, 0, 0.1) 0px 1px 2px 0px;"
       >
         <ReferAndWin />
-        <Grid templateColumns={["repeat(4, 1fr)"]} gap="3">
+        <Grid templateColumns={["repeat(2, 1fr)", , "repeat(4, 1fr)"]} gap="3">
           {actions?.length > 0 &&
             actions?.map((action, i) => (
               <Flex
@@ -65,7 +65,7 @@ const PayWithKumo = () => {
               </Flex>
             ))}
         </Grid>
-        <Box h="4"></Box>
+        {/* <Box h="4"></Box> */}
       </Box>
     </Box>
   );

@@ -43,7 +43,7 @@ const TransactionsPage = () => {
 
   useEffect(() => {
     if (!!countResp && countResp?.status === "success") {
-      setPages(Math.ceil(countResp?.data?.total / 20));
+      setPages(Math.ceil(countResp?.data?.total / 30));
     }
   }, [countResp]);
 
@@ -58,38 +58,13 @@ const TransactionsPage = () => {
   }, [transactionsResp]);
 
   return (
-    <Box px="12">
-      <Tabs variant="unstyled" mt="50px">
-        <Grid templateColumns="repeat(2, 1fr)">
-          <DebitAndCredit />
-          {/* <CustomTabList
-            tabList={tabs}
-            size="lg"
-            px="70px"
-            justify="space-between"
-            tabWidth="full"
-          /> */}
-        </Grid>
-        <TabPanels>
-          <TabPanel>
-            <Box mt="4">
-              {/* <TransactionsTable
-                page={page}
-                pages={pages}
-                transactions={transactions}
-                isLoading={isLoading}
-              /> */}
-
-              <TransactionHistoryTable
-                transactions={transactions}
-                isLoading={isLoading || loadingCoins || loadingCrypto}
-                wallets={wallets}
-              />
-              <Pagination page={page} pages={pages} setPage={setPage} />
-            </Box>
-          </TabPanel>
-        </TabPanels>
-      </Tabs>
+    <Box px={["2", , "12"]}>
+      <TransactionHistoryTable
+        transactions={transactions}
+        isLoading={isLoading || loadingCoins || loadingCrypto}
+        wallets={wallets}
+      />
+      <Pagination page={page} pages={pages} setPage={setPage} />
     </Box>
   );
 };

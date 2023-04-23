@@ -13,6 +13,7 @@ const CustomTabList = (props) => {
       px="4"
       {...props}
       gap={size === "sm" ? "2" : "4"}
+      overflowX="auto"
     >
       {!!tabList &&
         tabList?.length > 0 &&

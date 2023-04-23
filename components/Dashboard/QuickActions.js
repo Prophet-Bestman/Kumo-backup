@@ -49,7 +49,7 @@ const QuickActions = () => {
         Quick Action
       </Text>
       <Grid
-        templateColumns="repeat(4, 1fr)"
+        templateColumns={["repeat(2, 1fr)", , "repeat(4, 1fr)"]}
         gap="3"
         p="6"
         bg="white"

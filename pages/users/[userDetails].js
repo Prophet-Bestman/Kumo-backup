@@ -73,9 +73,9 @@ const UserDetailsPage = () => {
   }, [investmentsResp]);
 
   return (
-    <Box p="6">
+    <Box py="6" px={["4", "6"]}>
       <Box mb="12">
-        <Tabs>
+        <Tabs w="full" overflowX={"auto"}>
           <CustomTabList tabList={tabList} />
 
           {isLoading ? (
@@ -83,17 +83,17 @@ const UserDetailsPage = () => {
           ) : (
             !!user && (
               <>
-                <TabPanels>
-                  <TabPanel>
+                <TabPanels px="0" overflowX="auto">
+                  <TabPanel px={0}>
                     <UserDetails user={user} />
                   </TabPanel>
-                  <TabPanel>
+                  <TabPanel px={0}>
                     <UserVerifications user={user} />
                   </TabPanel>
-                  <TabPanel>
+                  <TabPanel px={0}>
                     <UserWallets user={user} />
                   </TabPanel>
-                  <TabPanel>
+                  <TabPanel px={0}>
                     <Flex gap="8" flexDir="column">
                       <Button
                         ml="auto"
@@ -110,13 +110,13 @@ const UserDetailsPage = () => {
                       />
                     </Flex>
                   </TabPanel>
-                  <TabPanel>
+                  <TabPanel px={0}>
                     <ReferralsTable
                       referrals={referralsResp?.data}
                       isLoading={loadingReferrals}
                     />
                   </TabPanel>
-                  <TabPanel>
+                  <TabPanel px={0}>
                     {!!user && (
                       <UserActions user_id={userDetails} user={user} />
                     )}
