@@ -13,7 +13,7 @@ export const useGetUsers = () => {
     "users",
     () =>
       request
-        .get(`/get-users?item_per_page=20`, { headers: headers })
+        .get(`/get-users?item_per_page=100`, { headers: headers })
         .then((res) => res.data),
     { retry: false }
   );
