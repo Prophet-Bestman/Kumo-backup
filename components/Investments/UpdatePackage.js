@@ -128,7 +128,7 @@ const UpdatePackage = ({ isOpen, onClose, singlePackage }) => {
   }, [deleteError]);
 
   return (
-    <ModalCard isOpen={isOpen} onClose={onClose} size="4xl">
+    <ModalCard isOpen={isOpen} onClose={onClose} size="4xl" isCentered={false}>
       <LargeHeading my="4">Update Package</LargeHeading>
       <Grid
         templateColumns={["repeat(1, 1fr)", , "repeat(2, 1fr)"]}
