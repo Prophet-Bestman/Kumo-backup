@@ -82,6 +82,12 @@ export const updateSendCryptoFeeSchema = yup
   })
   .required();
 
+export const addCoinToListingSchema = yup
+  .object({
+    parent_code: yup.string(),
+  })
+  .required();
+
 export const addCryptoAddressSchema = yup
   .object({
     coin_name: yup.string().required("Value is required"),

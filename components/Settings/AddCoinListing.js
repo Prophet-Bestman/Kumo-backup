@@ -1,4 +1,12 @@
-import { Box, Button, Stack, Text, useToast } from "@chakra-ui/react";
+import {
+  Box,
+  Button,
+  Grid,
+  Input,
+  Stack,
+  Text,
+  useToast,
+} from "@chakra-ui/react";
 import { useAddCoinToListing, useGetExternalCoins } from "api/settings";
 import InputError from "components/InputError";
 import LargeHeading from "components/LargeHeading";
@@ -7,12 +15,21 @@ import SearchSelect from "components/SearchSelect";
 import React, { useEffect, useState } from "react";
 import { handleRequestError } from "utils/helpers";
 import debounce from "lodash.debounce";
+import { useForm } from "react-hook-form";
+import { yupResolver } from "@hookform/resolvers/yup";
+import { addCoinToListingSchema } from "utils/schema";
 
 const AddCoinListing = ({ isOpen, onClose }) => {
   const [externalCoins, setExternalCoins] = useState([]);
   const [searchText, setSearchText] = useState(null);
   const [selectedCoin, setSelectedCoin] = useState(null);
   const [selectCoinError, setSelectCoinError] = useState(null);
+
+  const {
+    register,
+    handleSubmit,
+    formState: { errors },
+  } = useForm({ resolver: yupResolver(addCoinToListingSchema) });
 
   const {
     data: coinsResp,
@@ -60,7 +77,8 @@ const AddCoinListing = ({ isOpen, onClose }) => {
     reset,
   } = useAddCoinToListing();
 
-  const handleAddListing = () => {
+  const handleAddListing = (data) => {
+    console.log(data);
     if (!selectedCoin) {
       setSelectCoinError("Select a coin to continue");
     } else {
@@ -68,6 +86,7 @@ const AddCoinListing = ({ isOpen, onClose }) => {
         name: selectedCoin.name,
         code: selectedCoin.symbol,
         coin_id: selectedCoin.id,
+        ...data,
       };
       addCoin(payload);
     }
@@ -106,27 +125,37 @@ const AddCoinListing = ({ isOpen, onClose }) => {
           Add Coin
         </LargeHeading>
 
-        <Stack mt="4">
-          <Text fontSize="14px" fontWeight={600} mb="2">
-            Select Coin
-          </Text>
-          <SearchSelect
-            handleChange={handleChange}
-            values={externalCoins}
-            // defaultValue={area}
-            placeholder="Search Crytocurrency with exact name"
-            setValue={setSearchText}
-            getItemValue={getItemValue}
-            isLoading={loadingExternalCoins}
-            handleSelect={handleSelectCoin}
-          />
-          <InputError msg={selectCoinError} />
-        </Stack>
+        <Grid mt="5" gap="6">
+          <Stack>
+            <Text fontSize="14px" fontWeight={600} mb="1">
+              Select Coin
+            </Text>
+            <SearchSelect
+              handleChange={handleChange}
+              values={externalCoins}
+              // defaultValue={area}
+              placeholder="Search Crytocurrency with exact name"
+              setValue={setSearchText}
+              getItemValue={getItemValue}
+              isLoading={loadingExternalCoins}
+              handleSelect={handleSelectCoin}
+            />
+            <InputError msg={selectCoinError} />
+          </Stack>
+
+          <Stack>
+            <Text fontSize="14px" fontWeight={600} mb="1">
+              Parent Code (Optional)
+            </Text>
+            <Input {...register("parent_code")} />
+            <InputError msg={errors?.parent_code?.message} />
+          </Stack>
+        </Grid>
 
         <Button
           mt="4"
           h="48px"
-          onClick={handleAddListing}
+          onClick={handleSubmit(handleAddListing)}
           isLoading={isLoading}
         >
           Add Currency
