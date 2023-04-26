@@ -85,6 +85,7 @@ export const updateSendCryptoFeeSchema = yup
 export const addCoinToListingSchema = yup
   .object({
     parent_code: yup.string(),
+    image: yup.string(),
   })
   .required();
 

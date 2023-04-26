@@ -150,6 +150,13 @@ const AddCoinListing = ({ isOpen, onClose }) => {
             <Input {...register("parent_code")} />
             <InputError msg={errors?.parent_code?.message} />
           </Stack>
+          <Stack>
+            <Text fontSize="14px" fontWeight={600} mb="1">
+              Link to logo (Optional)
+            </Text>
+            <Input {...register("image")} />
+            <InputError msg={errors?.image?.message} />
+          </Stack>
         </Grid>
 
         <Button
