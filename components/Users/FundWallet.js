@@ -100,7 +100,7 @@ const FundWallet = ({ isOpen, onClose, user }) => {
             </Stack>
             <Stack>
               <Text fontSize={"12px"} fontWeight="600">
-                Ammount
+                Amount
               </Text>
               <Input {...register("amount")} type="tel" placeholder="500,000" />
               <InputError msg={errors?.amount?.message} />

@@ -9,6 +9,7 @@ import {
   Tr,
 } from "@chakra-ui/react";
 import LargeHeading from "components/LargeHeading";
+// import Link from "next/link";
 // import referrals from "data/referrals";
 
 import React from "react";
@@ -45,13 +46,22 @@ const ReferralsTable = ({ referrals, isLoading }) => {
               <Tbody>
                 {referrals?.length > 0 &&
                   referrals?.slice(0, 6)?.map((referral, i) => (
-                    <Tr key={i} borderBottom="1px" borderColor="gray.200">
-                      <Td color="gray.400">{i + 1}</Td>
-                      <Td>
-                        {referral?.first_name} {referral?.last_name}
-                      </Td>
-                      <Td>{referral?.email}</Td>
+                    // <Link href={`users/${referral?.email}`}  key={i}>
+                    <Tr
+                      key={i}
+                      borderBottom="1px"
+                      borderColor="gray.200"
+                      cursor={"pointer"}
+                    >
+                      <>
+                        <Td color="gray.400">{i + 1}</Td>
+                        <Td>
+                          {referral?.first_name} {referral?.last_name}
+                        </Td>
+                        <Td>{referral?.email}</Td>
+                      </>
                     </Tr>
+                    // </Link>
                   ))}
               </Tbody>
             </Table>
