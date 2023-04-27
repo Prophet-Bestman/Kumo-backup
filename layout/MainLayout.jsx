@@ -88,7 +88,12 @@ const MainLayout = ({ children }) => {
           {/* <DrawerHeader>Create your account</DrawerHeader> */}
 
           <DrawerBody>
-            <SideNav stretch={stretch} shrink={shrink} navWidth={navWidth} />
+            <SideNav
+              stretch={stretch}
+              shrink={shrink}
+              navWidth={navWidth}
+              onClose={onClose}
+            />
           </DrawerBody>
         </DrawerContent>
       </Drawer>
