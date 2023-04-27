@@ -5,7 +5,7 @@ import React from "react";
 import { navs } from "utils/links";
 import { navWidthStates } from "./MainLayout";
 
-const SideNav = ({ stretch, shrink, navWidth }) => {
+const SideNav = ({ stretch, shrink, navWidth, onClose = () => {} }) => {
   const { activeNav: active } = useNavContext();
 
   return (
@@ -46,6 +46,7 @@ const SideNav = ({ stretch, shrink, navWidth }) => {
                   bg: "app.primary.500",
                 }}
                 cursor="pointer"
+                onClick={onClose}
               >
                 {nav.icon}
                 {navWidth === navWidthStates?.stretched && (
