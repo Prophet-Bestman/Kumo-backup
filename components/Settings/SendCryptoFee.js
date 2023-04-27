@@ -16,6 +16,7 @@ import {
 import { yupResolver } from "@hookform/resolvers/yup";
 import {
   useGetAllCoinListing,
+  useGetCryptoTokens,
   useGetSendCryptoFee,
   useUpdateSendCryptoFee,
 } from "api/settings";
@@ -30,11 +31,36 @@ import { customScrollBar3 } from "utils/styles";
 const UpdateTransactionFees = ({}) => {
   const [selectedOption, setSelectedOption] = useState(null);
   const [feeError, setFeeError] = useState(null);
+  const [coins, setCoins] = useState();
 
   const { data: sendCryptoFeeResp, isLoading: loading } = useGetSendCryptoFee();
-  const { data: coinListingsResp } = useGetAllCoinListing();
+  const { data: coinsResp } = useGetAllCoinListing();
+  const { data: tokensResp } = useGetCryptoTokens();
 
-  console.log();
+  useEffect(() => {
+    let fees = [];
+    const checkAndUpdateFees = (data) => {
+      if (!!sendCryptoFeeResp && sendCryptoFeeResp?.data?.fees?.length > 0) {
+        const mappedCoins = data.map((coin) => {
+          return (
+            sendCryptoFeeResp?.data?.fees?.find(
+              (fee) => fee.name === coin?.name
+            ) || { name: coin.name, cost: "Unset" }
+          );
+        });
+
+        fees = [...fees, ...mappedCoins];
+        // setCoins(mappedCoins);
+      }
+    };
+    if (!!coinsResp && coinsResp?.data?.length > 0) {
+      checkAndUpdateFees(coinsResp?.data);
+    }
+    if (!!tokensResp && tokensResp?.data?.length > 0) {
+      checkAndUpdateFees(tokensResp?.data);
+    }
+    setCoins(fees);
+  }, [coinsResp, tokensResp, sendCryptoFeeResp]);
 
   const {
     register,
@@ -143,8 +169,8 @@ const UpdateTransactionFees = ({}) => {
               overflowY="auto"
               sx={customScrollBar3}
             >
-              {sendCryptoFeeResp?.data?.length > 0 ? (
-                sendCryptoFeeResp?.data?.fees?.map((option, i) => (
+              {coins?.length > 0 ? (
+                coins?.map((option, i) => (
                   <MenuItem
                     key={i}
                     fontWeight={500}
