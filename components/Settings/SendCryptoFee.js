@@ -14,7 +14,11 @@ import {
   useToast,
 } from "@chakra-ui/react";
 import { yupResolver } from "@hookform/resolvers/yup";
-import { useUpdateSendCryptoFee } from "api/settings";
+import {
+  useGetAllCoinListing,
+  useGetSendCryptoFee,
+  useUpdateSendCryptoFee,
+} from "api/settings";
 import InputError from "components/InputError";
 import LargeHeading from "components/LargeHeading";
 import React, { useEffect, useState } from "react";
@@ -23,9 +27,14 @@ import { handleRequestError, underscoreToSpace } from "utils/helpers";
 import { updateSendCryptoFeeSchema } from "utils/schema";
 import { customScrollBar3 } from "utils/styles";
 
-const UpdateTransactionFees = ({ options, loading }) => {
+const UpdateTransactionFees = ({}) => {
   const [selectedOption, setSelectedOption] = useState(null);
   const [feeError, setFeeError] = useState(null);
+
+  const { data: sendCryptoFeeResp, isLoading: loading } = useGetSendCryptoFee();
+  const { data: coinListingsResp } = useGetAllCoinListing();
+
+  console.log();
 
   const {
     register,
@@ -134,16 +143,20 @@ const UpdateTransactionFees = ({ options, loading }) => {
               overflowY="auto"
               sx={customScrollBar3}
             >
-              {options?.fees?.map((option, i) => (
-                <MenuItem
-                  key={i}
-                  fontWeight={500}
-                  fontSize="14px"
-                  onClick={() => handleSelect(option)}
-                >
-                  {underscoreToSpace(option.name)}
-                </MenuItem>
-              ))}
+              {sendCryptoFeeResp?.data?.length > 0 ? (
+                sendCryptoFeeResp?.data?.fees?.map((option, i) => (
+                  <MenuItem
+                    key={i}
+                    fontWeight={500}
+                    fontSize="14px"
+                    onClick={() => handleSelect(option)}
+                  >
+                    {underscoreToSpace(option.name)}
+                  </MenuItem>
+                ))
+              ) : (
+                <LargeHeading>No Crypto Fee Yet</LargeHeading>
+              )}
             </MenuList>
           </Menu>
           <InputError msg={feeError} />

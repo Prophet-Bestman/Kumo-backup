@@ -1,4 +1,11 @@
-import { Box, Flex, Text, useDisclosure, useToast } from "@chakra-ui/react";
+import {
+  Box,
+  Flex,
+  Spinner,
+  Text,
+  useDisclosure,
+  useToast,
+} from "@chakra-ui/react";
 import { useDeleteBaseCurrency, useGetBaseCurrency } from "api/settings";
 import ConfirmModal from "components/ConfirmModal";
 import LargeHeading from "components/LargeHeading";
@@ -11,7 +18,7 @@ import UpdateBaseCurrency from "./UpdateBaseCurrency";
 const BaseCurrencies = () => {
   const [baseCurrencies, setBaseCurrencies] = useState([]);
   const [selectedCurrency, setSelectedCurrency] = useState(null);
-  const { data } = useGetBaseCurrency();
+  const { data, isLoading } = useGetBaseCurrency();
 
   const {
     isOpen: isDeleteOpen,
@@ -74,7 +81,10 @@ const BaseCurrencies = () => {
       </LargeHeading>
 
       <Box overflowY="auto" h="280px" sx={customScrollBar3}>
-        {baseCurrencies?.length > 0 &&
+        {isLoading ? (
+          <Spinner size="lg" mx="auto" />
+        ) : (
+          baseCurrencies?.length > 0 &&
           baseCurrencies?.map((baseCurrency, i) => (
             <Flex
               key={i}
@@ -119,7 +129,8 @@ const BaseCurrencies = () => {
                 />
               )}
             </Flex>
-          ))}
+          ))
+        )}
       </Box>
 
       <ConfirmModal

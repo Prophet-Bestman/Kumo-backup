@@ -100,7 +100,10 @@ const TransactionHistoryTable = ({ transactions, isLoading, wallets }) => {
         <Box fontSize={"13px"} w="180px">
           {/* {amount_in_crypto} */}
 
-          {transaction.type === "SEND CRYPTO"
+          {transaction.type === "KUMO_ACCOUNT TRANSFER" ||
+          transaction.type == "BANK TRANSFER"
+            ? ""
+            : transaction.type === "SEND CRYPTO"
             ? transaction?.amount_paid
             : filterCrypto(
                 amount_in_crypto || transaction?.amount_paid,
