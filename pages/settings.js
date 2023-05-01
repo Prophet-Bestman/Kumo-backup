@@ -17,7 +17,6 @@ import {
   useGetCryptoAddresses,
   useGetPaypal,
   useGetPaypalRange,
-  useGetSendCryptoFee,
   useGetTokenRate,
   useGetUtilities,
 } from "api/settings";
@@ -174,8 +173,6 @@ const Settings = () => {
     useGetTokenRate();
   const { data: coinRateResp, isLoading: loadingCoinRate } = useGetCoinRate();
   const { data: minMaxResp, isLoading: loadingMinMax } = useGetAllMinMax();
-  // const { data: sendCryptoFeeResp, isLoading: loadingSendCryptoFee } =
-  //   useGetSendCryptoFee();
 
   //  ================ USEEFFECTS ==========
   useEffect(() => {

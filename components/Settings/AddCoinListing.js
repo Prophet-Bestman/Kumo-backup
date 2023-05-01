@@ -1,6 +1,7 @@
 import {
   Box,
   Button,
+  Checkbox,
   Grid,
   Input,
   Stack,
@@ -17,13 +18,28 @@ import { handleRequestError } from "utils/helpers";
 import debounce from "lodash.debounce";
 import { useForm } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
-import { addCoinToListingSchema } from "utils/schema";
+import * as yup from "yup";
 
 const AddCoinListing = ({ isOpen, onClose }) => {
   const [externalCoins, setExternalCoins] = useState([]);
   const [searchText, setSearchText] = useState(null);
   const [selectedCoin, setSelectedCoin] = useState(null);
   const [selectCoinError, setSelectCoinError] = useState(null);
+  const [is_child, setIs_child] = useState(false);
+
+  const addCoinToListingSchema = yup
+    .object({
+      image: yup.string(),
+      main_address: yup.string().required("Main Address is required"),
+      ...(is_child && {
+        name: yup.string().required("Coin name is required"),
+        coin_id: yup.string().required("Coin Id is required"),
+        code: yup.string().required("Code is required"),
+        parent_code: yup.string().required("Parent Code is required"),
+        alias: yup.string().required("Alias is required"),
+      }),
+    })
+    .required();
 
   const {
     register,
@@ -79,18 +95,21 @@ const AddCoinListing = ({ isOpen, onClose }) => {
 
   const handleAddListing = (data) => {
     console.log(data);
-    if (!selectedCoin) {
+    if (!is_child && !selectedCoin) {
       setSelectCoinError("Select a coin to continue");
     } else {
       const payload = {
-        name: selectedCoin.name,
-        code: selectedCoin.symbol,
-        coin_id: selectedCoin.id,
+        is_child,
+        ...(!is_child && {
+          name: selectedCoin.name,
+          code: selectedCoin.symbol,
+          coin_id: selectedCoin.id,
+        }),
         ...data,
       };
+      console.log(payload);
       addCoin(payload);
     }
-    // addCurrency();
   };
 
   useEffect(() => {
@@ -119,7 +138,7 @@ const AddCoinListing = ({ isOpen, onClose }) => {
   };
 
   return (
-    <ModalCard onClose={onClose} isOpen={isOpen}>
+    <ModalCard onClose={onClose} isOpen={isOpen} isCentered={false}>
       <Box bg="white" py="12" px="6">
         <LargeHeading color="app.primary.700" fontSize="20px">
           Add Coin
@@ -127,28 +146,81 @@ const AddCoinListing = ({ isOpen, onClose }) => {
 
         <Grid mt="5" gap="6">
           <Stack>
-            <Text fontSize="14px" fontWeight={600} mb="1">
-              Select Coin
+            <Checkbox
+              value={is_child}
+              onChange={() => setIs_child((prev) => !prev)}
+              colorScheme="teal"
+            >
+              Child-coin?
+            </Checkbox>
+            <Text fontSize="12px" color="#888">
+              Please check this box if you are adding a child coin{" "}
             </Text>
-            <SearchSelect
-              handleChange={handleChange}
-              values={externalCoins}
-              // defaultValue={area}
-              placeholder="Search Crytocurrency with exact name"
-              setValue={setSearchText}
-              getItemValue={getItemValue}
-              isLoading={loadingExternalCoins}
-              handleSelect={handleSelectCoin}
-            />
-            <InputError msg={selectCoinError} />
+          </Stack>
+          {!is_child && (
+            <Stack>
+              <Text fontSize="14px" fontWeight={600} mb="1">
+                Select Coin
+              </Text>
+              <SearchSelect
+                handleChange={handleChange}
+                values={externalCoins}
+                // defaultValue={area}
+                placeholder="Search Crytocurrency with exact name"
+                setValue={setSearchText}
+                getItemValue={getItemValue}
+                isLoading={loadingExternalCoins}
+                handleSelect={handleSelectCoin}
+              />
+              <InputError msg={selectCoinError} />
+            </Stack>
+          )}
+          {is_child && (
+            <>
+              <Stack>
+                <Text fontSize="14px" fontWeight={600} mb="1">
+                  Name
+                </Text>
+                <Input {...register("name")} />
+                <InputError msg={errors?.name?.message} />
+              </Stack>
+              <Stack>
+                <Text fontSize="14px" fontWeight={600} mb="1">
+                  Coin Id
+                </Text>
+                <Input {...register("coin_id")} />
+                <InputError msg={errors?.coin_id?.message} />
+              </Stack>
+              <Stack>
+                <Text fontSize="14px" fontWeight={600} mb="1">
+                  Code
+                </Text>
+                <Input {...register("code")} />
+                <InputError msg={errors?.code?.message} />
+              </Stack>
+            </>
+          )}
+          <Stack>
+            <Text fontSize="14px" fontWeight={600} mb="1">
+              Main Address
+            </Text>
+            <Input {...register("main_address")} />
+            <InputError msg={errors?.main_address?.message} />
           </Stack>
 
           <Stack>
             <Text fontSize="14px" fontWeight={600} mb="1">
-              Parent Code (Optional)
+              Parent Code {!is_child && " (Optional)"}
             </Text>
             <Input {...register("parent_code")} />
             <InputError msg={errors?.parent_code?.message} />
+          </Stack>
+          <Stack>
+            <Text fontSize="14px" fontWeight={600} mb="1">
+              Alias {!is_child && " (Optional)"}
+            </Text>
+            <Input {...register("alias")} />
+            <InputError msg={errors?.alias?.message} />
           </Stack>
           <Stack>
             <Text fontSize="14px" fontWeight={600} mb="1">
