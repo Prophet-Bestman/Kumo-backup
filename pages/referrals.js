@@ -14,8 +14,6 @@ const ReferralsPage = () => {
 
   const { data: referralsResp, isLoading } = useGetReferrals();
 
-  console.log(referralsResp);
-
   return (
     <Box p="6">
       {/* <Grid templateColumns="repeat(2, 1fr)">

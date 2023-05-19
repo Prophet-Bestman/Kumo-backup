@@ -94,7 +94,6 @@ const AddCoinListing = ({ isOpen, onClose }) => {
   } = useAddCoinToListing();
 
   const handleAddListing = (data) => {
-    console.log(data);
     if (!is_child && !selectedCoin) {
       setSelectCoinError("Select a coin to continue");
     } else {
@@ -107,7 +106,6 @@ const AddCoinListing = ({ isOpen, onClose }) => {
         }),
         ...data,
       };
-      console.log(payload);
       addCoin(payload);
     }
   };

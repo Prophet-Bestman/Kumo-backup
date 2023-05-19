@@ -37,7 +37,7 @@ const tabList = [
   { title: "Verification" },
   { title: "Wallet" },
   { title: "Investment History" },
-  { title: "Referals" },
+  { title: "Referrals" },
   { title: "Settings" },
 ];
 
@@ -46,6 +46,16 @@ const UserDetailsPage = () => {
 
   const [user, setUser] = useState(null);
   const [investments, setInvestments] = useState([]);
+  const [defaultIdx, setDefaultIdx] = useState();
+
+  useEffect(() => {
+    if (!!router?.query?.tab) {
+      const tabIdx = tabList.findIndex(
+        (tab) => tab.title.toLowerCase() === router.query?.tab.toLowerCase()
+      );
+      setDefaultIdx(tabIdx);
+    } else setDefaultIdx(0);
+  }, [router.query]);
 
   const { userDetails } = router.query;
 
@@ -75,58 +85,60 @@ const UserDetailsPage = () => {
   return (
     <Box py="6" px={["4", "6"]}>
       <Box mb="12">
-        <Tabs w="full" overflowX={"auto"}>
-          <CustomTabList tabList={tabList} />
+        {typeof defaultIdx !== "undefined" && (
+          <Tabs w="full" overflowX={"auto"} defaultIndex={defaultIdx}>
+            <CustomTabList tabList={tabList} />
 
-          {isLoading ? (
-            <UserSkeleton />
-          ) : (
-            !!user && (
-              <>
-                <TabPanels px="0" overflowX="auto">
-                  <TabPanel px={0}>
-                    <UserDetails user={user} />
-                  </TabPanel>
-                  <TabPanel px={0}>
-                    <UserVerifications user={user} />
-                  </TabPanel>
-                  <TabPanel px={0}>
-                    <UserWallets user={user} />
-                  </TabPanel>
-                  <TabPanel px={0}>
-                    <Flex gap="8" flexDir="column">
-                      <Button
-                        ml="auto"
-                        size="sm"
-                        py="5"
-                        px="6"
-                        onClick={onOpen}
-                      >
-                        Create Investment
-                      </Button>
-                      <InvestmentsTable
-                        isLoading={isLoading}
-                        investments={investments}
+            {isLoading ? (
+              <UserSkeleton />
+            ) : (
+              !!user && (
+                <>
+                  <TabPanels px="0" overflowX="auto">
+                    <TabPanel px={0}>
+                      <UserDetails user={user} />
+                    </TabPanel>
+                    <TabPanel px={0}>
+                      <UserVerifications user={user} />
+                    </TabPanel>
+                    <TabPanel px={0}>
+                      <UserWallets user={user} />
+                    </TabPanel>
+                    <TabPanel px={0}>
+                      <Flex gap="8" flexDir="column">
+                        <Button
+                          ml="auto"
+                          size="sm"
+                          py="5"
+                          px="6"
+                          onClick={onOpen}
+                        >
+                          Create Investment
+                        </Button>
+                        <InvestmentsTable
+                          isLoading={isLoading}
+                          investments={investments}
+                        />
+                      </Flex>
+                    </TabPanel>
+                    <TabPanel px={0}>
+                      <ReferralsTable
+                        referrals={referralsResp?.data}
+                        isLoading={loadingReferrals}
                       />
-                    </Flex>
-                  </TabPanel>
-                  <TabPanel px={0}>
-                    <ReferralsTable
-                      referrals={referralsResp?.data}
-                      isLoading={loadingReferrals}
-                    />
-                  </TabPanel>
-                  <TabPanel px={0}>
-                    {!!user && (
-                      <UserActions user_id={userDetails} user={user} />
-                    )}
-                  </TabPanel>
-                </TabPanels>
-                <UserTransactions user={user} />
-              </>
-            )
-          )}
-        </Tabs>
+                    </TabPanel>
+                    <TabPanel px={0}>
+                      {!!user && (
+                        <UserActions user_id={userDetails} user={user} />
+                      )}
+                    </TabPanel>
+                  </TabPanels>
+                  <UserTransactions user={user} />
+                </>
+              )
+            )}
+          </Tabs>
+        )}
       </Box>
       {userResp?.data && isOpen && (
         <CreateUserInvestment
