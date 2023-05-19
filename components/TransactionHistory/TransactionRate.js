@@ -14,7 +14,7 @@ const TransactionRate = ({ transactionRate }) => {
       >
         <Stack display="flex" gap="2" my="2">
           <Text fontWeight="semibold" fontSize="14px">
-            Coin - Dollar Rate
+            Crypto Amount
           </Text>
           <Input isReadOnly value={transactionRate?.coin_dollar_rate} />
         </Stack>

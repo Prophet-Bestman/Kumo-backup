@@ -159,7 +159,8 @@ const UpdateTransactionFees = ({}) => {
                 boxShadow: " rgba(99, 99, 99, 0.1) 0px 2px 8px 0px;",
               }}
             >
-              {underscoreToSpace(selectedOption?.name) || "Select fee to add"}
+              {underscoreToSpace(selectedOption?.name) ||
+                "Select fee to update"}
             </MenuButton>
 
             <MenuList
