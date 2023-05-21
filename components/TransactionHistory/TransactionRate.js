@@ -12,18 +12,29 @@ const TransactionRate = ({ transactionRate }) => {
         w={["100%", , , "85%"]}
         gap="8"
       >
-        <Stack display="flex" gap="2" my="2">
-          <Text fontWeight="semibold" fontSize="14px">
-            Crypto Amount
-          </Text>
-          <Input isReadOnly value={transactionRate?.coin_dollar_rate} />
-        </Stack>
-        <Stack display="flex" gap="2" my="2">
-          <Text fontWeight="semibold" fontSize="14px">
-            Naira - Dollar Rate
-          </Text>
-          <Input isReadOnly value={transactionRate?.naira_dollar_rate} />
-        </Stack>
+        {(!!transactionRate?.coin_dollar_rate ||
+          !!transactionRate?.coin_amount) && (
+          <Stack display="flex" gap="2" my="2">
+            <Text fontWeight="semibold" fontSize="14px">
+              Crypto Amount
+            </Text>
+            <Input
+              isReadOnly
+              value={
+                transactionRate?.coin_dollar_rate ||
+                transactionRate?.coin_amount
+              }
+            />
+          </Stack>
+        )}
+        {!!transactionRate?.naira_dollar_rate && (
+          <Stack display="flex" gap="2" my="2">
+            <Text fontWeight="semibold" fontSize="14px">
+              Naira - Dollar Rate
+            </Text>
+            <Input isReadOnly value={transactionRate?.naira_dollar_rate} />
+          </Stack>
+        )}
       </Grid>
     </Box>
   );

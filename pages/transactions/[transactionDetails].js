@@ -90,6 +90,8 @@ const TransactionDetails = () => {
     }
   }, [userResp, setUser]);
 
+  console.log(transactionResp?.data);
+
   return (
     <Box p="6" px={["4", , "10"]}>
       {loadingUser || isLoading ? (
@@ -102,7 +104,9 @@ const TransactionDetails = () => {
               transaction={transactionResp?.data}
               user={user}
             />
-            {!!transactionResp?.data?.rate && (
+            {(!!transactionResp?.data?.rate?.coin_amount ||
+              !!transactionResp?.data?.rate?.coin_dollar_rate ||
+              !!transactionResp?.data?.rate?.naira_dollar_rate) && (
               <TransactionRate transactionRate={transactionResp?.data?.rate} />
             )}
           </>
