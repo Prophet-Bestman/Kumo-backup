@@ -16,7 +16,8 @@ import Link from "next/link";
 import React from "react";
 import { customScrollBar3 } from "utils/styles";
 
-const ReferralsTable = ({ referrals, isLoading }) => {
+const ReferralsTable = ({ referrals, isLoading, user }) => {
+  console.log(user);
   return (
     <div>
       <LargeHeading my="6">Referrals</LargeHeading>
@@ -40,31 +41,47 @@ const ReferralsTable = ({ referrals, isLoading }) => {
               <Thead fontSize="12px">
                 <Tr>
                   <Th w="5%">S/N</Th>
-                  <Th>Name</Th>
-                  <Th>Email</Th>
+                  <Th>Referrer Name</Th>
+                  <Th>Referrer Email</Th>
+                  <Th>Referred Name</Th>
+                  <Th>Referred Email</Th>
                 </Tr>
               </Thead>
               <Tbody>
                 {referrals?.length > 0 &&
                   referrals?.slice(0, 6)?.map((referral, i) => (
-                    <Link
-                      href={`/users/${referral?.user_id}?tab=referrals`}
-                      key={i}
+                    <Tr
+                      borderBottom="1px"
+                      borderColor="gray.200"
+                      key={referral._id}
                     >
-                      <Tr
-                        borderBottom="1px"
-                        borderColor="gray.200"
-                        cursor={"pointer"}
-                      >
-                        <>
-                          <Td color="gray.400">{i + 1}</Td>
-                          <Td>
-                            {referral?.first_name} {referral?.last_name}
+                      <>
+                        <Td color="gray.400">{i + 1}</Td>
+                        <Td>
+                          {user?.first_name ||
+                            referral?.users_referral_first_name}{" "}
+                          {user?.last_name ||
+                            referral?.users_referral_last_name}
+                        </Td>
+                        <Link
+                          href={`/users/${referral?.users_referral_id}?tab=referrals`}
+                        >
+                          <Td cursor="pointer">
+                            {user?.email || referral?.users_referral_email}
                           </Td>
-                          <Td>{referral?.email}</Td>
-                        </>
-                      </Tr>
-                    </Link>
+                        </Link>
+
+                        <Td>
+                          {referral?.first_name} {referral?.last_name}
+                        </Td>
+
+                        <Link
+                          href={`/users/${referral?.user_id}?tab=referrals`}
+                        >
+                          <Td cursor="pointer">{referral?.email}</Td>
+                        </Link>
+                      </>
+                    </Tr>
                   ))}
               </Tbody>
             </Table>

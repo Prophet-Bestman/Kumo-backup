@@ -89,7 +89,7 @@ const UserDetailsPage = () => {
           <Tabs w="full" overflowX={"auto"} defaultIndex={defaultIdx}>
             <CustomTabList tabList={tabList} />
 
-            {isLoading ? (
+            {isLoading || !user ? (
               <UserSkeleton />
             ) : (
               !!user && (
@@ -125,6 +125,7 @@ const UserDetailsPage = () => {
                       <ReferralsTable
                         referrals={referralsResp?.data}
                         isLoading={loadingReferrals}
+                        user={user}
                       />
                     </TabPanel>
                     <TabPanel px={0}>
