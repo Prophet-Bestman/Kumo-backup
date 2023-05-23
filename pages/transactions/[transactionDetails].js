@@ -2,12 +2,7 @@ import {
   Box,
   Button,
   Flex,
-  Grid,
-  GridItem,
-  Input,
   Progress,
-  Stack,
-  Text,
   Textarea,
   useDisclosure,
   useToast,
@@ -23,17 +18,11 @@ import {
   BasicTransactionDetails,
   TransactionRate,
 } from "components/TransactionHistory";
-import Link from "next/link";
 
 import { useRouter } from "next/router";
 import React, { useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
-import {
-  cryptoNumberWithCommas,
-  flattenObject,
-  handleRequestError,
-  underscoreToSpace,
-} from "utils/helpers";
+import { flattenObject, handleRequestError } from "utils/helpers";
 import { updateTransactionSchema } from "utils/schema";
 
 const TransactionDetails = () => {
