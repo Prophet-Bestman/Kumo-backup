@@ -10,14 +10,11 @@ import {
 } from "@chakra-ui/react";
 import LargeHeading from "components/LargeHeading";
 import Link from "next/link";
-// import Link from "next/link";
-// import referrals from "data/referrals";
 
 import React from "react";
 import { customScrollBar3 } from "utils/styles";
 
 const ReferralsTable = ({ referrals, isLoading, user }) => {
-  console.log(user);
   return (
     <div>
       <LargeHeading my="6">Referrals</LargeHeading>

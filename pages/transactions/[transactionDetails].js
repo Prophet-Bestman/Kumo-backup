@@ -90,8 +90,6 @@ const TransactionDetails = () => {
     }
   }, [userResp, setUser]);
 
-  console.log(transactionResp?.data);
-
   return (
     <Box p="6" px={["4", , "10"]}>
       {loadingUser || isLoading ? (
