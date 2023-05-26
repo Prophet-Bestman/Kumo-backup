@@ -1,8 +1,10 @@
 import { Box, Grid, Input, Stack, Text } from "@chakra-ui/react";
 import LargeHeading from "components/LargeHeading";
 import React from "react";
+import { numberWithCommas } from "utils/helpers";
 
 const TransactionRate = ({ transactionRate }) => {
+  console.log(transactionRate);
   return (
     <Box>
       <LargeHeading>Transaction Rate</LargeHeading>
@@ -12,29 +14,27 @@ const TransactionRate = ({ transactionRate }) => {
         w={["100%", , , "85%"]}
         gap="8"
       >
-        {(!!transactionRate?.coin_dollar_rate ||
-          !!transactionRate?.coin_amount) && (
-          <Stack display="flex" gap="2" my="2">
-            <Text fontWeight="semibold" fontSize="14px">
-              Crypto Amount
-            </Text>
-            <Input
-              isReadOnly
-              value={
-                transactionRate?.coin_dollar_rate ||
-                transactionRate?.coin_amount
-              }
-            />
-          </Stack>
-        )}
-        {!!transactionRate?.naira_dollar_rate && (
-          <Stack display="flex" gap="2" my="2">
-            <Text fontWeight="semibold" fontSize="14px">
-              Naira - Dollar Rate
-            </Text>
-            <Input isReadOnly value={transactionRate?.naira_dollar_rate} />
-          </Stack>
-        )}
+        <Stack display="flex" gap="2" my="2">
+          <Text fontWeight="semibold" fontSize="14px">
+            Currencry to Coin
+          </Text>
+          <Input isReadOnly value={transactionRate?.currency_to_coin} />
+        </Stack>
+        <Stack display="flex" gap="2" my="2">
+          <Text fontWeight="semibold" fontSize="14px">
+            Crypto Amount
+          </Text>
+          <Input isReadOnly value={transactionRate?.description} />
+        </Stack>
+        <Stack display="flex" gap="2" my="2">
+          <Text fontWeight="semibold" fontSize="14px">
+            Naira - Dollar Rate
+          </Text>
+          <Input
+            isReadOnly
+            value={numberWithCommas(transactionRate?.dollar_rate)}
+          />
+        </Stack>
       </Grid>
     </Box>
   );

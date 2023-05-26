@@ -91,55 +91,12 @@ const TransactionDetails = () => {
               transaction={transactionResp?.data}
               user={user}
             />
-            {(!!transactionResp?.data?.rate?.coin_amount ||
-              !!transactionResp?.data?.rate?.coin_dollar_rate ||
-              !!transactionResp?.data?.rate?.naira_dollar_rate) && (
+            {!!transactionResp?.data?.rate && (
               <TransactionRate transactionRate={transactionResp?.data?.rate} />
             )}
           </>
-          // <></>
         )
       )}
-      {/* <Grid templateColumns={"repeat(1, 1fr)"} w={["100%", , , "75%"]} gap="4">
-        <GridItem bg="white" px="8">
-          <Box my="12" textTransform="capitalize">
-            <Link href={`/users/${userId}`}>
-              <Flex gap="2" fontSize="20px" my="2" cursor="pointer">
-                <strong>User: </strong>
-                <Text textDecor="underline" color="app.primary.700">
-                  {user?.first_name} {user?.last_name}
-                </Text>
-              </Flex>
-            </Link>
-            <Grid templateColumns={"repeat(2, 1fr)"} gap="8">
-              {!!transaction &&
-                Object?.keys(transaction)?.map((prop, i) => (
-                  <Stack display="flex" gap="2" my="2" key={i}>
-                    <Text>
-                      <strong strong> {underscoreToSpace(prop)}: </strong>
-                    </Text>
-                    {prop?.includes("description") ? (
-                      <Textarea isReadOnly value={transaction[prop]}></Textarea>
-                    ) : (
-                      <Input
-                        isReadOnly
-                        value={
-                          typeof transaction[prop] === "number"
-                            ? cryptoNumberWithCommas(transaction[prop])
-                            : transaction[prop]
-                        }
-                      />
-                    )}
-                  </Stack>
-                ))}
-            </Grid>
-          </Box>
-
-          <Button onClick={onOpen} mt="auto">
-            Update Admin Description
-          </Button>
-        </GridItem>
-      </Grid> */}
 
       {isOpen && (
         <AdminDescriptionUpdate
