@@ -4,7 +4,6 @@ import React from "react";
 import { numberWithCommas } from "utils/helpers";
 
 const TransactionRate = ({ transactionRate }) => {
-  console.log(transactionRate);
   return (
     <Box>
       <LargeHeading>Transaction Rate</LargeHeading>
