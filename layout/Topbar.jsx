@@ -25,7 +25,7 @@ const Topbar = ({ onOpen, onClose, isOpen }) => {
   const { user, signOut } = useAuthContext();
 
   const menuList = [
-    { name: "Profile Settings", link: "/profile" },
+    { name: "Profile Settings", link: "#" },
     { name: "Find Helps", link: "#" },
     { name: "About Us", link: "#" },
   ];
