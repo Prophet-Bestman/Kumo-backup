@@ -15,7 +15,7 @@ const TransactionRate = ({ transactionRate }) => {
       >
         <Stack display="flex" gap="2" my="2">
           <Text fontWeight="semibold" fontSize="14px">
-            Currencry to Coin
+            Currency to Coin
           </Text>
           <Input isReadOnly value={transactionRate?.currency_to_coin} />
         </Stack>
