@@ -1,5 +1,6 @@
 import { createStandaloneToast } from "@chakra-ui/react";
 import { statusColors, statuses } from "./constants";
+import commaNumber from "comma-number";
 
 const { toast } = createStandaloneToast();
 
@@ -38,13 +39,13 @@ export const handleRequestError = (error) => {
 
 export function numberWithCommas(number = 0) {
   let approx = parseFloat(number).toFixed(2);
-  return approx.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+  return commaNumber(approx);
 }
 
 export function cryptoNumberWithCommas(number = 0) {
   if (typeof number === "number") {
     let approx = parseFloat(number).toFixed(6);
-    return approx.toString().replace(/\B(?<!\.\d*)(?=(\d{3})+(?!\d))/g, ",");
+    return commaNumber(approx);
   }
 }
 
